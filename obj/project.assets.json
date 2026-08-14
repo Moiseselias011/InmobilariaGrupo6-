@@ -8,24 +8,31 @@
     "net10.0": []
   },
   "packageFolders": {
-    "C:\\Users\\KEVIN\\.nuget\\packages\\": {}
+    "C:\\Users\\vanne\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\KEVIN\\Documents\\GitHub\\InmobilariaGrupo6-\\InmobilariaGrupo6-.csproj",
+      "projectUniqueName": "C:\\Users\\vanne\\OneDrive\\Desktop\\tp del profeso\\InmobilariaGrupo6-\\InmobilariaGrupo6-.csproj",
       "projectName": "InmobilariaGrupo6-",
-      "projectPath": "C:\\Users\\KEVIN\\Documents\\GitHub\\InmobilariaGrupo6-\\InmobilariaGrupo6-.csproj",
-      "packagesPath": "C:\\Users\\KEVIN\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\KEVIN\\Documents\\GitHub\\InmobilariaGrupo6-\\obj\\",
+      "projectPath": "C:\\Users\\vanne\\OneDrive\\Desktop\\tp del profeso\\InmobilariaGrupo6-\\InmobilariaGrupo6-.csproj",
+      "packagesPath": "C:\\Users\\vanne\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\vanne\\OneDrive\\Desktop\\tp del profeso\\InmobilariaGrupo6-\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\KEVIN\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\vanne\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

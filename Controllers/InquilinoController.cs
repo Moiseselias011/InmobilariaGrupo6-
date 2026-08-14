@@ -1,4 +1,5 @@
-public class InquilinoControler : controler
+using Microsoft.AspNetCore.Mvc;
+public class InquilinoController : Controller
 {
  public IActionResult index ()
  {
