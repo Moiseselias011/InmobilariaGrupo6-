@@ -16,8 +16,6 @@ public class PropietarioControler : controler
    {
     return View ();
    }
-   public IactionResult Details ()
-   {
-    return View ();
-   }
+   
+   
 }
