@@ -193,3 +193,4 @@ C:\Users\vanne\OneDrive\Desktop\tp del profeso\InmobilariaGrupo6-\obj\Debug\net1
 C:\Users\vanne\OneDrive\Desktop\tp del profeso\InmobilariaGrupo6-\obj\Debug\net10.0\swae.build.ex.cache
 C:\Users\vanne\OneDrive\Desktop\tp del profeso\InmobilariaGrupo6-\obj\Debug\net10.0\InmobilariaGrupo6-.genruntimeconfig.cache
 C:\Users\vanne\OneDrive\Desktop\tp del profeso\InmobilariaGrupo6-\obj\Debug\net10.0\ref\InmobilariaGrupo6-.dll
+C:\Users\vanne\OneDrive\Desktop\tp del profeso\InmobilariaGrupo6-\obj\Debug\net10.0\InmobilariaGrupo6-.csproj.AssemblyReference.cache
