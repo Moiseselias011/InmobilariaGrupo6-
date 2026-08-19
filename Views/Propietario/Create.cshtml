@@ -1,23 +1,24 @@
+@model INMOBILIARIAGRUPO6.Models.Propietario
 <h2>lista de propietarios </h2>
-<form>
+<form asp-action="Create" method="post">
 
 <label>nombre</label>
-<input type="text" class="form-control"/>
+<input asp-for="nombre" class="form-control" />
 
 <label>apellido</label>
-<input type="text" class="form-control"/>
+ <input asp-for="apellido" class="form-control" />
  
 <label>dni</label>
-<input type="text" class="form-control"/>
+<input asp-for="dni" class="form-control"/>
 
 <label>telefono</label>
-<input type="text" class="form-control"/>
+  <input asp-for="telefono" class="form-control" />
 
 <label>gmail</label>
-<input type="email" class="form-control"/>
+ <input asp-for="email" type="email" class="form-control" />
 
 <br>
 
-<button class ="btn btn-success">Guardar</button>
+<button type="submit" class ="btn btn-success">Guardar</button>
 
 </form>
