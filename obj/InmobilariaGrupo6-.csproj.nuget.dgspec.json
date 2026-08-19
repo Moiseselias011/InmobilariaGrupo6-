@@ -1,31 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\vanne\\OneDrive\\Desktop\\tp del profeso\\InmobilariaGrupo6-\\InmobilariaGrupo6-.csproj": {}
+    "C:\\Users\\vanne\\Documents\\GitHub\\InmobilariaGrupo6-\\InmobilariaGrupo6-.csproj": {}
   },
   "projects": {
-    "C:\\Users\\vanne\\OneDrive\\Desktop\\tp del profeso\\InmobilariaGrupo6-\\InmobilariaGrupo6-.csproj": {
+    "C:\\Users\\vanne\\Documents\\GitHub\\InmobilariaGrupo6-\\InmobilariaGrupo6-.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\vanne\\OneDrive\\Desktop\\tp del profeso\\InmobilariaGrupo6-\\InmobilariaGrupo6-.csproj",
+        "projectUniqueName": "C:\\Users\\vanne\\Documents\\GitHub\\InmobilariaGrupo6-\\InmobilariaGrupo6-.csproj",
         "projectName": "InmobilariaGrupo6-",
-        "projectPath": "C:\\Users\\vanne\\OneDrive\\Desktop\\tp del profeso\\InmobilariaGrupo6-\\InmobilariaGrupo6-.csproj",
+        "projectPath": "C:\\Users\\vanne\\Documents\\GitHub\\InmobilariaGrupo6-\\InmobilariaGrupo6-.csproj",
         "packagesPath": "C:\\Users\\vanne\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\vanne\\OneDrive\\Desktop\\tp del profeso\\InmobilariaGrupo6-\\obj\\",
+        "outputPath": "C:\\Users\\vanne\\Documents\\GitHub\\InmobilariaGrupo6-\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\vanne\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\vanne\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -52,6 +46,16 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[10.0.11, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[10.0.11, )"
+            },
             "MySqlConnector": {
               "target": "Package",
               "version": "[2.4.0, )"

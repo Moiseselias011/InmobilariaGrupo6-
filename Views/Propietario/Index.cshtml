@@ -1,6 +1,8 @@
+@model IEnumerable<INMOBILIARIAGRUPO6.Models.Propietario>
 <h2>Lista de Propietarios</h2>
 
-<a class= "btn btn-primary"> nuevo Propietario </a>
+
+<a asp-action="Create" class="btn btn-primary">Nuevo Propietario</a>
 
 <table class="table">
    <thead>
@@ -12,5 +14,31 @@
            <th>Gmail</th>
            <th>Acciones</th>
       </tr>      
- </thead>     
-</table>
+ </thead>  
+   <tbody>
+        @foreach (var propietario in Model)
+        {
+            <tr>
+                <td>@propietario.nombre</td>
+                <td>@propietario.apellido</td>
+                <td>@propietario.dni</td>
+                <td>@propietario.telefono</td>
+                <td>@propietario.email</td>
+
+                <td>
+                    <a asp-action="Edit"
+                       asp-route-id="@propietario.idPropietario"
+                       class="btn btn-warning">
+                        Editar
+                    </a>
+
+                    <a asp-action="Delete"
+                       asp-route-id="@propietario.idPropietario"
+                       class="btn btn-danger">
+                        Eliminar
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>   
