@@ -1,22 +1,27 @@
+@model INMOBILIARIAGRUPO6.Models.Propietario
+
 <h2>Eliminar Propietario</h2>
 
 <div>
- <p><strong>nombre: </strong></p>
- <p><strong>apellido: </strong></p>
- <p><strong>dni: </strong></p>
- <p><strong>telefono: <strong></p>
- <p><strong>email: <strong></p>
-
+    <p><strong>Nombre:</strong> @Model.nombre</p>
+    <p><strong>Apellido:</strong> @Model.apellido</p>
+    <p><strong>DNI:</strong> @Model.dni</p>
+    <p><strong>Teléfono:</strong> @Model.telefono</p>
+    <p><strong>Email:</strong> @Model.email</p>
 </div>
 
 <br>
 
-<form>
-    <button type="submit" class="btn btn-danger">Eliminar</button>
-    
-    <a class ="btn btn-secundary" href="/Propietario"> 
-      Cancelar </a>
-    
+<form asp-action="DeleteConfirmed" method="post">
 
+    <<input type="hidden" name="id" value="@Model.idPropietario" />>
+
+    <button type="submit" class="btn btn-danger">
+        Eliminar
+    </button>
+
+    <a class="btn btn-secondary" href="/Propietario">
+        Cancelar
+    </a>
 
 </form>

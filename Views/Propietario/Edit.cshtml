@@ -1,34 +1,42 @@
+@model INMOBILIARIAGRUPO6.Models.Propietario
+
 <h2>Edit Propietario</h2>
-<form>
-<div class="mb-3">
-<label>nombre</label>
-<input type="text" class="form-control"/> 
-</div>
 
-<div  class="mb-3">
-<label>apellido</label>
-<input type="text"  class ="form-control"/>
-</div>
+<form asp-action="Edit" method="post">
 
-<div  class="mb-3">
-<label>dni</label>
-<input type="text" class="form-control"/> 
-</div>
+    <input type="hidden" asp-for="idPropietario" />
 
-<div class="mb-3">
-<label>telefono</label>
-<input type="text" class="form-control"/>
-</div>
+    <div class="mb-3">
+        <label>Nombre</label>
+        <input asp-for="nombre" class="form-control" />
+    </div>
 
-<div class="mb-3">
-<label>gmail</label>
-<input type="email" class="form-control"/>
-</div>
+    <div class="mb-3">
+        <label>Apellido</label>
+        <input asp-for="apellido" class="form-control" />
+    </div>
 
+    <div class="mb-3">
+        <label>DNI</label>
+        <input asp-for="dni" class="form-control" />
+    </div>
 
-<button type="submit" class ="btn btn-success">Guardar cambios</button>
+    <div class="mb-3">
+        <label>Teléfono</label>
+        <input asp-for="telefono" class="form-control" />
+    </div>
 
-<a class ="btn btn-secundary" href="/Propietario"> 
-Cancelar </a>
+    <div class="mb-3">
+        <label>Gmail</label>
+        <input asp-for="email" type="email" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        Guardar cambios
+    </button>
+
+    <a class="btn btn-secondary" href="/Propietario">
+        Cancelar
+    </a>
 
 </form>
