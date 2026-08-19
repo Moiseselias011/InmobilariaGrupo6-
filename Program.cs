@@ -8,6 +8,9 @@ builder.Services.AddDbContext<InmobiliariaContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddScoped<RepositorioInquilino>();
+
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<RepositorioPropietario>();

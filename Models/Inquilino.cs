@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace InmobiliariaGrupo6_.Models;
+namespace INMOBILIARIAGRUPO6.Models;
 
 public class Inquilino
 {

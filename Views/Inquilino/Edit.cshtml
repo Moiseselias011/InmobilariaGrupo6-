@@ -1,30 +1,34 @@
+@model INMOBILIARIAGRUPO6.Models.Inquilino
      <h2>Edit Inquilino</h2>
-<form>
- 
- 
+
+ <form asp-action="Edit" method="post">
+
+    <input type="hidden" asp-for="Id" />
+
+
  <div class="mb-3">
    <label> DNI </label>
-   <input type="text" class="form-control"/>
+   <input asp-for="DNI" class="form-control"/>
  </div>
  
  <div class="mb-3">
    <label> NombreCompleto </label>
-   <input type="text" class="form-control"/>  
+   <input asp-for="NombreCompleto" class="form-control"/>  
  </div> 
   
  <div class="mb-3">
    <label> Telefono </label> 
-   <input type="text" class="form-control"/>
+   <input asp-for="Telefono " class="form-control"/>
  </div>
 
  <div class="mb-3">
   <label> Email </label>
-  <input type="text" class="form-control"/>
+  <input asp-for="Email" type="email" class="form-control"/>
  </div>
  
  <button type="submit" class ="btn btn-success">Guardar cambios</button>
 
- <a class="btn btn-secundary" href="/Inquilino">
+ <a class="btn btn-secondary" href="/Inquilino">
  Cancelar </a>
 
 

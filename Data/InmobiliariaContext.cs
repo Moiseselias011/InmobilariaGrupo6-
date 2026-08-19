@@ -11,5 +11,7 @@ namespace INMOBILIARIAGRUPO6.Data
         }
 
         public DbSet<Propietario> Propietarios { get; set; }
+        public DbSet<Inquilino> Inquilinos { get; set; }
+
     }
 }

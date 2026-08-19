@@ -2,20 +2,23 @@
       <h2>Eliminar Inquilino</h2>
 <div>
  
-  <p><strong>DNI<p><strong> 
-  <p><strong>NombreCompleto :<strong><p>
-  <p><strong>Telefono :<strong><p>
-  <p><strong>Email :<strong><p>
+  <p><strong>DNI<strong>@Model.DNI</p> 
+  <p><strong>NombreCompleto :<strong>@Model.NombreCompleto</p> 
+  <p><strong>Telefono :<strong>@Model.Telefono</p> 
+  <p><strong>Email :<strong>@Model.Email </p> 
  
 </div>
 
 <br>
 
-<form>
+<form asp-action="DeleteConfirmed" method="post">
+
+ <<input type="hidden" name="id" value="@Model.Id" />>
+
 
  <button type="submit" class="btn btn-danger">Eliminar</button>
 
- <a class ="btn btn-secundary" href="/Inquilino">Cancelar</a>
+ <a class ="btn btn-secondary" href="/Inquilino">Cancelar</a>
 
 
 </form>

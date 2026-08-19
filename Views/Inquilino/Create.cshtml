@@ -1,20 +1,22 @@
+@model INMOBILIARIAGRUPO6.Models.Inquilino
 <h2>Lista de Inquilinos</h2>
-<form>
+
+<form asp-action="Create" method="post">
 
  <label>DNI</label>
-<input type="text" class="form-control"/>
+<input asp-for="DNI" class="form-control"/>
 
  <label>NombreCompleto</label>
-<input type="text" class="form-control"/>
+<input asp-for="NombreCompleto" class="form-control"/>
 
  <label>Telefono</label>
-<input type="text" class="form-control"/>
+<inputasp-for="Telefono" class="form-control"/>
 
  <label>Email</label>
-<input type="Email" class="form-control"/>
+<input  asp-for="Email"         type="Email" class="form-control"/>
 
 <br>
 
- <button class="btn btn-success">Guardar</button>
+ <button type="submit" class="btn btn-success">Guardar</button>
 
 </form>
