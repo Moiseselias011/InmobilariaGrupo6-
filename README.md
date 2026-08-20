@@ -41,4 +41,4 @@ Estructura del proyecto
 Integrantes
 moises salas 
 Kevin Orozco
-
+Tomás migliozzi
