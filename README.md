@@ -35,8 +35,25 @@ Para trabajar con la base de datos es necesario tener instalado:
 SQL Server 2022
 SQL Server Management Studio (SSMS)
 Estructura del proyecto
+modelo entidad-relacion
++---------------------------+
+|       PROPIETARIO         |
++---------------------------+
+| PK IdPropietario          |
+|    Nombre                 |
+|    Apellido               |
++---------------------------+
 
 
++---------------------------+
+|        INQUILINO          |
++---------------------------+
+| PK Id                     |
+|    DNI                    |
+|    NombreCompleto         |
+|    Telefono               |
+|    Email                  |
++---------------------------+
 
 Integrantes
 moises salas 
