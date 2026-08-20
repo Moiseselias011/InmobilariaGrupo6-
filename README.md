@@ -36,6 +36,7 @@ SQL Server 2022
 SQL Server Management Studio (SSMS)
 Estructura del proyecto
 modelo entidad-relacion
+aun no hay relacion 
 +---------------------------+
 |       PROPIETARIO         |
 +---------------------------+
