@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\KEVIN\\Documents\\GitHub\\InmobilariaGrupo6-\\InmobilariaGrupo6-.csproj": {}
+    "C:\\Users\\vanne\\Documents\\GitHub\\InmobilariaGrupo6-\\InmobilariaGrupo6-.csproj": {}
   },
   "projects": {
-    "C:\\Users\\KEVIN\\Documents\\GitHub\\InmobilariaGrupo6-\\InmobilariaGrupo6-.csproj": {
+    "C:\\Users\\vanne\\Documents\\GitHub\\InmobilariaGrupo6-\\InmobilariaGrupo6-.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\KEVIN\\Documents\\GitHub\\InmobilariaGrupo6-\\InmobilariaGrupo6-.csproj",
+        "projectUniqueName": "C:\\Users\\vanne\\Documents\\GitHub\\InmobilariaGrupo6-\\InmobilariaGrupo6-.csproj",
         "projectName": "InmobilariaGrupo6-",
-        "projectPath": "C:\\Users\\KEVIN\\Documents\\GitHub\\InmobilariaGrupo6-\\InmobilariaGrupo6-.csproj",
-        "packagesPath": "C:\\Users\\KEVIN\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\KEVIN\\Documents\\GitHub\\InmobilariaGrupo6-\\obj\\",
+        "projectPath": "C:\\Users\\vanne\\Documents\\GitHub\\InmobilariaGrupo6-\\InmobilariaGrupo6-.csproj",
+        "packagesPath": "C:\\Users\\vanne\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\vanne\\Documents\\GitHub\\InmobilariaGrupo6-\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\KEVIN\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\vanne\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
