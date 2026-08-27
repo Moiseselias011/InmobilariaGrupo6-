@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using INMOBILIARIAGRUPO6.Models;
 
-namespace INMOBILIARIAGRUPO6.Data
+namespace  INMOBILIARIAGRUPO6.Data
 {
     public class InmobiliariaContext : DbContext
     {
