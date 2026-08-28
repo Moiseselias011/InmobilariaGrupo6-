@@ -1,0 +1,16 @@
+@model INMOBILIARIAGRUPO6.Models.Inquilino
+
+<h2>Detalles de Inquilino</h2>
+
+<div>
+    <p><strong>ID:</strong> @Model.Id</p>
+    <p><strong>Nombre:</strong> @Model.DNI</p>
+    <p><strong>apellido:</strong> @Model.NombreCompleto</p>
+    <p><strong> dni :</strong> @Model.DNI</p>
+    <p><strong>telefono</strong> @Model.Telefono</p>
+    <p><strong>email</strong> @Model.Email </p>
+</div>
+
+<a asp-action="Index" class="btn btn-secondary">
+    Volver
+</a>
