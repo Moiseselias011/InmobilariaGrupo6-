@@ -9,7 +9,7 @@ builder.Services.AddDbContext<InmobiliariaContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<RepositorioInquilino>();
-
+builder.Services.AddScoped<RepositorioTipoInmueble>();
 
 builder.Services.AddControllersWithViews();
 
