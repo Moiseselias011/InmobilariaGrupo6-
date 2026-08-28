@@ -82,6 +82,18 @@ namespace INMOBILIARIAGRUPO6.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+             public IActionResult Details(int id)
+        {
+            var inquilino = _repositorio.GetById(id);
+
+            if (inquilino == null)
+            {
+                return NotFound();
+            }
+
+            return View(inquilino);
+        } 
+
     }
 
 
