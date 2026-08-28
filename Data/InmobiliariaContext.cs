@@ -9,7 +9,7 @@ namespace  INMOBILIARIAGRUPO6.Data
             : base(options)
         {
         }
-        public DbSet<TipoInmueble> TipoInmuebles { get; set; }
+        public DbSet<TipoInmueble> TipoInmueble { get; set; }
         public DbSet<Propietario> Propietarios { get; set; }
         public DbSet<Inquilino> Inquilinos { get; set; }
 
