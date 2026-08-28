@@ -1,0 +1,46 @@
+@model IEnumerable<INMOBILIARIAGRUPO6.Models.TipoInmueble>
+<h2>Lista de Tipo Inmueble</h2>
+
+
+<a asp-action="Create" class="btn btn-primary">Nuevo TipoInmueble</a>
+
+<table class="table">
+   <thead>
+      <tr>
+           <th>Nombre</th>
+          
+      </tr>      
+ </thead>  
+   <tbody>
+        @foreach (var tipoInmueble in Model)
+        {
+            <tr>
+                <td>@tipoInmueble.Nombre</td>
+                
+
+                <td>
+                    <a asp-action="Edit"
+                       asp-route-id="@tipoInmueble.IdTipoInmueble"
+                       class="btn btn-warning">
+                        Editar
+                    </a>
+
+                    <a asp-action="Delete"
+                       asp-route-id="@tipoInmueble.IdTipoInmueble"
+                       class="btn btn-danger">
+                        Eliminar
+                    </a>
+                    <a asp-action="Details"
+                       asp-route-id="@tipoInmueble.IdTipoInmueble"
+                       class="btn btn-warning">
+                       Details
+                    </a> 
+
+
+
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>   
