@@ -80,6 +80,21 @@ namespace INMOBILIARIAGRUPO6.Controllers
             _repositorio.Delete(id);
 
             return RedirectToAction(nameof(Index));
+     
         }
+
+           public IActionResult Details(int id)
+        {
+            var propietario = _repositorio.GetById(id);
+
+            if (propietario == null)
+            {
+                return NotFound();
+            }
+
+            return View(propietario);
+        } 
+
+
     }
 }
