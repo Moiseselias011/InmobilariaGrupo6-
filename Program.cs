@@ -10,10 +10,9 @@ builder.Services.AddDbContext<InmobiliariaContext>(options =>
 
 builder.Services.AddScoped<RepositorioInquilino>();
 builder.Services.AddScoped<RepositorioTipoInmueble>();
+builder.Services.AddScoped<RepositorioPropietario>();
 
 builder.Services.AddControllersWithViews();
-
-builder.Services.AddScoped<RepositorioPropietario>();
 
 var app = builder.Build();
 
@@ -24,15 +23,15 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
+
 app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapStaticAssets();
-
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
