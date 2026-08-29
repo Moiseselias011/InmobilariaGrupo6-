@@ -11,6 +11,7 @@ builder.Services.AddDbContext<InmobiliariaContext>(options =>
 builder.Services.AddScoped<RepositorioInquilino>();
 builder.Services.AddScoped<RepositorioTipoInmueble>();
 builder.Services.AddScoped<RepositorioPropietario>();
+builder.Services.AddScoped<RepositorioInmueble>();
 
 builder.Services.AddControllersWithViews();
 
