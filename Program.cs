@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using INMOBILIARIAGRUPO6.Data;
-using INMOBILIARIAGRUPO6.Repositories;
+using  InmobilariaGrupo6_.Data;
+using  InmobilariaGrupo6_.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
