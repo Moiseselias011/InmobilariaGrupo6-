@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using INMOBILIARIAGRUPO6.Models;
+using InmobilariaGrupo6_.Models;
 
-namespace  INMOBILIARIAGRUPO6.Data
+
+namespace  InmobilariaGrupo6_.Data
 {
     public class InmobiliariaContext : DbContext
     {
@@ -11,7 +12,8 @@ namespace  INMOBILIARIAGRUPO6.Data
         }
         public DbSet<TipoInmueble> TipoInmueble { get; set; }
         public DbSet<Propietario> Propietario { get; set; }
-        public DbSet<Inquilino> Inquilinos { get; set; }
-
+        public DbSet<Inquilino> Inquilinos { get; set; }       
+        public DbSet<Inmueble> Inmueble { get; set; }
+        
     }
 }

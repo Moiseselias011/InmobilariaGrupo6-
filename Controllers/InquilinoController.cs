@@ -1,8 +1,8 @@
-using INMOBILIARIAGRUPO6.Models;
-using INMOBILIARIAGRUPO6.Repositories;
+using InmobilariaGrupo6_.Models;
+using InmobilariaGrupo6_.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace INMOBILIARIAGRUPO6.Controllers
+namespace InmobilariaGrupo6_.Controllers
 {
 
  public class InquilinoController : Controller

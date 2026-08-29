@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Formats.Tar;
 using System.Runtime.Intrinsics.X86;
 
-namespace InmobilariaGrupo6.Models;
+namespace InmobilariaGrupo6_.Models;
 
 public class Inmueble
 {
