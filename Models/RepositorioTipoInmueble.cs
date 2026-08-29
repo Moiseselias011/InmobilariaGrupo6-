@@ -1,7 +1,7 @@
-using INMOBILIARIAGRUPO6.Data;
-using INMOBILIARIAGRUPO6.Models;
+using InmobilariaGrupo6_.Data;
+using InmobilariaGrupo6_.Models;
 
-namespace INMOBILIARIAGRUPO6.Repositories
+namespace InmobilariaGrupo6_.Repositories
 {
     public class RepositorioTipoInmueble : RepositorioBase<TipoInmueble>
     {

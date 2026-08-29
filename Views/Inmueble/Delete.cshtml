@@ -1,0 +1,27 @@
+ 
+      <h2>Eliminar Inmueble</h2>
+<div>
+ 
+    <p><strong>ID:</strong> @Model.IdInmueble</p>
+    <p><strong>Direccion:</strong> @Model.Direccion</p>
+    <p><strong>Cupo:</strong> @Model.Cupo</p>
+    <p><strong>Coordenadas:</strong> @Model.Coordenadas</p>
+    <p><strong> PrecioPorDia :</strong> @Model.PrecioPorDia</p>
+    <p><strong>Disponible</strong> @Model.Disponible</p>
+    <p><strong>ImagenPortada</strong> @Model.ImagenPortada </p>
+ 
+</div>
+
+<br>
+
+<form asp-action="DeleteConfirmed" method="post">
+
+<input type="hidden" name="id" value="@Model.IdInmueble" />
+
+
+ <button type="submit" class="btn btn-danger">Eliminar</button>
+
+ <a class ="btn btn-secondary" href="/Inmueble">Cancelar</a>
+
+
+</form>

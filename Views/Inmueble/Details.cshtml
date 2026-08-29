@@ -1,0 +1,16 @@
+@model InmobilariaGrupo6_.Models.Inmueble
+<h2>Detalles de Inmueble</h2>
+
+<div>
+    <p><strong>ID:</strong> @Model.IdInmueble</p>
+    <p><strong>Direccion:</strong> @Model.Direccion</p>
+    <p><strong>Cupo:</strong> @Model.Cupo</p>
+    <p><strong>Coordenadas:</strong> @Model.Coordenadas</p>
+    <p><strong> PrecioPorDia :</strong> @Model.PrecioPorDia</p>
+    <p><strong>Disponible</strong> @Model.Disponible</p>
+    <p><strong>ImagenPortada</strong> @Model.ImagenPortada </p>
+</div>
+
+<a asp-action="Index" class="btn btn-secondary">
+    Volver
+</a>

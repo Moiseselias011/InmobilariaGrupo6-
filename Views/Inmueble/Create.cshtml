@@ -1,0 +1,29 @@
+@model InmobilariaGrupo6_.Models.Inmueble
+<h2>Lista de Inmueble</h2>
+
+<form asp-action="Create" method="post">
+
+
+ <label>Direccion</label>
+<input asp-for="Direccion" class="form-control"/>
+
+ <label>Cupo</label>
+<input asp-for="Cupo" class="form-control"/>
+
+ <label>Coordenadas</label>
+<input  asp-for="Coordenadas"  class="form-control"/>
+
+<label> PrecioPorDia</label>
+<input  asp-for=" PrecioPorDia"  class="form-control"/>
+
+<label>Disponible</label>
+<input asp-for="Disponible" type="checkbox" />
+
+<label> ImagenPortada</label>
+<input  asp-for=" ImagenPortada"  class="form-control"/>
+
+<br>
+
+ <button type="submit" class="btn btn-success">Guardar</button>
+
+</form>

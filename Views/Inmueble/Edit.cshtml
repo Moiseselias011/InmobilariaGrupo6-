@@ -1,0 +1,44 @@
+@model InmobilariaGrupo6_.Models.Inmueble
+     <h2>Edit Inmueble</h2>
+
+ <form asp-action="Edit" method="post">
+
+    <input type="hidden" asp-for="IdInmueble" />
+
+
+ <div class="mb-3">
+   <label> Direccion </label>
+   <input asp-for="Direccion" class="form-control"/>
+ </div>
+ 
+ <div class="mb-3">
+   <label> Cupo </label> 
+   <input asp-for="Cupo " class="form-control"/>
+ </div>
+
+ <div class="mb-3">
+  <label> Coordenadas </label>
+  <input asp-for="Coordenadas" class="form-control"/>
+ </div>
+ 
+  <div class="mb-3">
+   <label> PrecioPorDia </label> 
+   <input asp-for="PrecioPorDia" class="form-control"/>
+ </div>
+
+ <div class="mb-3">
+   <label> Disponible </label> 
+   <input asp-for="Disponible" type="checkbox"/>
+ </div>
+<div class="mb-3">
+   <label> ImagenPortada </label> 
+   <input asp-for="ImagenPortada" class="form-control"/>
+ </div>
+
+ <button type="submit" class ="btn btn-success">Guardar cambios</button>
+
+ <a class="btn btn-secondary" href="/Inmueble">
+ Cancelar </a>
+
+
+</form> 

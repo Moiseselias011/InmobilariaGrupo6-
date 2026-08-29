@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using INMOBILIARIAGRUPO6.Data;
+using InmobilariaGrupo6_.Data;
 
-namespace INMOBILIARIAGRUPO6.Repositories
+namespace InmobilariaGrupo6_.Repositories
 {
     public class RepositorioBase<T> where T : class
     {
