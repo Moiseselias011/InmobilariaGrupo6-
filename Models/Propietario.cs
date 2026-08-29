@@ -1,8 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace InmobilariaGrupo6_.Models
-{
-    public class Propietario
+namespace InmobilariaGrupo6_.Models;
+  public class Propietario
     {
     [Key]
     public int idPropietario {get ; set ;}
@@ -19,4 +18,3 @@ namespace InmobilariaGrupo6_.Models
 
 
     }       
-}
