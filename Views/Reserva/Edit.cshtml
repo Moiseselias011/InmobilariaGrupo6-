@@ -1,0 +1,90 @@
+@model InmobilariaGrupo6_.Models.Reserva
+
+@{
+    ViewData["Title"] = "Editar Reserva";
+}
+
+<h1>Editar Reserva</h1>
+
+<h4>Reserva</h4>
+<hr />
+
+<form asp-action="Edit" method="post">
+
+    <input type="hidden" asp-for="IdReserva" />
+
+    <div class="form-group mb-3">
+        <label asp-for="IdInquilino" class="control-label">
+            Inquilino
+        </label>
+
+        <input asp-for="IdInquilino"
+               class="form-control"
+               type="number" />
+
+        <span asp-validation-for="IdInquilino"
+              class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="IdInmueble" class="control-label">
+            Inmueble
+        </label>
+
+        <input asp-for="IdInmueble"
+               class="form-control"
+               type="number" />
+
+        <span asp-validation-for="IdInmueble"
+              class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="FechaInicio" class="control-label">
+            Fecha de inicio
+        </label>
+
+        <input asp-for="FechaInicio"
+               class="form-control"
+               type="date" />
+
+        <span asp-validation-for="FechaInicio"
+              class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="FechaFin" class="control-label">
+            Fecha de fin
+        </label>
+
+        <input asp-for="FechaFin"
+               class="form-control"
+               type="date" />
+
+        <span asp-validation-for="FechaFin"
+              class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="MontoPorDia" class="control-label">
+            Monto por día
+        </label>
+
+        <input asp-for="MontoPorDia"
+               class="form-control"
+               type="number"
+               step="0.01" />
+
+        <span asp-validation-for="MontoPorDia"
+              class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Guardar cambios
+    </button>
+
+    <a asp-action="Index" class="btn btn-secondary">
+        Volver
+    </a>
+
+</form>

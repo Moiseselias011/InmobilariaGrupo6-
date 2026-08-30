@@ -12,6 +12,7 @@ builder.Services.AddScoped<RepositorioInquilino>();
 builder.Services.AddScoped<RepositorioTipoInmueble>();
 builder.Services.AddScoped<RepositorioPropietario>();
 builder.Services.AddScoped<RepositorioInmueble>();
+builder.Services.AddScoped<RepositorioReserva>();
 
 builder.Services.AddControllersWithViews();
 

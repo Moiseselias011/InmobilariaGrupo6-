@@ -1,0 +1,68 @@
+@model InmobilariaGrupo6_.Models.Reserva
+
+@{
+    ViewData["Title"] = "Detalles de la Reserva";
+}
+
+<h1>Detalles de la Reserva</h1>
+
+<hr />
+
+<dl class="row">
+
+    <dt class="col-sm-3">
+        Id Reserva
+    </dt>
+    <dd class="col-sm-9">
+        @Model.IdReserva
+    </dd>
+
+    <dt class="col-sm-3">
+        Id Inquilino
+    </dt>
+    <dd class="col-sm-9">
+        @Model.IdInquilino
+    </dd>
+
+    <dt class="col-sm-3">
+        Id Inmueble
+    </dt>
+    <dd class="col-sm-9">
+        @Model.IdInmueble
+    </dd>
+
+    <dt class="col-sm-3">
+        Fecha de inicio
+    </dt>
+    <dd class="col-sm-9">
+        @Model.FechaInicio.ToString("dd/MM/yyyy")
+    </dd>
+
+    <dt class="col-sm-3">
+        Fecha de fin
+    </dt>
+    <dd class="col-sm-9">
+        @Model.FechaFin.ToString("dd/MM/yyyy")
+    </dd>
+
+    <dt class="col-sm-3">
+        Monto por día
+    </dt>
+    <dd class="col-sm-9">
+        @Model.MontoPorDia.ToString("C")
+    </dd>
+
+</dl>
+
+<div>
+    <a asp-action="Edit"
+       asp-route-id="@Model.IdReserva"
+       class="btn btn-warning">
+        Editar
+    </a>
+
+    <a asp-action="Index"
+       class="btn btn-secondary">
+        Volver
+    </a>
+</div>

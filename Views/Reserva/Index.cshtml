@@ -1,0 +1,59 @@
+@model IEnumerable<InmobilariaGrupo6_.Models.Reserva>
+
+@{
+    ViewData["Title"] = "Reservas";
+}
+
+<h1>Reservas</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Nueva Reserva</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id Reserva</th>
+            <th>Id Inquilino</th>
+            <th>Id Inmueble</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Fin</th>
+            <th>Monto por Día</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var reserva in Model)
+        {
+            <tr>
+                <td>@reserva.IdReserva</td>
+                <td>@reserva.IdInquilino</td>
+                <td>@reserva.IdInmueble</td>
+                <td>@reserva.FechaInicio.ToString("dd/MM/yyyy")</td>
+                <td>@reserva.FechaFin.ToString("dd/MM/yyyy")</td>
+                <td>@reserva.MontoPorDia.ToString("C")</td>
+
+                <td>
+                    <a asp-action="Details"
+                       asp-route-id="@reserva.IdReserva"
+                       class="btn btn-info">
+                        Detalles
+                    </a>
+
+                    <a asp-action="Edit"
+                       asp-route-id="@reserva.IdReserva"
+                       class="btn btn-warning">
+                        Editar
+                    </a>
+
+                    <a asp-action="Delete"
+                       asp-route-id="@reserva.IdReserva"
+                       class="btn btn-danger">
+                        Eliminar
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
