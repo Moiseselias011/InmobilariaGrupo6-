@@ -10,7 +10,13 @@ public class Reserva
 
     public int IdInquilino { get; set; }
 
+    [ForeignKey("IdInquilino")]
+    public Inquilino? Inquilino { get; set; }
+
     public int IdInmueble { get; set; }
+
+    [ForeignKey("IdInmueble")]
+    public Inmueble? Inmueble { get; set; }
 
     [Required]
     public DateTime FechaInicio { get; set; }

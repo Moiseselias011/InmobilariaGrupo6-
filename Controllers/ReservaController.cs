@@ -84,15 +84,15 @@ namespace InmobilariaGrupo6_.Controllers
         }
 
         public IActionResult Details(int id)
-        {
-            var reserva = _repositorio.GetById(id);
+{
+         var reserva = _repositorio.GetByIdConDetalles(id);
 
-            if (reserva == null)
-            {
-                return NotFound();
-            }
+          if (reserva == null)
+          {
+          return NotFound();
+          }
 
-            return View(reserva);
-        }
+           return View(reserva);
+}
     }
 }
