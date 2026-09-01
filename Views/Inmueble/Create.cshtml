@@ -1,29 +1,45 @@
+
 @model InmobilariaGrupo6_.Models.Inmueble
-<h2>Lista de Inmueble</h2>
+
+<h2>Nuevo Inmueble</h2>
 
 <form asp-action="Create" method="post">
 
+    <label>Dirección</label>
+    <input asp-for="Direccion" class="form-control" />
 
- <label>Direccion</label>
-<input asp-for="Direccion" class="form-control"/>
+    <label>Cupo</label>
+    <input asp-for="Cupo" class="form-control" />
 
- <label>Cupo</label>
-<input asp-for="Cupo" class="form-control"/>
+    <label>Coordenadas</label>
+    <input asp-for="Coordenadas" class="form-control" />
 
- <label>Coordenadas</label>
-<input  asp-for="Coordenadas"  class="form-control"/>
+    <label>Precio por día</label>
+    <input asp-for="PrecioPorDia" class="form-control" />
 
-<label> PrecioPorDia</label>
-<input  asp-for=" PrecioPorDia"  class="form-control"/>
+    <label>Tipo de Inmueble</label>
+    <select asp-for="IdTipoInmueble" class="form-control">
+        <option value="">-- Seleccione un tipo --</option>
 
-<label>Disponible</label>
-<input asp-for="Disponible" type="checkbox" />
+        @foreach (var tipo in ViewBag.Tipos)
+        {
+            <option value="@tipo.IdTipoInmueble">
+                @tipo.Nombre
+            </option>
+        }
+    </select>
 
-<label> ImagenPortada</label>
-<input  asp-for=" ImagenPortada"  class="form-control"/>
+    <label>Disponible</label>
+    <input asp-for="Disponible" type="checkbox" />
 
-<br>
+    <label>Imagen de portada</label>
+    <input asp-for="ImagenPortada" class="form-control" />
 
- <button type="submit" class="btn btn-success">Guardar</button>
+    <br>
 
-</form>
+    <button type="submit" class="btn btn-success">
+        Guardar
+    </button>
+
+    </form>
+

@@ -8,11 +8,15 @@ namespace InmobilariaGrupo6_.Controllers
  public class InmuebleController : Controller
     {
         private readonly RepositorioInmueble _repositorio;
+        private readonly RepositorioTipoInmueble _repositorioTipo;
 
-        public InmuebleController(RepositorioInmueble repositorio)
+        public InmuebleController(
+        RepositorioInmueble repositorio,
+        RepositorioTipoInmueble repositorioTipo)
         {
-            _repositorio = repositorio;
-        }
+         _repositorio = repositorio;
+        _repositorioTipo = repositorioTipo;
+}
 
         public IActionResult Index()
         {
@@ -22,7 +26,11 @@ namespace InmobilariaGrupo6_.Controllers
 
         public IActionResult Create()
         {
-            return View();
+        var tipos = _repositorioTipo.GetAll();
+
+         ViewBag.Tipos = tipos;
+
+        return View();
         }
 
         [HttpPost]
