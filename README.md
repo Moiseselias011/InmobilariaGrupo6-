@@ -1,9 +1,17 @@
 Sistema de Gestión Inmobiliaria
+
+
+Integrantes del Grupo
+Moises Elias Salas
+Orozco Kevin Roy
+
+
 Descripción
 
-Este proyecto consistia en el desarrollo de un sitio web para la gestión de una inmobiliaria utilizando ASP.NET Core MVC, C#, Entity Framework Core y SQL Server.
+Este proyecto consistia en el desarrollo de un sitio web para la gestión de una inmobiliaria utilizando ASP.NET Core MVC, C#, Entity Framework Core y SQL Server(con migraciones).
 
 El sistema permite administrar la información de los propietarios e inquilinos mediante operaciones ABM (Alta, Baja y Modificacion), ademas de consultar los registros almacenados en la base de datos.
+
 
 
 Se desarrolló el ABM de propietarios, permitiendo:
@@ -49,14 +57,46 @@ aun no hay relacion
 +---------------------------+
 |        INQUILINO          |
 +---------------------------+
-| PK Id                     |
+| PK IdInquilino            |
 |    DNI                    |
 |    NombreCompleto         |
 |    Telefono               |
 |    Email                  |
 +---------------------------+
 
-Integrantes
-moises salas 
-Kevin Orozco
-Tomás migliozzi
+
++---------------------------+
+|       TIPO INMUEBLE       |
++---------------------------+
+| PK IdTipoInmueble         |
+|    Nombre                 |
++---------------------------+
+
+
++---------------------------+
+|         INMUEBLE          |
++---------------------------+
+| PK IdInmueble             |
+| FK IdPropietario          |
+| FK IdTipoInmueble         |
+|    Direccion              |
+|    Cupo                   |
+|    Coordenadas            |
+|    PrecioPorDia           |
+|    Disponible             |
+|    ImagenPortada          |
++---------------------------+
+
+
++---------------------------+
+|          RESERVA          |
++---------------------------+
+| PK IdReserva              |
+| FK IdInquilino            |
+| FK IdInmueble             |
+|    FechaInicio            |
+|    FechaFin               |
+|    MontoPorDia            |
++---------------------------+
+
+relaciones : Propietario "1" --> "0..*" Inmueble : posee TipoInmueble "1" --> "0..*" Inmueble : clasifica Inquilino "1" --> "0..*" Reserva : realiza Inmueble "1" --> "0..*" Reserva : recibe
