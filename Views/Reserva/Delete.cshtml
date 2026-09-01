@@ -1,71 +1,27 @@
+
 @model InmobilariaGrupo6_.Models.Reserva
 
-@{
-    ViewData["Title"] = "Eliminar Reserva";
-}
+<h2>Eliminar Reserva</h2>
 
-<h1>Eliminar Reserva</h1>
+<div>
+    <p><strong>FechaInicio:</strong> @Model.FechaInicio</p>
+    <p><strong>FechaFin:</strong> @Model.FechaFin</p>
+    <p><strong>MontoPorDia:</strong> @Model.MontoPorDia</p>
+</div>
 
-<h3>¿Está seguro de que desea eliminar esta reserva?</h3>
-
-<hr />
-
-<dl class="row">
-
-    <dt class="col-sm-3">
-        Id Reserva
-    </dt>
-    <dd class="col-sm-9">
-        @Model.IdReserva
-    </dd>
-
-    <dt class="col-sm-3">
-        Id Inquilino
-    </dt>
-    <dd class="col-sm-9">
-        @Model.IdInquilino
-    </dd>
-
-    <dt class="col-sm-3">
-        Id Inmueble
-    </dt>
-    <dd class="col-sm-9">
-        @Model.IdInmueble
-    </dd>
-
-    <dt class="col-sm-3">
-        Fecha de inicio
-    </dt>
-    <dd class="col-sm-9">
-        @Model.FechaInicio.ToString("dd/MM/yyyy")
-    </dd>
-
-    <dt class="col-sm-3">
-        Fecha de fin
-    </dt>
-    <dd class="col-sm-9">
-        @Model.FechaFin.ToString("dd/MM/yyyy")
-    </dd>
-
-    <dt class="col-sm-3">
-        Monto por día
-    </dt>
-    <dd class="col-sm-9">
-        @Model.MontoPorDia.ToString("C")
-    </dd>
-
-</dl>
+<br>
 
 <form asp-action="DeleteConfirmed" method="post">
 
-    <input type="hidden" asp-for="IdReserva" />
+    <input type="hidden" name="id" value="@Model.IdReserva" />
 
     <button type="submit" class="btn btn-danger">
-        Sí, eliminar
+        Eliminar
     </button>
 
-    <a asp-action="Index" class="btn btn-secondary">
+    <a class="btn btn-secondary" href="/Reserva">
         Cancelar
     </a>
 
 </form>
+
