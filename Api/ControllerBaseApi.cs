@@ -27,8 +27,7 @@ public abstract class ControllersApiBase<T> where T  : class
 
     }
     // para agregar o crear un registro nuevo :v
-    public void Create (T)
-
+  
 
 
 
