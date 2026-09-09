@@ -1,4 +1,9 @@
 @model IEnumerable<InmobilariaGrupo6_.Models.Propietario>
+
+
+
+<div id="app">
+
 <h2>Lista de Propietarios</h2>
 
 
@@ -16,34 +21,36 @@
       </tr>      
  </thead>  
    <tbody>
-        @foreach (var propietario in Model)
-        {
-            <tr>
-                <td>@propietario.nombre</td>
-                <td>@propietario.apellido</td>
-                <td>@propietario.dni</td>
-                <td>@propietario.telefono</td>
-                <td>@propietario.email</td>
+        
+        
+            <tr v-for="propietario in propietarios" 
+            :key="propietario.idPropietario">
+
+                <td>{{propietario.nombre}}</td>
+                <td>{{propietario.apellido}}</td>
+                <td>{{propietario.dni}}</td>
+                <td>{{propietario.telefono}}</td>
+                <td>{{propietario.email}}</td>
 
                 <td>
-                    <a asp-action="Edit"
-                       asp-route-id="@propietario.idPropietario"
+                    <a :href="'/Propietario/Edit/' + propietario.idPropietario"
                        class="btn btn-warning">
                         Editar
                     </a>
 
-                    <a asp-action="Delete"
-                       asp-route-id="@propietario.idPropietario"
+                    <a :href="'/Propietario/Delete/' + propietario.idPropietario"
                        class="btn btn-danger">
                         Eliminar
                     </a>
-                    <a asp-action="Details"
-                       asp-route-id="@propietario.idPropietario"
+                    <a :href="'/Propietario/Details/' + propietario.idPropietario"
                        class="btn btn-warning">
                        Details
                     </a> 
                 </td>
             </tr>
-        }
     </tbody>
 </table>   
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="~/vue/app.js"></script>
