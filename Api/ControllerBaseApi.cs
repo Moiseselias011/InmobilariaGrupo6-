@@ -1,39 +1,54 @@
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using   InmobilariaGrupo6_.Data;
+using InmobilariaGrupo6_.Data;
+
 namespace InmobilariaGrupo6_.Api.Controllers;
 
 [ApiController]
-[Route("Api/[controller]")]
-public abstract class ControllersApiBase<T> where T  : class
+[Route("api/[controller]")]
+public abstract class ControllersApiBase<T> : ControllerBase where T : class
 {
     protected readonly InmobiliariaContext _context;
 
     public ControllersApiBase(InmobiliariaContext context)
     {
-        _context = context ;
-
+        _context = context;
     }
-    // esto es para listar ...
+
+    [HttpGet]
     public List<T> GetAll()
     {
         return _context.Set<T>().ToList();
+    }
 
-    } 
-    //esto es para con un id traer el registro, para ver detalles 
+    [HttpGet("{id}")]
     public T? GetById(int id)
     {
         return _context.Set<T>().Find(id);
-
     }
-    // para agregar o crear un registro nuevo :v
-  
 
+    [HttpPost]
+    public void Create(T entidad)
+    {
+        _context.Set<T>().Add(entidad);
+        _context.SaveChanges();
+    }
 
+    [HttpPut]
+    public void Update(T entidad)
+    {
+        _context.Set<T>().Update(entidad);
+        _context.SaveChanges();
+    }
 
+    [HttpDelete("{id}")]
+    public void Delete(int id)
+    {
+        var entidad = GetById(id);
 
-
-
-
-
+        if (entidad != null)
+        {
+            _context.Set<T>().Remove(entidad);
+            _context.SaveChanges();
+        }
+    }
 }
