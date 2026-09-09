@@ -5,11 +5,11 @@ namespace InmobilariaGrupo6_.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public abstract class ControllersApiBase<T> : ControllerBase where T : class
+public abstract class ControllerApiBase<T> : ControllerBase where T : class
 {
     protected readonly InmobiliariaContext _context;
 
-    public ControllersApiBase(InmobiliariaContext context)
+    public ControllerApiBase(InmobiliariaContext context)
     {
         _context = context;
     }
