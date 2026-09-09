@@ -6,9 +6,9 @@ using InmobilariaGrupo6_.Models;
 namespace InmobilariaGrupo6_.Controllers;
 
 
-    public class RepositorioReserva : ControllerApiBase<Reserva>
+    public class ControllerReserva : ControllerApiBase<Reserva>
     {
-        public RepositorioReserva(InmobiliariaContext context)
+        public ControllerReserva(InmobiliariaContext context)
             : base(context)
         {
         }
