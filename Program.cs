@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using  InmobilariaGrupo6_.Data;
-using  InmobilariaGrupo6_.Repositories;
+using InmobilariaGrupo6_.Data;
+using InmobilariaGrupo6_.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +15,7 @@ builder.Services.AddScoped<RepositorioInmueble>();
 builder.Services.AddScoped<RepositorioReserva>();
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -31,6 +32,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.MapControllers();
 
 app.MapControllerRoute(
     name: "default",
