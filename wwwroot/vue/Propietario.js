@@ -1,4 +1,4 @@
-console.log("🔥 PROPIETARIO.JS CARGADO");
+console.log(" PROPIETARIO.JS CARGADO");
 
 const app = Vue.createApp({
     data() {
@@ -17,11 +17,11 @@ const app = Vue.createApp({
     },
 
     mounted() {
-        console.log("🔥 VUE MONTADO");
+        console.log(" VUE MONTADO");
 
         const ruta = window.location.pathname;
 
-        console.log("📍 RUTA:", ruta);
+        console.log(" RUTA:", ruta);
 
         // INDEX
         if (ruta === "/Propietario" || ruta === "/Propietario/") {
@@ -45,11 +45,11 @@ const app = Vue.createApp({
       
 
         listarPropietarios() {
-            console.log("🔥 LISTAR PROPIETARIOS EJECUTADO");
+            console.log(" LISTAR PROPIETARIOS EJECUTADO");
 
             fetch("/api/ControllerPropietario")
                 .then(response => {
-                    console.log("🔥 RESPUESTA LISTAR:", response.status);
+                    console.log(" RESPUESTA LISTAR:", response.status);
 
                     if (!response.ok) {
                         throw new Error("Error al obtener propietarios");
@@ -58,12 +58,12 @@ const app = Vue.createApp({
                     return response.json();
                 })
                 .then(data => {
-                    console.log("📦 PROPIETARIOS:", data);
+                    console.log(" PROPIETARIOS:", data);
 
                     this.propietarios = data;
                 })
                 .catch(error => {
-                    console.error("🔥 ERROR:", error);
+                    console.error(" ERROR:", error);
                 });
         },
 
@@ -73,7 +73,7 @@ const app = Vue.createApp({
        
 
         crearPropietario() {
-            console.log("🔥 CREAR PROPIETARIO EJECUTADO");
+            console.log(" CREAR PROPIETARIO EJECUTADO");
             console.log(this.propietario);
 
             fetch("/api/ControllerPropietario", {
@@ -86,7 +86,7 @@ const app = Vue.createApp({
                 body: JSON.stringify(this.propietario)
             })
                 .then(response => {
-                    console.log("🔥 RESPUESTA CREATE:", response.status);
+                    console.log(" CREAR PROPIETARIO RESPUESTA:", response.status);
 
                     if (!response.ok) {
                         throw new Error("Error al crear propietario");
@@ -95,7 +95,7 @@ const app = Vue.createApp({
                     window.location.href = "/Propietario";
                 })
                 .catch(error => {
-                    console.error("🔥 ERROR:", error);
+                    console.error(" ERROR:", error);
                 });
         },
 
@@ -114,11 +114,11 @@ const app = Vue.createApp({
         obtenerPropietario() {
             const id = this.obtenerId();
 
-            console.log("🔥 OBTENER PROPIETARIO ID:", id);
+            console.log(" OBTENER PROPIETARIO ID:", id);
 
             fetch("/api/ControllerPropietario/" + id)
                 .then(response => {
-                    console.log("🔥 RESPUESTA GET:", response.status);
+                    console.log(" RESPUESTA GET:", response.status);
 
                     if (!response.ok) {
                         throw new Error("Error al obtener propietario");
@@ -127,12 +127,12 @@ const app = Vue.createApp({
                     return response.json();
                 })
                 .then(data => {
-                    console.log("📦 PROPIETARIO:", data);
+                    console.log(" PROPIETARIO:", data);
 
                     this.propietario = data;
                 })
                 .catch(error => {
-                    console.error("🔥 ERROR:", error);
+                    console.error(" ERROR:", error);
                 });
         },
 
@@ -142,7 +142,7 @@ const app = Vue.createApp({
         
 
         editarPropietario() {
-            console.log("🔥 EDITAR PROPIETARIO EJECUTADO");
+            console.log(" EDITAR PROPIETARIO EJECUTADO");
             console.log(this.propietario);
 
             fetch("/api/ControllerPropietario", {
@@ -155,7 +155,7 @@ const app = Vue.createApp({
                 body: JSON.stringify(this.propietario)
             })
                 .then(response => {
-                    console.log("🔥 RESPUESTA EDIT:", response.status);
+                    console.log(" RESPUESTA EDIT:", response.status);
 
                     if (!response.ok) {
                         throw new Error("Error al editar propietario");
@@ -164,7 +164,7 @@ const app = Vue.createApp({
                     window.location.href = "/Propietario";
                 })
                 .catch(error => {
-                    console.error("🔥 ERROR:", error);
+                    console.error(" ERROR:", error);
                 });
         },
 
@@ -176,13 +176,13 @@ const app = Vue.createApp({
         eliminar() {
             const id = this.propietario.idPropietario;
 
-            console.log("🔥 ELIMINAR PROPIETARIO ID:", id);
+            console.log(" ELIMINAR PROPIETARIO ID:", id);
 
             fetch("/api/ControllerPropietario/" + id, {
                 method: "DELETE"
             })
                 .then(response => {
-                    console.log("🔥 RESPUESTA DELETE:", response.status);
+                    console.log(" RESPUESTA DELETE:", response.status);
 
                     if (!response.ok) {
                         throw new Error("Error al eliminar propietario");
@@ -191,7 +191,7 @@ const app = Vue.createApp({
                     window.location.href = "/Propietario";
                 })
                 .catch(error => {
-                    console.error("🔥 ERROR:", error);
+                    console.error(" ERROR:", error);
                 });
         }
     }
