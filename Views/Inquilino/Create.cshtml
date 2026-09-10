@@ -1,22 +1,30 @@
-@model InmobilariaGrupo6_.Models.Inquilino
+<div id="app">
+
 <h2>Lista de Inquilinos</h2>
 
-<form asp-action="Create" method="post">
+<form @@submit.prevent="crearInquilino">
 
  <label>DNI</label>
-<input asp-for="DNI" class="form-control"/>
+<input v-model="inquilino.DNI" class="form-control"/>
 
  <label>NombreCompleto</label>
-<input asp-for="NombreCompleto" class="form-control"/>
+<input v-model="inquilino.NombreCompleto" class="form-control"/>
 
  <label>Telefono</label>
-<input asp-for="Telefono" class="form-control"/>
+<input  v-model="inquilino.Telefono" class="form-control"/>
 
  <label>Email</label>
-<input  asp-for="Email" type="Email" class="form-control"/>
+<input  v-model="inquilino.Email" type="Email" class="form-control"/>
 
 <br>
 
  <button type="submit" class="btn btn-success">Guardar</button>
 
+  <a href="/Inquilino" class="btn btn-secondary">
+        Cancelar
+    </a>
+
 </form>
+</div>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> 
+<script src="~/vue/Inquilino.js"></script>

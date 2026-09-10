@@ -173,7 +173,7 @@ const app = Vue.createApp({
         
 
         eliminar() {
-            const id = this.inquilino.idInquilino;
+            const id = this.inquilino.Id;
 
             console.log(" ELIMINAR INQUILINO ID:", id);
 

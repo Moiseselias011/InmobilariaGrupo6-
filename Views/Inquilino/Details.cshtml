@@ -1,16 +1,20 @@
-@model InmobilariaGrupo6_.Models.Inquilino
+<div id="app">
 
 <h2>Detalles de Inquilino</h2>
 
 <div>
-    <p><strong>ID:</strong> @Model.Id</p>
-    <p><strong>Nombre:</strong> @Model.DNI</p>
-    <p><strong>apellido:</strong> @Model.NombreCompleto</p>
-    <p><strong> dni :</strong> @Model.DNI</p>
-    <p><strong>telefono</strong> @Model.Telefono</p>
-    <p><strong>email</strong> @Model.Email </p>
+    <p><strong>ID:</strong> {{inquilino.Id}}</p>
+    <p><strong>DNI:</strong> {{inquilino.DNI}}</p>
+    <p><strong>NombreCompleto:</strong> {{inquilino.NombreCompleto}}</p>
+    <p><strong>Telefono:</strong> {{inquilino.Telefono}}</p>
+    <p><strong>Email:</strong> {{inquilino.Email}} </p>
 </div>
 
-<a asp-action="Index" class="btn btn-secondary">
-    Volver
-</a>
+ <a href="/Inquilino" class="btn btn-secondary">
+        Volver
+    </a>
+
+  
+</div>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="~/vue/Inquilino.js"></script>  

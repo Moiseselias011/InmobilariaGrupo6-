@@ -1,24 +1,24 @@
  
-      <h2>Eliminar Inquilino</h2>
-<div>
+     
+<div v-if="inquilino">
+     <h2>Eliminar Inquilino</h2>
  
-  <p><strong>DNI<strong>@Model.DNI</p> 
-  <p><strong>NombreCompleto :<strong>@Model.NombreCompleto</p> 
-  <p><strong>Telefono :<strong>@Model.Telefono</p> 
-  <p><strong>Email :<strong>@Model.Email </p> 
+  <p><strong>DNI:</strong>{{inquilino.DNI}}</p> 
+  <p><strong>NombreCompleto:</strong>{{inquilino.NombreCompleto}}</p> 
+  <p><strong>Telefono:</strong>{{inquilino.Telefono}}</p> 
+  <p><strong>Email:</strong>{{inquilino.Email}}</p> 
  
 </div>
 
 <br>
 
-<form asp-action="DeleteConfirmed" method="post">
+ <button @@click="eliminar" class="btn btn-danger">
+        Eliminar
+    </button>
 
- <input type="hidden" name="id" value="@Model.Id" />
-
-
- <button type="submit" class="btn btn-danger">Eliminar</button>
-
- <a class ="btn btn-secondary" href="/Inquilino">Cancelar</a>
-
-
-</form>
+    <a class="btn btn-secondary" href="/Inquilino">
+        Cancelar
+    </a>
+</div>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="~/vue/Inquilino.js"></script>
