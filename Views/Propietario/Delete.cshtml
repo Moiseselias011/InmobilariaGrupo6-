@@ -1,22 +1,18 @@
-@model InmobilariaGrupo6_.Models.Propietario
+<div id="app">
 
-<h2>Eliminar Propietario</h2>
+    <h2>Eliminar Propietario</h2>
 
-<div>
-    <p><strong>Nombre:</strong> @Model.nombre</p>
-    <p><strong>Apellido:</strong> @Model.apellido</p>
-    <p><strong>DNI:</strong> @Model.dni</p>
-    <p><strong>Teléfono:</strong> @Model.telefono</p>
-    <p><strong>Email:</strong> @Model.email</p>
-</div>
+    <div v-if="propietario">
+        <p><strong>Nombre:</strong> {{ propietario.nombre }}</p>
+        <p><strong>Apellido:</strong> {{ propietario.apellido }}</p>
+        <p><strong>DNI:</strong> {{ propietario.dni }}</p>
+        <p><strong>Teléfono:</strong> {{ propietario.telefono }}</p>
+        <p><strong>Email:</strong> {{ propietario.email }}</p>
+    </div>
 
-<br>
+    <br>
 
-<form asp-action="DeleteConfirmed" method="post">
-
-    <input type="hidden" name="id" value="@Model.idPropietario" />
-
-    <button type="submit" class="btn btn-danger">
+    <button @@click="eliminar" class="btn btn-danger">
         Eliminar
     </button>
 
@@ -24,4 +20,6 @@
         Cancelar
     </a>
 
-</form>
+</div>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="~/vue/Propietario.js"></script>

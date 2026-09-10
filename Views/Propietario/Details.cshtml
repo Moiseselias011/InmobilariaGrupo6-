@@ -1,16 +1,20 @@
-@model InmobilariaGrupo6_.Models.Propietario
+<div id="app">
 
-<h2>Detalles de Propietario</h2>
+    <h2>Detalles de Propietario</h2>
 
-<div>
-    <p><strong>ID:</strong> @Model.idPropietario</p>
-    <p><strong>Nombre:</strong> @Model.nombre</p>
-    <p><strong>apellido:</strong> @Model.apellido</p>
-    <p><strong> dni :</strong> @Model.dni</p>
-    <p><strong>telefono</strong> @Model.telefono</p>
-    <p><strong>email</strong> @Model.email </p>
+    <div v-if="propietario">
+        <p><strong>ID:</strong> {{ propietario.idPropietario }}</p>
+        <p><strong>Nombre:</strong> {{ propietario.nombre }}</p>
+        <p><strong>Apellido:</strong> {{ propietario.apellido }}</p>
+        <p><strong>DNI:</strong> {{ propietario.dni }}</p>
+        <p><strong>Teléfono:</strong> {{ propietario.telefono }}</p>
+        <p><strong>Email:</strong> {{ propietario.email }}</p>
+    </div>
+
+    <a href="/Propietario" class="btn btn-secondary">
+        Volver
+    </a>
+
 </div>
-
-<a asp-action="Index" class="btn btn-secondary">
-    Volver
-</a>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="~/vue/Propietario.js"></script>

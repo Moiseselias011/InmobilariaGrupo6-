@@ -1,42 +1,48 @@
-@model InmobilariaGrupo6_.Models.Propietario
+<div id="app">
 
-<h2>Edit Propietario</h2>
+    <h2>Edit Propietario</h2>
 
-<form asp-action="Edit" method="post">
+    <form @@submit.prevent="editarPropietario">
 
-    <input type="hidden" asp-for="idPropietario" />
+        <input type="hidden" v-model="propietario.idPropietario" />
 
-    <div class="mb-3">
-        <label>Nombre</label>
-        <input asp-for="nombre" class="form-control" />
-    </div>
+        <div class="mb-3">
+            <label>Nombre</label>
+            <input v-model="propietario.nombre" class="form-control" />
+        </div>
 
-    <div class="mb-3">
-        <label>Apellido</label>
-        <input asp-for="apellido" class="form-control" />
-    </div>
+        <div class="mb-3">
+            <label>Apellido</label>
+            <input v-model="propietario.apellido" class="form-control" />
+        </div>
 
-    <div class="mb-3">
-        <label>DNI</label>
-        <input asp-for="dni" class="form-control" />
-    </div>
+        <div class="mb-3">
+            <label>DNI</label>
+            <input v-model="propietario.dni" class="form-control" />
+        </div>
 
-    <div class="mb-3">
-        <label>Teléfono</label>
-        <input asp-for="telefono" class="form-control" />
-    </div>
+        <div class="mb-3">
+            <label>Teléfono</label>
+            <input v-model="propietario.telefono" class="form-control" />
+        </div>
 
-    <div class="mb-3">
-        <label>Gmail</label>
-        <input asp-for="email" type="email" class="form-control" />
-    </div>
+        <div class="mb-3">
+            <label>Gmail</label>
+            <input v-model="propietario.email"
+                   type="email"
+                   class="form-control" />
+        </div>
 
-    <button type="submit" class="btn btn-success">
-        Guardar cambios
-    </button>
+        <button type="submit" class="btn btn-success">
+            Guardar cambios
+        </button>
 
-    <a class="btn btn-secondary" href="/Propietario">
-        Cancelar
-    </a>
+        <a class="btn btn-secondary" href="/Propietario">
+            Cancelar
+        </a>
 
-</form>
+    </form>
+
+</div>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="~/vue/Propietario.js"></script>

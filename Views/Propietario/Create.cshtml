@@ -1,24 +1,38 @@
-@model InmobilariaGrupo6_.Models.Propietario
-<h2>lista de propietarios </h2>
-<form asp-action="Create" method="post">
+<div id="app">
 
-<label>nombre</label>
-<input asp-for="nombre" class="form-control" />
 
-<label>apellido</label>
- <input asp-for="apellido" class="form-control" />
- 
-<label>dni</label>
-<input asp-for="dni" class="form-control"/>
+<h2>Nuevo Propietario</h2>
 
-<label>telefono</label>
-  <input asp-for="telefono" class="form-control" />
+<form @@submit.prevent="crearPropietario">
 
-<label>gmail</label>
- <input asp-for="email" type="email" class="form-control" />
+    <label>Nombre</label>
+    <input v-model="propietario.nombre" class="form-control" />
 
-<br>
+    <label>Apellido</label>
+    <input v-model="propietario.apellido" class="form-control" />
 
-<button type="submit" class ="btn btn-success">Guardar</button>
+    <label>DNI</label>
+    <input v-model="propietario.dni" class="form-control" />
+
+    <label>Teléfono</label>
+    <input v-model="propietario.telefono" class="form-control" />
+
+    <label>Email</label>
+    <input v-model="propietario.email" type="email" class="form-control" />
+
+    <br>
+
+    <button type="submit" class="btn btn-success">
+        Guardar
+    </button>
+
+    <a href="/Propietario" class="btn btn-secondary">
+        Cancelar
+    </a>
 
 </form>
+
+
+</div>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> 
+<script src="~/vue/Propietario.js"></script>
