@@ -1,85 +1,59 @@
-@model InmobilariaGrupo6_.Models.Reserva
+<div id="app">
 
-@{
-    ViewData["Title"] = "Nueva Reserva";
-}
 
 <h1>Nueva Reserva</h1>
 
-<form asp-action="Create" method="post">
+<form @@submit.prevent="crearReserva">
 
-    <div class="form-group mb-3">
-        <label asp-for="IdInquilino" class="control-label">
-            Inquilino
-        </label>
-
-        <input asp-for="IdInquilino"
+    <div class="mb-3">
+        <label>Id Inquilino</label>
+        <input v-model="reserva.IdInquilino"
                class="form-control"
                type="number" />
-
-        <span asp-validation-for="IdInquilino"
-              class="text-danger"></span>
     </div>
 
-    <div class="form-group mb-3">
-        <label asp-for="IdInmueble" class="control-label">
-            Inmueble
-        </label>
-
-        <input asp-for="IdInmueble"
+    <div class="mb-3">
+        <label>Id Inmueble</label>
+        <input v-model="reserva.IdInmueble"
                class="form-control"
                type="number" />
-
-        <span asp-validation-for="IdInmueble"
-              class="text-danger"></span>
     </div>
 
-    <div class="form-group mb-3">
-        <label asp-for="FechaInicio" class="control-label">
-            Fecha de inicio
-        </label>
-
-        <input asp-for="FechaInicio"
+    <div class="mb-3">
+        <label>Fecha de inicio</label>
+        <input v-model="reserva.FechaInicio"
                class="form-control"
                type="date" />
-
-        <span asp-validation-for="FechaInicio"
-              class="text-danger"></span>
     </div>
 
-    <div class="form-group mb-3">
-        <label asp-for="FechaFin" class="control-label">
-            Fecha de fin
-        </label>
-
-        <input asp-for="FechaFin"
+    <div class="mb-3">
+        <label>Fecha de fin</label>
+        <input v-model="reserva.FechaFin"
                class="form-control"
                type="date" />
-
-        <span asp-validation-for="FechaFin"
-              class="text-danger"></span>
     </div>
 
-    <div class="form-group mb-3">
-        <label asp-for="MontoPorDia" class="control-label">
-            Monto por día
-        </label>
-
-        <input asp-for="MontoPorDia"
+    <div class="mb-3">
+        <label>Monto por día</label>
+        <input v-model="reserva.MontoPorDia"
                class="form-control"
                type="number"
                step="0.01" />
-
-        <span asp-validation-for="MontoPorDia"
-              class="text-danger"></span>
     </div>
 
     <button type="submit" class="btn btn-primary">
         Guardar
     </button>
 
-    <a asp-action="Index" class="btn btn-secondary">
+    <a href="/Reserva" class="btn btn-secondary">
         Volver
     </a>
 
 </form>
+
+
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+<script src="~/vue/Reserva.js"></script>

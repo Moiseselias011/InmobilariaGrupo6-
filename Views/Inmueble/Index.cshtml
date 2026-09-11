@@ -7,6 +7,7 @@
 <table class="table">
     <thead>
         <tr>
+           
             <th>Direccion</th>
             <th>Cupo</th>
             <th>Coordenadas</th>
@@ -20,6 +21,7 @@
        
             <tr v-for="inmueble in inmuebles" 
             :key="inmueble.IdInmueble">
+              
                 <td>{{inmueble.Direccion}}</td>
                 <td>{{inmueble.Cupo}}</td>
                 <td>{{inmueble.Coordenadas}}</td>

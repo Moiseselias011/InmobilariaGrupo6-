@@ -1,16 +1,16 @@
-@model IEnumerable<InmobilariaGrupo6_.Models.Reserva>
+<div id="app">
 
-@{
-    ViewData["Title"] = "Reservas";
-}
 
 <h1>Reservas</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Nueva Reserva</a>
+    <a asp-action="Create" class="btn btn-primary">
+        Nueva Reserva
+    </a>
 </p>
 
 <table class="table">
+
     <thead>
         <tr>
             <th>Id Reserva</th>
@@ -24,36 +24,45 @@
     </thead>
 
     <tbody>
-        @foreach (var reserva in Model)
-        {
-            <tr>
-                <td>@reserva.IdReserva</td>
-                <td>@reserva.IdInquilino</td>
-                <td>@reserva.IdInmueble</td>
-                <td>@reserva.FechaInicio.ToString("dd/MM/yyyy")</td>
-                <td>@reserva.FechaFin.ToString("dd/MM/yyyy")</td>
-                <td>@reserva.MontoPorDia.ToString("C")</td>
 
-                <td>
-                    <a asp-action="Details"
-                       asp-route-id="@reserva.IdReserva"
-                       class="btn btn-info">
-                        Detalles
-                    </a>
+        <tr v-for="reserva in reservas"
+            :key="reserva.IdReserva">
 
-                    <a asp-action="Edit"
-                       asp-route-id="@reserva.IdReserva"
-                       class="btn btn-warning">
-                        Editar
-                    </a>
+            <td>{{reserva.IdReserva}}</td>
+            <td>{{reserva.IdInquilino}}</td>
+            <td>{{reserva.IdInmueble}}</td>
+            <td>{{reserva.FechaInicio}}</td>
+            <td>{{reserva.FechaFin}}</td>
+            <td>{{reserva.MontoPorDia}}</td>
 
-                    <a asp-action="Delete"
-                       asp-route-id="@reserva.IdReserva"
-                       class="btn btn-danger">
-                        Eliminar
-                    </a>
-                </td>
-            </tr>
-        }
+            <td>
+
+                <a :href="'/Reserva/Edit/' + reserva.IdReserva"
+                   class="btn btn-warning">
+                    Editar
+                </a>
+
+                <a :href="'/Reserva/Delete/' + reserva.IdReserva"
+                  class="btn btn-danger">
+                    Eliminar
+                </a>
+
+                <a :href="'/Reserva/Details/' + reserva.IdReserva"
+                   class="btn btn-warning">
+                    Details
+                </a>
+
+            </td>
+
+        </tr>
+
     </tbody>
+
 </table>
+
+
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+<script src="~/vue/Reserva.js"></script>

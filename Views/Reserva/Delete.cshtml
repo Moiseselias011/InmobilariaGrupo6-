@@ -1,27 +1,30 @@
-
-@model InmobilariaGrupo6_.Models.Reserva
+<div id="app">
 
 <h2>Eliminar Reserva</h2>
 
-<div>
-    <p><strong>FechaInicio:</strong> @Model.FechaInicio</p>
-    <p><strong>FechaFin:</strong> @Model.FechaFin</p>
-    <p><strong>MontoPorDia:</strong> @Model.MontoPorDia</p>
+<div v-if="reserva">
+
+    <p><strong>Id Inquilino:</strong> {{reserva.IdInquilino}}</p>
+    <p><strong>Id Inmueble:</strong> {{reserva.IdInmueble}}</p>
+    <p><strong>Fecha Inicio:</strong> {{reserva.FechaInicio}}</p>
+    <p><strong>Fecha Fin:</strong> {{reserva.FechaFin}}</p>
+    <p><strong>Monto por Día:</strong> {{reserva.MontoPorDia}}</p>
+
 </div>
 
 <br>
 
-<form asp-action="DeleteConfirmed" method="post">
+<button @@click="eliminar" class="btn btn-danger">
+    Eliminar
+</button>
 
-    <input type="hidden" name="id" value="@Model.IdReserva" />
+<a class="btn btn-secondary" href="/Reserva">
+    Cancelar
+</a>
 
-    <button type="submit" class="btn btn-danger">
-        Eliminar
-    </button>
 
-    <a class="btn btn-secondary" href="/Reserva">
-        Cancelar
-    </a>
+</div>
 
-</form>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
+<script src="~/vue/Reserva.js"></script>

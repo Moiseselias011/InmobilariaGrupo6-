@@ -1,70 +1,28 @@
-
-@model InmobilariaGrupo6_.Models.Reserva
-
-@{
-    ViewData["Title"] = "Detalles de la Reserva";
-}
+<div id="app">
 
 <h1>Detalles de la Reserva</h1>
 
-<hr />
+<<div v-if="reserva && reserva.Inquilino && reserva.Inmueble">>
 
-<dl class="row">
+    <p><strong> Id Reserva :</strong> {{reserva.IdReserva}} </p>
 
-    <dt class="col-sm-3">
-        Id Reserva
-    </dt>
-    <dd class="col-sm-9">
-        @Model.IdReserva
-    </dd>
+    <p><strong>Inquilino:</strong> {{reserva.Inquilino.NombreCompleto}}</p>
 
-    <dt class="col-sm-3">
-        Inquilino
-    </dt>
-    <dd class="col-sm-9">
-        @Model.Inquilino.NombreCompleto
-    </dd>
+    <p><strong>Inmueble:</strong> {{reserva.Inmueble.Direccion}}</p>
 
-    <dt class="col-sm-3">
-        Inmueble
-    </dt>
-    <dd class="col-sm-9">
-        @Model.Inmueble.Direccion
-    </dd>
+    <p><strong> Fecha de inicio :</strong>{{reserva.FechaInicio}}</p>
+     
+    <p><strong> Fecha de fin:</strong>{{reserva.FechaFin}}</p>
+        
+    <p><strong> Monto por día:</strong>{{reserva.MontoPorDia}}</p>
+       
+</div>
 
-    <dt class="col-sm-3">
-        Fecha de inicio
-    </dt>
-    <dd class="col-sm-9">
-        @Model.FechaInicio.ToString("dd/MM/yyyy")
-    </dd>
-
-    <dt class="col-sm-3">
-        Fecha de fin
-    </dt>
-    <dd class="col-sm-9">
-        @Model.FechaFin.ToString("dd/MM/yyyy")
-    </dd>
-
-    <dt class="col-sm-3">
-        Monto por día
-    </dt>
-    <dd class="col-sm-9">
-        @Model.MontoPorDia.ToString("C")
-    </dd>
-
-</dl>
-
-<div>
-    <a asp-action="Edit"
-       asp-route-id="@Model.IdReserva"
-       class="btn btn-warning">
-        Editar
-    </a>
-
-    <a asp-action="Index"
-       class="btn btn-secondary">
+<a href="/Reserva" class="btn btn-secondary">
         Volver
     </a>
 </div>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="~/vue/Reserva.js"></script>  
+
 
