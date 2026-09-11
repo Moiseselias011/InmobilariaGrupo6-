@@ -1,10 +1,8 @@
-@model IEnumerable<InmobilariaGrupo6_.Models.Inmueble>
+<div id="app">
 
 <h2>Lista de Inmueble</h2>
 
-<a asp-action="Create" class="btn btn-primary">
-    Nuevo Inmueble
-</a>
+<a asp-action="Create" class="btn btn-primary">  Nuevo Inmueble</a>
 
 <table class="table">
     <thead>
@@ -19,37 +17,37 @@
     </thead>
 
     <tbody>
-        @foreach (var Inmueble  in Model)
-        {
-            <tr>
-                <td>@Inmueble.Direccion</td>
-                <td>@Inmueble.Cupo</td>
-                <td>@Inmueble.Coordenadas</td>
-                <td>@Inmueble.PrecioPorDia</td> 
-                <td>@Inmueble.Disponible</td>
-                <td>@Inmueble.ImagenPortada</td>
+       
+            <tr v-for="inmueble in inmuebles" 
+            :key="inmueble.IdInmueble">
+                <td>{{inmueble.Direccion}}</td>
+                <td>{{inmueble.Cupo}}</td>
+                <td>{{inmueble.Coordenadas}}</td>
+                <td>{{inmueble.PrecioPorDia}}</td>
+                <td>{{inmueble.Disponible}}</td>
+                <td>{{inmueble.ImagenPortada}}</td>
 
                 <td>
-                    <a asp-action="Edit"
-                       asp-route-id="@Inmueble.IdInmueble"
-                       class="btn btn-warning">
+                    <a :href="'/Inmueble/Edit/' + inmueble.IdInmueble"
+                        class="btn btn-warning">
                         Editar
                     </a>
 
-                    <a asp-action="Delete"
-                       asp-route-id="@Inmueble.IdInmueble"
+                    <a :href="'/Inmueble/Delete/' + inmueble.IdInmueble"
                        class="btn btn-danger">
                         Eliminar
                     </a>
 
-                    <a asp-action="Details"
-                       asp-route-id="@Inmueble.IdInmueble"
+                    <a :href="'/Inmueble/Details/' + inmueble.IdInmueble"
                        class="btn btn-warning">
                        Details
                     </a> 
 
                 </td>
             </tr>
-        }
+        
     </tbody>
 </table>
+</div> 
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="~/vue/Inmueble.js"></script>

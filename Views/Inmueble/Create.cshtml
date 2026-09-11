@@ -1,39 +1,38 @@
-
-@model InmobilariaGrupo6_.Models.Inmueble
+<div id="app">
 
 <h2>Nuevo Inmueble</h2>
 
-<form asp-action="Create" method="post">
+<form @@submit.prevent="crearInmueble">
 
     <label>Dirección</label>
-    <input asp-for="Direccion" class="form-control" />
+    <input v-model="inmueble.Direccion" class="form-control" />
 
     <label>Cupo</label>
-    <input asp-for="Cupo" class="form-control" />
+    <input v-model="inmueble.Cupo" class="form-control" />
 
     <label>Coordenadas</label>
-    <input asp-for="Coordenadas" class="form-control" />
+    <input v-model="inmueble.Coordenadas" class="form-control" />
 
     <label>Precio por día</label>
-    <input asp-for="PrecioPorDia" class="form-control" />
+    <input v-model="inmueble.PrecioPorDia" class="form-control" />
 
+    
     <label>Tipo de Inmueble</label>
-    <select asp-for="IdTipoInmueble" class="form-control">
-        <option value="">-- Seleccione un tipo --</option>
+    <select v-model="inmueble.IdTipoInmueble" class="form-control">
+    <option value="0">-- Seleccione un tipo --</option>
 
-        @foreach (var tipo in ViewBag.Tipos)
-        {
-            <option value="@tipo.IdTipoInmueble">
-                @tipo.Nombre
-            </option>
-        }
+    <option v-for="tipo in tipos"
+            :key="tipo.IdTipoInmueble"
+            :value="tipo.IdTipoInmueble">
+        {{tipo.Nombre}}
+    </option>
     </select>
 
     <label>Disponible</label>
-    <input asp-for="Disponible" type="checkbox" />
+    <input v-model="inmueble.Disponible" type="checkbox" />
 
     <label>Imagen de portada</label>
-    <input asp-for="ImagenPortada" class="form-control" />
+    <input v-model="inmueble.ImagenPortada" class="form-control" />
 
     <br>
 
@@ -41,5 +40,12 @@
         Guardar
     </button>
 
+    <a href="/Inmueble" class="btn btn-secondary">
+        Cancelar
+    </a>
+
     </form>
 
+</div>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> 
+<script src="~/vue/Inmueble.js"></script>

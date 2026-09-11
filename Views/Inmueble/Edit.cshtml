@@ -1,44 +1,65 @@
-@model InmobilariaGrupo6_.Models.Inmueble
+<div id="app">
      <h2>Edit Inmueble</h2>
 
- <form asp-action="Edit" method="post">
 
-    <input type="hidden" asp-for="IdInmueble" />
+ <form @@submit.prevent="editarInmueble">
+
+    <input type="hidden" v-model="inmueble.IdInmueble" />
 
 
  <div class="mb-3">
    <label> Direccion </label>
-   <input asp-for="Direccion" class="form-control"/>
+   <input v-model="inmueble.Direccion" class="form-control"/>
  </div>
  
  <div class="mb-3">
    <label> Cupo </label> 
-   <input asp-for="Cupo " class="form-control"/>
+   <input v-model="inmueble.Cupo" class="form-control"/>
  </div>
 
  <div class="mb-3">
   <label> Coordenadas </label>
-  <input asp-for="Coordenadas" class="form-control"/>
+  <input v-model="inmueble.Coordenadas" class="form-control"/>
  </div>
  
   <div class="mb-3">
    <label> PrecioPorDia </label> 
-   <input asp-for="PrecioPorDia" class="form-control"/>
+   <input v-model="inmueble.PrecioPorDia" class="form-control"/>
  </div>
+ <label>Tipo de Inmueble</label>
+    <select v-model="inmueble.IdTipoInmueble" class="form-control">
+    <option value="0">-- Seleccione un tipo --</option>
+
+    <option v-for="tipo in tipos"
+            :key="tipo.IdTipoInmueble"
+            :value="tipo.IdTipoInmueble">
+        {{tipo.Nombre}}
+    </option>
+    </select>
+
+
+
+
 
  <div class="mb-3">
    <label> Disponible </label> 
-   <input asp-for="Disponible" type="checkbox"/>
+   <input v-model="inmueble.Disponible" type="checkbox"/>
  </div>
 <div class="mb-3">
    <label> ImagenPortada </label> 
-   <input asp-for="ImagenPortada" class="form-control"/>
+   <input v-model="inmueble.ImagenPortada" class="form-control"/>
  </div>
 
- <button type="submit" class ="btn btn-success">Guardar cambios</button>
+<button type="submit" class="btn btn-success">
+            Guardar cambios
+</button>
 
- <a class="btn btn-secondary" href="/Inmueble">
- Cancelar </a>
+<a class="btn btn-secondary" href="/Inmueble">
+            Cancelar
+</a>
 
 
 </form> 
+</div>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="~/vue/Inmueble.js"></script>
