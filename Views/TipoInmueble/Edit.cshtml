@@ -1,19 +1,23 @@
-@model InmobilariaGrupo6_.Models.TipoInmueble
+<div id="app">
 
 <h2>Edit Tipo de Inmueble</h2>
 
-<form asp-action="Edit" method="post">
+<form @@submit.prevent="editarTipoInmueble">
 
-    <input type="hidden" asp-for="IdTipoInmueble" />
+    <input type="hidden" v-model="tipoinmueble.IdTipoInmueble"/>
 
     <div class="mb-3">
         <label>Nombre</label>
-        <input asp-for="Nombre" class="form-control" />
+        <input v-model="tipoinmueble.Nombre" class="form-control" />
     </div>
 
 
-    <button type="submit" class="btn btn-success">  Guardar cambio    </button>
+<button type="submit" class="btn btn-success">Guardar cambio</button>
 
-    <a class="btn btn-secondary" href="/TipoInmueble"> Cancelar</a>
+<a class="btn btn-secondary" href="/TipoInmueble">Cancelar</a>
 
 </form>
+
+</div>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="~/vue/TipoInmueble.js"></script>

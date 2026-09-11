@@ -1,12 +1,16 @@
-@model InmobilariaGrupo6_.Models.TipoInmueble
+<div  id="app">
 
 <h2>Detalles del Tipo de Inmueble</h2>
 
-<div>
-    <p><strong>ID:</strong> @Model.IdTipoInmueble</p>
-    <p><strong>Nombre:</strong> @Model.Nombre</p>
+<div v-if="tipoinmueble">
+    <p><strong>ID:</strong> {{tipoinmueble.IdTipoInmueble}}</p>
+    <p><strong>Nombre:</strong> {{tipoinmueble.Nombre}}</p>
 </div>
 
-<a asp-action="Index" class="btn btn-secondary">
-    Volver
-</a>
+ <a href="/TipoInmueble" class="btn btn-secondary">
+        Volver
+    </a>
+
+</div>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="~/vue/TipoInmueble.js"></script>

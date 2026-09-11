@@ -1,11 +1,23 @@
-@model InmobilariaGrupo6_.Models.TipoInmueble
+<div id="app">
+    
 <h2>lista de tipo inmueble </h2>
-<form asp-action="Create" method="post">
+
+<form @@submit.prevent="crearTipoInmueble">
+
 
 <label>nombre</label>
-<input asp-for="Nombre" class="form-control" />
+<input v-model="tipoinmueble.Nombre" class="form-control" />
 <br>
 
-<button type="submit" class ="btn btn-success">Guardar</button>
+
+<button type="submit" class="btn btn-success"> Guardar </button>
+
+<a href="/TipoInmueble" class="btn btn-secondary">  Cancelar  </a>
 
 </form>
+
+</div>
+
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> 
+<script src="~/vue/TipoInmueble.js"></script>

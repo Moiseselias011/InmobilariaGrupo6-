@@ -1,4 +1,5 @@
-@model IEnumerable<InmobilariaGrupo6_.Models.TipoInmueble>
+<div id="app">
+
 <h2>Lista de Tipo Inmueble</h2>
 
 
@@ -12,26 +13,25 @@
       </tr>      
  </thead>  
    <tbody>
-        @foreach (var tipoInmueble in Model)
-        {
-            <tr>
-                <td>@tipoInmueble.Nombre</td>
+       
+            <tr v-for="tipoinmueble in tipoinmuebles" 
+            :key="tipoinmueble.IdTipoInmueble">
+
+                <td>{{tipoinmueble.Nombre}}</td>
                 
 
                 <td>
-                    <a asp-action="Edit"
-                       asp-route-id="@tipoInmueble.IdTipoInmueble"
+                    <a :href="'/TipoInmueble/Edit/' + tipoinmueble.IdTipoInmueble"
                        class="btn btn-warning">
                         Editar
                     </a>
 
-                    <a asp-action="Delete"
-                       asp-route-id="@tipoInmueble.IdTipoInmueble"
+                    <a :href="'/TipoInmueble/Delete/' + tipoinmueble.IdTipoInmueble"
                        class="btn btn-danger">
                         Eliminar
                     </a>
-                    <a asp-action="Details"
-                       asp-route-id="@tipoInmueble.IdTipoInmueble"
+
+                    <a :href="'/TipoInmueble/Details/' + tipoinmueble.IdTipoInmueble"
                        class="btn btn-warning">
                        Details
                     </a> 
@@ -41,6 +41,10 @@
 
                 </td>
             </tr>
-        }
+       
     </tbody>
 </table>   
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="~/vue/TipoInmueble.js"></script>

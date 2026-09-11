@@ -1,19 +1,17 @@
-@model InmobilariaGrupo6_.Models.TipoInmueble
+<div id="app">
 
 <h2>Eliminar TipoInmueble</h2>
 
-<div>
-    <p><strong>Nombre:</strong> @Model.Nombre</p>
+<div v-if="tipoinmueble">
+
+    <p><strong>Nombre:</strong> {{tipoinmueble.Nombre}}</p>
     
 </div>
 
 <br>
 
-<form asp-action="DeleteConfirmed" method="post">
 
-    <input type="hidden" name="id" value="@Model.IdTipoInmueble" />
-
-    <button type="submit" class="btn btn-danger">
+    <button @@click="eliminar" class="btn btn-danger">
         Eliminar
     </button>
 
@@ -21,4 +19,6 @@
         Cancelar
     </a>
 
-</form>
+</div>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="~/vue/TipoInmueble.js"></script>
