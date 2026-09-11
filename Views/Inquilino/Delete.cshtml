@@ -1,24 +1,26 @@
- 
-     
-<div v-if="inquilino">
-     <h2>Eliminar Inquilino</h2>
- 
-  <p><strong>DNI:</strong>{{inquilino.DNI}}</p> 
-  <p><strong>NombreCompleto:</strong>{{inquilino.NombreCompleto}}</p> 
-  <p><strong>Telefono:</strong>{{inquilino.Telefono}}</p> 
-  <p><strong>Email:</strong>{{inquilino.Email}}</p> 
- 
-</div>
 
-<br>
+<div id="app">
 
- <button @@click="eliminar" class="btn btn-danger">
+    <h2>Eliminar Inquilino</h2>
+
+    <div v-if="inquilino">
+        <p><strong>DNI:</strong> {{inquilino.DNI}}</p>
+        <p><strong>Nombre Completo:</strong> {{inquilino.NombreCompleto}}</p>
+        <p><strong>Telefono:</strong> {{inquilino.Telefono}}</p>
+        <p><strong>Email:</strong> {{inquilino.Email}}</p>
+    </div>
+
+    <br>
+
+    <button @@click="eliminar" class="btn btn-danger">
         Eliminar
     </button>
 
     <a class="btn btn-secondary" href="/Inquilino">
         Cancelar
     </a>
+
 </div>
+
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script src="~/vue/Inquilino.js"></script>

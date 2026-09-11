@@ -1,3 +1,4 @@
+
 console.log("  INQUILINO.JS CARGADO");
 
 const app = Vue.createApp({
@@ -6,10 +7,10 @@ const app = Vue.createApp({
             inquilinos: [],
 
             inquilino: {
-                Id: 0,
+                IdInquilino: 0,
                 DNI: "",
                 NombreCompleto: "",
-                Telefono: "",     
+                Telefono: "",
                 Email: ""
             }
         };
@@ -39,10 +40,7 @@ const app = Vue.createApp({
 
     methods: {
 
-       
         // INDEX
-      
-
         listarInquilinos() {
             console.log(" LISTAR INQUILINOS EJECUTADO");
 
@@ -66,11 +64,7 @@ const app = Vue.createApp({
                 });
         },
 
-
-       
         // CREATE
-       
-
         crearInquilino() {
             console.log(" CREAR INQUILINO EJECUTADO");
             console.log(this.inquilino);
@@ -98,17 +92,12 @@ const app = Vue.createApp({
                 });
         },
 
-
-   
         // EDIT / DELETE / DETAILS
-       
-
         obtenerId() {
             const partes = window.location.pathname.split("/");
 
             return partes[partes.length - 1];
         },
-
 
         obtenerInquilino() {
             const id = this.obtenerId();
@@ -135,11 +124,7 @@ const app = Vue.createApp({
                 });
         },
 
-
-      
         // EDIT
-        
-
         editarInquilino() {
             console.log(" EDITAR INQUILINO EJECUTADO");
             console.log(this.inquilino);
@@ -167,13 +152,9 @@ const app = Vue.createApp({
                 });
         },
 
-
-      
         // DELETE
-        
-
         eliminar() {
-            const id = this.inquilino.Id;
+            const id = this.inquilino.IdInquilino;
 
             console.log(" ELIMINAR INQUILINO ID:", id);
 
@@ -197,3 +178,4 @@ const app = Vue.createApp({
 });
 
 app.mount("#app");
+

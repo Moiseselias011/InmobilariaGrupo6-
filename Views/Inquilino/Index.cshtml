@@ -1,50 +1,53 @@
+
 <div id="app">
 
-<h2>Lista de Inquilinos</h2>
+    <h2>Lista de Inquilinos</h2>
 
-<a asp-action="Create" class="btn btn-primary">Nuevo Inquilino</a>
+    <a asp-action="Create" class="btn btn-primary">Nuevo Inquilino</a>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>DNI</th>
-            <th>Nombre Completo</th>
-            <th>Teléfono</th>
-            <th>Email</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>DNI</th>
+                <th>Nombre Completo</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
 
-    <tbody>
-        
+        <tbody>
             <tr v-for="inquilino in inquilinos"
-            :key="inquilino.Id">
+                :key="inquilino.IdInquilino">
+
                 <td>{{inquilino.DNI}}</td>
                 <td>{{inquilino.NombreCompleto}}</td>
                 <td>{{inquilino.Telefono}}</td>
                 <td>{{inquilino.Email}}</td>
 
                 <td>
-                    <a :href="'/Inquilino/Edit/' + inquilino.Id"
+                    <a :href="'/Inquilino/Edit/' + inquilino.IdInquilino"
                        class="btn btn-warning">
                         Editar
                     </a>
 
-                    <a :href="'/Inquilino/Delete/' + inquilino.Id"
+                    <a :href="'/Inquilino/Delete/' + inquilino.IdInquilino"
                        class="btn btn-danger">
                         Eliminar
                     </a>
 
-                    <a :href="'/Inquilino/Details/' + inquilino.Id"
+                    <a :href="'/Inquilino/Details/' + inquilino.IdInquilino"
                        class="btn btn-warning">
-                       Details
-                    </a> 
-
+                        Details
+                    </a>
                 </td>
+
             </tr>
-    </tbody>
-</table>
+        </tbody>
+    </table>
+
 </div>
 
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script src="~/vue/Inquilino.js"></script>
+
