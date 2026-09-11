@@ -5,7 +5,7 @@ namespace InmobilariaGrupo6_.Models;
 public class Inquilino
 {
     [Key]
-    public int Id { get; set; }
+    public int IdInquilino { get; set; }
 
     
     public string DNI { get; set; } = string.Empty;
