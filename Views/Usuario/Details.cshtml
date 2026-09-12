@@ -1,0 +1,61 @@
+@model InmobilariaGrupo6_.Models.Usuario
+
+@{
+    ViewData["Title"] = "Detalles del Usuario";
+}
+
+<h1>Detalles del Usuario</h1>
+
+<hr />
+
+<dl class="row">
+
+    <dt class="col-sm-3">
+        @Html.DisplayNameFor(model => model.IdUsuario)
+    </dt>
+    <dd class="col-sm-9">
+        @Html.DisplayFor(model => model.IdUsuario)
+    </dd>
+
+    <dt class="col-sm-3">
+        @Html.DisplayNameFor(model => model.Nombre)
+    </dt>
+    <dd class="col-sm-9">
+        @Html.DisplayFor(model => model.Nombre)
+    </dd>
+
+    <dt class="col-sm-3">
+        @Html.DisplayNameFor(model => model.Apellido)
+    </dt>
+    <dd class="col-sm-9">
+        @Html.DisplayFor(model => model.Apellido)
+    </dd>
+
+    <dt class="col-sm-3">
+        @Html.DisplayNameFor(model => model.Email)
+    </dt>
+    <dd class="col-sm-9">
+        @Html.DisplayFor(model => model.Email)
+    </dd>
+
+    <dt class="col-sm-3">
+        @Html.DisplayNameFor(model => model.Rol)
+    </dt>
+    <dd class="col-sm-9">
+        @Html.DisplayFor(model => model.Rol)
+    </dd>
+
+</dl>
+
+<div>
+    <a asp-action="Edit"
+       asp-route-id="@Model.IdUsuario"
+       class="btn btn-warning">
+        Editar
+    </a>
+
+    <a asp-action="Index"
+       class="btn btn-secondary">
+        Volver
+    </a>
+</div>

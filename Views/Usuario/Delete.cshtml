@@ -1,0 +1,58 @@
+@model InmobilariaGrupo6_.Models.Usuario
+
+@{
+    ViewData["Title"] = "Eliminar Usuario";
+}
+
+<h1>Eliminar Usuario</h1>
+
+<h3>¿Está seguro de que desea eliminar este usuario?</h3>
+
+<hr />
+
+<dl class="row">
+
+    <dt class="col-sm-3">
+        @Html.DisplayNameFor(model => model.Nombre)
+    </dt>
+    <dd class="col-sm-9">
+        @Html.DisplayFor(model => model.Nombre)
+    </dd>
+
+    <dt class="col-sm-3">
+        @Html.DisplayNameFor(model => model.Apellido)
+    </dt>
+    <dd class="col-sm-9">
+        @Html.DisplayFor(model => model.Apellido)
+    </dd>
+
+    <dt class="col-sm-3">
+        @Html.DisplayNameFor(model => model.Email)
+    </dt>
+    <dd class="col-sm-9">
+        @Html.DisplayFor(model => model.Email)
+    </dd>
+
+    <dt class="col-sm-3">
+        @Html.DisplayNameFor(model => model.Rol)
+    </dt>
+    <dd class="col-sm-9">
+        @Html.DisplayFor(model => model.Rol)
+    </dd>
+
+</dl>
+
+<form asp-action="DeleteConfirmed" method="post">
+
+    <input type="hidden" asp-for="IdUsuario" />
+
+    <input type="submit"
+           value="Eliminar"
+           class="btn btn-danger" />
+
+    <a asp-action="Index"
+       class="btn btn-secondary">
+        Cancelar
+    </a>
+
+</form>

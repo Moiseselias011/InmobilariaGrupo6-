@@ -1,0 +1,69 @@
+@model IEnumerable<InmobilariaGrupo6_.Models.Usuario>
+
+@{
+    ViewData["Title"] = "Usuarios";
+}
+
+<h1>Usuarios</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Nuevo Usuario</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdUsuario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apellido)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rol)
+            </th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var usuario in Model)
+            {
+                <tr>
+                    <td>@usuario.IdUsuario</td>
+                    <td>@usuario.Nombre</td>
+                    <td>@usuario.Apellido</td>
+                    <td>@usuario.Email</td>
+                    <td>@usuario.Rol</td>
+                    <td>
+                        <a asp-action="Details"
+                           asp-route-id="@usuario.IdUsuario"
+                           class="btn btn-info btn-sm">
+                            Detalles
+                        </a>
+
+                        <a asp-action="Edit"
+                           asp-route-id="@usuario.IdUsuario"
+                           class="btn btn-warning btn-sm">
+                            Editar
+                        </a>
+
+                        <a asp-action="Delete"
+                           asp-route-id="@usuario.IdUsuario"
+                           class="btn btn-danger btn-sm">
+                            Eliminar
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
