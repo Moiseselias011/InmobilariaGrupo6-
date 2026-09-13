@@ -14,6 +14,6 @@ namespace  InmobilariaGrupo6_.Data
         public DbSet<Inquilino> Inquilinos { get; set; }
         public DbSet<Inmueble> Inmueble { get; set; }
         public DbSet<Reserva> Reservas { get; set; }
-
+        public DbSet<Usuario> Usuarios { get; set; }
     }
 }
