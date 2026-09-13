@@ -1,0 +1,48 @@
+<div id="app">
+
+    <h2>Detalles del Pago</h2>
+
+    <div>
+
+        <p>
+            <strong>Id Pago:</strong>
+            {{ pago.IdPago }}
+        </p>
+
+        <p>
+            <strong>Id Reserva:</strong>
+            {{ pago.IdReserva }}
+        </p>
+
+        <p>
+            <strong>Fecha de Pago:</strong>
+            {{ pago.FechaPago }}
+        </p>
+
+        <p>
+            <strong>Monto:</strong>
+            {{ pago.Monto }}
+        </p>
+
+        <p>
+            <strong>Método de Pago:</strong>
+            {{ pago.MetodoPago }}
+        </p>
+
+    </div>
+
+    <a :href="'/Pago/Edit/' + pago.IdPago"
+       class="btn btn-warning">
+        Editar
+    </a>
+
+    <a href="/Pago"
+       class="btn btn-secondary">
+        Volver
+    </a>
+
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+<script src="~/vue/Pago.js"></script>

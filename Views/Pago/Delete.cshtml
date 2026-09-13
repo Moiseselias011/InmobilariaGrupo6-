@@ -1,0 +1,50 @@
+<div id="app">
+
+    <h2>Eliminar Pago</h2>
+
+    <h4>¿Está seguro de que desea eliminar este pago?</h4>
+
+    <hr />
+
+    <p>
+        <strong>Id Pago:</strong>
+        {{ pago.IdPago }}
+    </p>
+
+    <p>
+        <strong>Id Reserva:</strong>
+        {{ pago.IdReserva }}
+    </p>
+
+    <p>
+        <strong>Fecha:</strong>
+        {{ pago.FechaPago }}
+    </p>
+
+    <p>
+        <strong>Monto:</strong>
+        {{ pago.Monto }}
+    </p>
+
+    <p>
+        <strong>Método de Pago:</strong>
+        {{ pago.MetodoPago }}
+    </p>
+
+    <br />
+
+    <button @@click="eliminarPago"
+            class="btn btn-danger">
+        Eliminar
+    </button>
+
+    <a href="/Pago"
+       class="btn btn-secondary">
+        Cancelar
+    </a>
+
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+<script src="~/vue/Pago.js"></script>

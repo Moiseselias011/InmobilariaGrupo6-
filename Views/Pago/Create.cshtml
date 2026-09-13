@@ -1,0 +1,59 @@
+<div id="app">
+
+    <h2>Nuevo Pago</h2>
+
+    <form @@submit.prevent="crearPago">
+
+        <label>Id Reserva</label>
+        <input v-model="pago.IdReserva"
+               type="number"
+               class="form-control" />
+
+        <br />
+
+        <label>Fecha de Pago</label>
+        <input v-model="pago.FechaPago"
+               type="date"
+               class="form-control" />
+
+        <br />
+
+        <label>Monto</label>
+        <input v-model="pago.Monto"
+               type="number"
+               step="0.01"
+               class="form-control" />
+
+        <br />
+
+        <label>Método de Pago</label>
+
+        <select v-model="pago.MetodoPago"
+                class="form-control">
+
+            <option value="">Seleccione un método</option>
+            <option value="Efectivo">Efectivo</option>
+            <option value="Transferencia">Transferencia</option>
+            <option value="Tarjeta">Tarjeta</option>
+
+        </select>
+
+        <br />
+
+        <button type="submit"
+                class="btn btn-success">
+            Guardar
+        </button>
+
+        <a href="/Pago"
+           class="btn btn-secondary">
+            Cancelar
+        </a>
+
+    </form>
+
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+<script src="~/vue/Pago.js"></script>

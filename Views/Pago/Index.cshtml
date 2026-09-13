@@ -1,0 +1,69 @@
+<div id="app">
+
+    <h2>Lista de Pagos</h2>
+
+    <a href="/Pago/Create" class="btn btn-primary">
+        Nuevo Pago
+    </a>
+
+    <br />
+    <br />
+
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>Id Pago</th>
+                <th>Id Reserva</th>
+                <th>Fecha Pago</th>
+                <th>Monto</th>
+                <th>Método de Pago</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr v-for="pago in pagos"
+                :key="pago.IdPago">
+
+                <td>{{ pago.IdPago }}</td>
+
+                <td>{{ pago.IdReserva }}</td>
+
+                <td>{{ pago.FechaPago }}</td>
+
+                <td>{{ pago.Monto }}</td>
+
+                <td>{{ pago.MetodoPago }}</td>
+
+                <td>
+
+                    <a :href="'/Pago/Edit/' + pago.IdPago"
+                       class="btn btn-warning">
+                        Editar
+                    </a>
+
+                    <a :href="'/Pago/Delete/' + pago.IdPago"
+                       class="btn btn-danger">
+                        Eliminar
+                    </a>
+
+                    <a :href="'/Pago/Details/' + pago.IdPago"
+                       class="btn btn-info">
+                        Details
+                    </a>
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+<script src="~/vue/Pago.js"></script>
