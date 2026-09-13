@@ -1,0 +1,54 @@
+
+<div id="app">
+
+    <h2>Eliminar Imagen</h2>
+
+    <div v-if="imagen">
+
+        <p>
+            <strong>Id Imagen:</strong>
+            {{ imagen.IdImagen }}
+        </p>
+
+        <p>
+            <strong>Id Inmueble:</strong>
+            {{ imagen.IdInmueble }}
+        </p>
+
+        <p>
+            <strong>Url:</strong>
+            {{ imagen.Url }}
+        </p>
+
+        <p>
+            <strong>Imagen:</strong>
+        </p>
+
+        <img v-if="imagen.Url"
+             :src="imagen.Url"
+             alt="Imagen del inmueble"
+             style="width: 300px; height: 200px; object-fit: cover; border-radius: 8px;">
+
+        <p>
+            <strong>EsPortada:</strong>
+            {{ imagen.EsPortada }}
+        </p>
+
+    </div>
+
+    <br>
+
+    <button @@click="eliminar" class="btn btn-danger">
+        Eliminar
+    </button>
+
+    <a class="btn btn-secondary" href="/Imagen">
+        Cancelar
+    </a>
+
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+<script src="~/vue/Imagen.js"></script>
+

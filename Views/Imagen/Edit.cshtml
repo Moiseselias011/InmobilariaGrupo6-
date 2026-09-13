@@ -1,0 +1,63 @@
+
+<div id="app">
+
+    <h1>Editar Imagen</h1>
+
+    <form @@submit.prevent="editarImagen">
+
+        <input type="hidden" v-model="imagen.IdImagen" />
+
+        <div class="mb-3">
+            <label>Inmueble</label>
+
+            <select v-model="imagen.IdInmueble" class="form-control">
+
+                <option value="">
+                    Seleccione un inmueble
+                </option>
+
+                <option v-for="inmueble in inmuebles"
+                        :key="inmueble.IdInmueble"
+                        :value="inmueble.IdInmueble">
+
+                    {{ inmueble.Direccion }}
+
+                </option>
+
+            </select>
+        </div>
+
+        <div class="mb-3">
+
+            <label>Url</label>
+
+            <input v-model="imagen.Url"
+                   class="form-control"
+                   type="text" />
+
+        </div>
+
+        <div class="mb-3">
+
+            <label>EsPortada</label>
+
+            <input v-model="imagen.EsPortada"
+                   type="checkbox" />
+
+        </div>
+
+        <button type="submit" class="btn btn-success">
+            Guardar cambios
+        </button>
+
+        <a class="btn btn-secondary" href="/Imagen">
+            Cancelar
+        </a>
+
+    </form>
+
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="~/vue/Imagen.js"></script>
+

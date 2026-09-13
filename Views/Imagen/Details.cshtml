@@ -1,0 +1,47 @@
+
+<div id="app">
+
+    <h1>Detalles de la Imagen</h1>
+
+    <div v-if="imagen">
+
+        <p>
+            <strong>Id Imagen:</strong>
+            {{ imagen.IdImagen }}
+        </p>
+
+        <p>
+            <strong>Inmueble:</strong>
+            {{ obtenerDireccionInmueble() }}
+        </p>
+
+        <p>
+            <strong>Url:</strong>
+            {{ imagen.Url }}
+        </p>
+
+        <p>
+            <strong>Imagen:</strong>
+        </p>
+
+        <img v-if="imagen.Url"
+             :src="imagen.Url"
+             alt="Imagen del inmueble"
+             style="width: 300px; height: 200px; object-fit: cover; border-radius: 8px;">
+
+        <p>
+            <strong>EsPortada:</strong>
+            {{ imagen.EsPortada }}
+        </p>
+
+    </div>
+
+    <a href="/Imagen" class="btn btn-secondary">
+        Volver
+    </a>
+
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="~/vue/Imagen.js"></script>
+

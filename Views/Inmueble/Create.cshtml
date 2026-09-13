@@ -4,21 +4,20 @@
 
 <form @@submit.prevent="crearInmueble">
 
-    <label>Dirección</label>
-    <input v-model="inmueble.Direccion" class="form-control" />
+<label>Dirección</label>
+<input v-model="inmueble.Direccion" class="form-control" />
 
-    <label>Cupo</label>
-    <input v-model="inmueble.Cupo" class="form-control" />
+<label>Cupo</label>
+<input v-model="inmueble.Cupo" class="form-control" />
 
-    <label>Coordenadas</label>
-    <input v-model="inmueble.Coordenadas" class="form-control" />
+<label>Coordenadas</label>
+<input v-model="inmueble.Coordenadas" class="form-control" />
 
-    <label>Precio por día</label>
-    <input v-model="inmueble.PrecioPorDia" class="form-control" />
+<label>Precio por día</label>
+<input v-model="inmueble.PrecioPorDia" class="form-control" />
 
-    
-    <label>Tipo de Inmueble</label>
-    <select v-model="inmueble.IdTipoInmueble" class="form-control">
+<label>Tipo de Inmueble</label>
+<select v-model="inmueble.IdTipoInmueble" class="form-control">
     <option value="0">-- Seleccione un tipo --</option>
 
     <option v-for="tipo in tipos"
@@ -26,26 +25,23 @@
             :value="tipo.IdTipoInmueble">
         {{tipo.Nombre}}
     </option>
-    </select>
+</select>
 
-    <label>Disponible</label>
-    <input v-model="inmueble.Disponible" type="checkbox" />
+<br>
 
-    <label>Imagen de portada</label>
-    <input v-model="inmueble.ImagenPortada" class="form-control" />
+<button type="submit" class="btn btn-success">
+    Guardar
+</button>
 
-    <br>
+<a href="/Inmueble" class="btn btn-secondary">
+    Cancelar
+</a>
 
-    <button type="submit" class="btn btn-success">
-        Guardar
-    </button>
 
-    <a href="/Inmueble" class="btn btn-secondary">
-        Cancelar
-    </a>
-
-    </form>
+</form>
 
 </div>
-<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> 
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
 <script src="~/vue/Inmueble.js"></script>

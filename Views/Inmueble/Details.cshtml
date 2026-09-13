@@ -2,19 +2,114 @@
 
 <h2>Detalles de Inmueble</h2>
 
-<div  v-if="inmueble">
-    <p><strong>IdInmueble:</strong> {{inmueble.IdInmueble}}</p>
-    <p><strong>Direccion:</strong> {{inmueble.Direccion}}</p>
-    <p><strong>Cupo:</strong> {{inmueble.Cupo}}</p>
-    <p><strong>Coordenadas:</strong> {{inmueble.Coordenadas}}</p>
-    <p><strong> PrecioPorDia :</strong> {{inmueble.PrecioPorDia}}</p>
-    <p><strong>Disponible</strong> {{inmueble.Disponible}}</p>
-    <p><strong>ImagenPortada</strong> {{inmueble.ImagenPortada}} </p>
+<div v-if="inmueble">
+
+    <p>
+        <strong>IdInmueble:</strong>
+        {{ inmueble.IdInmueble }}
+    </p>
+
+    <p>
+        <strong>Direccion:</strong>
+        {{ inmueble.Direccion }}
+    </p>
+
+    <p>
+        <strong>Cupo:</strong>
+        {{ inmueble.Cupo }}
+    </p>
+
+    <p>
+        <strong>Coordenadas:</strong>
+        {{ inmueble.Coordenadas }}
+    </p>
+
+    <p>
+        <strong>PrecioPorDia:</strong>
+        {{ inmueble.PrecioPorDia }}
+    </p>
+
+    <p>
+        <strong>Disponible:</strong>
+        {{ inmueble.Disponible }}
+    </p>
+
 </div>
 
-<a href="/Inmueble" class="btn btn-secondary">
-    Volver
-</a>
+
+
+
+<hr>
+
+<h3>Imágenes del inmueble</h3>
+
+
+<div v-if="imagenes.length > 0"
+     style="
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+     ">
+
+    <div v-for="imagen in imagenes"
+         :key="imagen.IdImagen"
+         style="
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            width: 270px;
+         ">
+
+        <img :src="imagen.Url"
+             alt="Imagen del inmueble"
+             style="
+                width: 250px;
+                height: 170px;
+                object-fit: cover;
+                border-radius: 8px;
+             ">
+
+
+        <div v-if="imagen.EsPortada"
+             style="
+                margin-top: 8px;
+                font-weight: bold;
+                color: green;
+             ">
+
+            PORTADA
+
+        </div>
+
+    </div>
+
 </div>
+
+
+<div v-else>
+
+    <p>
+        Este inmueble no tiene imágenes.
+    </p>
+
+</div>
+
+
+<br>
+
+
+<a href="/Inmueble"
+   class="btn btn-secondary">
+
+    Volver
+
+</a>
+
+
+</div>
+
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
 <script src="~/vue/Inmueble.js"></script>

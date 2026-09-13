@@ -1,0 +1,77 @@
+
+<div id="app">
+
+    <h2>Lista de Imagen</h2>
+
+    <a asp-action="Create" class="btn btn-primary">
+        Nueva Imagen
+    </a>
+
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>IdImagen</th>
+                <th>IdInmueble</th>
+                <th>Imagen</th>
+                <th>EsPortada</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr v-for="imagen in imagenes"
+                :key="imagen.IdImagen">
+
+                <td>
+                    {{ imagen.IdImagen }}
+                </td>
+
+                <td>
+                    {{ imagen.IdInmueble }}
+                </td>
+
+                <td>
+                    <img :src="imagen.Url"
+                         alt="Imagen del inmueble"
+                         style="width: 180px;
+                                height: 120px;
+                                object-fit: cover;
+                                border-radius: 8px;">
+                </td>
+
+                <td>
+                    {{ imagen.EsPortada ? "Sí" : "No" }}
+                </td>
+
+                <td>
+
+                    <a :href="'/Imagen/Edit/' + imagen.IdImagen"
+                       class="btn btn-warning">
+                        Editar
+                    </a>
+
+                    <a :href="'/Imagen/Delete/' + imagen.IdImagen"
+                       class="btn btn-danger">
+                        Eliminar
+                    </a>
+
+                    <a :href="'/Imagen/Details/' + imagen.IdImagen"
+                       class="btn btn-info">
+                        Details
+                    </a>
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="~/vue/Imagen.js"></script>
+

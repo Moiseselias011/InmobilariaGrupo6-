@@ -1,37 +1,71 @@
+
 <div id="app">
 
-<h2>Lista de Inmueble</h2>
+    <h2>Lista de Inmueble</h2>
 
-<a asp-action="Create" class="btn btn-primary">  Nuevo Inmueble</a>
+    <a asp-action="Create" class="btn btn-primary">
+        Nuevo Inmueble
+    </a>
 
-<table class="table">
-    <thead>
-        <tr>
-           
-            <th>Direccion</th>
-            <th>Cupo</th>
-            <th>Coordenadas</th>
-            <th>PrecioPorDia</th>
-            <th>Disponible</th>
-            <th>ImagenPortada</th>
-        </tr>
-    </thead>
+    <table class="table">
 
-    <tbody>
-       
-            <tr v-for="inmueble in inmuebles" 
-            :key="inmueble.IdInmueble">
-              
-                <td>{{inmueble.Direccion}}</td>
-                <td>{{inmueble.Cupo}}</td>
-                <td>{{inmueble.Coordenadas}}</td>
-                <td>{{inmueble.PrecioPorDia}}</td>
-                <td>{{inmueble.Disponible}}</td>
-                <td>{{inmueble.ImagenPortada}}</td>
+        <thead>
+            <tr>
+                <th>Direccion</th>
+                <th>Cupo</th>
+                <th>Coordenadas</th>
+                <th>PrecioPorDia</th>
+                <th>Disponible</th>
+                <th>ImagenPortada</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr v-for="inmueble in inmuebles"
+                :key="inmueble.IdInmueble">
 
                 <td>
+                    {{ inmueble.Direccion }}
+                </td>
+
+                <td>
+                    {{ inmueble.Cupo }}
+                </td>
+
+                <td>
+                    {{ inmueble.Coordenadas }}
+                </td>
+
+                <td>
+                    {{ inmueble.PrecioPorDia }}
+                </td>
+
+                <td>
+                    {{ inmueble.Disponible }}
+                </td>
+
+                <td>
+
+                    <img v-if="inmueble.ImagenPortada"
+                         :src="inmueble.ImagenPortada"
+                         alt="Imagen de portada"
+                         style="width: 180px;
+                                height: 120px;
+                                object-fit: cover;
+                                border-radius: 8px;">
+
+                    <span v-else>
+                        Sin imagen
+                    </span>
+
+                </td>
+
+                <td>
+
                     <a :href="'/Inmueble/Edit/' + inmueble.IdInmueble"
-                        class="btn btn-warning">
+                       class="btn btn-warning">
                         Editar
                     </a>
 
@@ -41,15 +75,20 @@
                     </a>
 
                     <a :href="'/Inmueble/Details/' + inmueble.IdInmueble"
-                       class="btn btn-warning">
-                       Details
-                    </a> 
+                       class="btn btn-info">
+                        Details
+                    </a>
 
                 </td>
+
             </tr>
-        
-    </tbody>
-</table>
-</div> 
+
+        </tbody>
+
+    </table>
+
+</div>
+
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script src="~/vue/Inmueble.js"></script>
+
