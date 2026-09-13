@@ -1,58 +1,50 @@
-@model InmobilariaGrupo6_.Models.Usuario
 
-@{
-    ViewData["Title"] = "Eliminar Usuario";
-}
+<div id="app">
 
-<h1>Eliminar Usuario</h1>
+    <h1>Eliminar Usuario</h1>
 
-<h3>¿Está seguro de que desea eliminar este usuario?</h3>
+    <h3>¿Está seguro de que desea eliminar este usuario?</h3>
 
-<hr />
+    <hr />
 
-<dl class="row">
+    <div v-if="usuario">
 
-    <dt class="col-sm-3">
-        @Html.DisplayNameFor(model => model.Nombre)
-    </dt>
-    <dd class="col-sm-9">
-        @Html.DisplayFor(model => model.Nombre)
-    </dd>
+        <p>
+            <strong>Nombre:</strong>
+            {{usuario.Nombre}}
+        </p>
 
-    <dt class="col-sm-3">
-        @Html.DisplayNameFor(model => model.Apellido)
-    </dt>
-    <dd class="col-sm-9">
-        @Html.DisplayFor(model => model.Apellido)
-    </dd>
+        <p>
+            <strong>Apellido:</strong>
+            {{usuario.Apellido}}
+        </p>
 
-    <dt class="col-sm-3">
-        @Html.DisplayNameFor(model => model.Email)
-    </dt>
-    <dd class="col-sm-9">
-        @Html.DisplayFor(model => model.Email)
-    </dd>
+        <p>
+            <strong>Email:</strong>
+            {{usuario.Email}}
+        </p>
 
-    <dt class="col-sm-3">
-        @Html.DisplayNameFor(model => model.Rol)
-    </dt>
-    <dd class="col-sm-9">
-        @Html.DisplayFor(model => model.Rol)
-    </dd>
+        <p>
+            <strong>Rol:</strong>
+            {{usuario.Rol}}
+        </p>
 
-</dl>
+    </div>
 
-<form asp-action="DeleteConfirmed" method="post">
+    <br>
 
-    <input type="hidden" asp-for="IdUsuario" />
+    <button @@click="eliminar"
+            class="btn btn-danger">
+        Eliminar
+    </button>
 
-    <input type="submit"
-           value="Eliminar"
-           class="btn btn-danger" />
-
-    <a asp-action="Index"
+    <a href="/Usuario"
        class="btn btn-secondary">
         Cancelar
     </a>
 
-</form>
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="~/vue/Usuario.js"></script>
+

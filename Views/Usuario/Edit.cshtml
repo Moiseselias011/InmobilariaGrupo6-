@@ -1,63 +1,66 @@
-@model InmobilariaGrupo6_.Models.Usuario
 
-@{
-    ViewData["Title"] = "Editar Usuario";
-}
+<div id="app">
 
-<h1>Editar Usuario</h1>
+    <h1>Editar Usuario</h1>
 
-<hr />
+    <hr />
 
-<div class="row">
-    <div class="col-md-6">
+    <form @@submit.prevent="editarUsuario">
 
-        <form asp-action="Edit" method="post">
+        <input type="hidden"
+               v-model="usuario.IdUsuario" />
 
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="mb-3">
+            <label>Nombre</label>
+            <input v-model="usuario.Nombre"
+                   class="form-control" />
+        </div>
 
-            <input type="hidden" asp-for="IdUsuario" />
+        <div class="mb-3">
+            <label>Apellido</label>
+            <input v-model="usuario.Apellido"
+                   class="form-control" />
+        </div>
 
-            <div class="form-group mb-3">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
-            </div>
+        <div class="mb-3">
+            <label>Email</label>
+            <input v-model="usuario.Email"
+                   class="form-control" />
+        </div>
 
-            <div class="form-group mb-3">
-                <label asp-for="Apellido" class="control-label"></label>
-                <input asp-for="Apellido" class="form-control" />
-                <span asp-validation-for="Apellido" class="text-danger"></span>
-            </div>
+        <div class="mb-3">
+            <label>Password</label>
+            <input v-model="usuario.Password"
+                   type="password"
+                   class="form-control" />
+        </div>
 
-            <div class="form-group mb-3">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
+        <div class="mb-3">
+            <label>Rol</label>
 
-            <div class="form-group mb-3">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" type="password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
+            <select v-model="usuario.Rol"
+                    class="form-control">
 
-            <div class="form-group mb-3">
-                <label asp-for="Rol" class="control-label"></label>
+                <option value="Administrador">Administrador</option>
+                <option value="Empleado">Empleado</option>
 
-                <select asp-for="Rol" class="form-control">
-                    <option value="Administrador">Administrador</option>
-                    <option value="Empleado">Empleado</option>
-                </select>
+            </select>
+        </div>
 
-                <span asp-validation-for="Rol" class="text-danger"></span>
-            </div>
+        <button type="submit"
+                class="btn btn-primary">
+            Guardar cambios
+        </button>
 
-            <div class="form-group">
-                <input type="submit" value="Guardar cambios" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">Volver</a>
-            </div>
+        <a href="/Usuario"
+           class="btn btn-secondary">
+            Volver
+        </a>
 
-        </form>
+    </form>
 
-    </div>
 </div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="~/vue/Usuario.js"></script>
+

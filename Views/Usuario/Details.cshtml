@@ -1,61 +1,55 @@
-@model InmobilariaGrupo6_.Models.Usuario
 
-@{
-    ViewData["Title"] = "Detalles del Usuario";
-}
+<div id="app">
 
-<h1>Detalles del Usuario</h1>
+    <h1>Detalles del Usuario</h1>
 
-<hr />
+    <hr />
 
-<dl class="row">
+    <div v-if="usuario">
 
-    <dt class="col-sm-3">
-        @Html.DisplayNameFor(model => model.IdUsuario)
-    </dt>
-    <dd class="col-sm-9">
-        @Html.DisplayFor(model => model.IdUsuario)
-    </dd>
+        <p>
+            <strong>Id Usuario:</strong>
+            {{usuario.IdUsuario}}
+        </p>
 
-    <dt class="col-sm-3">
-        @Html.DisplayNameFor(model => model.Nombre)
-    </dt>
-    <dd class="col-sm-9">
-        @Html.DisplayFor(model => model.Nombre)
-    </dd>
+        <p>
+            <strong>Nombre:</strong>
+            {{usuario.Nombre}}
+        </p>
 
-    <dt class="col-sm-3">
-        @Html.DisplayNameFor(model => model.Apellido)
-    </dt>
-    <dd class="col-sm-9">
-        @Html.DisplayFor(model => model.Apellido)
-    </dd>
+        <p>
+            <strong>Apellido:</strong>
+            {{usuario.Apellido}}
+        </p>
 
-    <dt class="col-sm-3">
-        @Html.DisplayNameFor(model => model.Email)
-    </dt>
-    <dd class="col-sm-9">
-        @Html.DisplayFor(model => model.Email)
-    </dd>
+        <p>
+            <strong>Email:</strong>
+            {{usuario.Email}}
+        </p>
 
-    <dt class="col-sm-3">
-        @Html.DisplayNameFor(model => model.Rol)
-    </dt>
-    <dd class="col-sm-9">
-        @Html.DisplayFor(model => model.Rol)
-    </dd>
+        <p>
+            <strong>Rol:</strong>
+            {{usuario.Rol}}
+        </p>
 
-</dl>
+    </div>
 
-<div>
-    <a asp-action="Edit"
-       asp-route-id="@Model.IdUsuario"
-       class="btn btn-warning">
-        Editar
-    </a>
+    <div>
 
-    <a asp-action="Index"
-       class="btn btn-secondary">
-        Volver
-    </a>
+        <a :href="'/Usuario/Edit/' + usuario.IdUsuario"
+           class="btn btn-warning">
+            Editar
+        </a>
+
+        <a href="/Usuario"
+           class="btn btn-secondary">
+            Volver
+        </a>
+
+    </div>
+
 </div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="~/vue/Usuario.js"></script>
+
