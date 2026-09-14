@@ -15,6 +15,7 @@ builder.Services.AddScoped<RepositorioInmueble>();
 builder.Services.AddScoped<RepositorioReserva>();
 builder.Services.AddScoped<RepositorioUsuario>();
 builder.Services.AddScoped<RepositorioImagen>();
+builder.Services.AddScoped<RepositorioPago>();
 
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
