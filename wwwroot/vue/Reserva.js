@@ -1,10 +1,10 @@
-
 console.log(" RESERVA.JS CARGADO");
 
 const app = Vue.createApp({
     data() {
         return {
             reservas: [],
+            inquilinos: [],
 
             reserva: {
                 IdReserva: 0,
@@ -23,6 +23,31 @@ const app = Vue.createApp({
         const ruta = window.location.pathname;
 
         console.log(" RUTA:", ruta);
+        console.log(" URL:", window.location.href);
+        console.log(" PARAMETROS:", window.location.search);
+
+        // CREATE
+        if (ruta === "/Reserva/Create") {
+
+            const parametros = new URLSearchParams(window.location.search);
+
+            console.log(" ID INMUEBLE URL:", parametros.get("idInmueble"));
+            console.log(" FECHA INICIO URL:", parametros.get("fechaInicio"));
+            console.log(" FECHA FIN URL:", parametros.get("fechaFin"));
+
+            this.reserva.IdInmueble =
+                parametros.get("idInmueble") || 0;
+
+            this.reserva.FechaInicio =
+                parametros.get("fechaInicio") || "";
+
+            this.reserva.FechaFin =
+                parametros.get("fechaFin") || "";
+
+            console.log(" RESERVA CARGADA:", this.reserva);
+
+            this.listarInquilinos();
+        }
 
         // INDEX
         if (ruta === "/Reserva" || ruta === "/Reserva/") {
@@ -41,13 +66,49 @@ const app = Vue.createApp({
 
     methods: {
 
+        // LISTAR INQUILINOS
+        listarInquilinos() {
+            console.log(" LISTAR INQUILINOS EJECUTADO");
+
+            fetch("/api/ControllerInquilino")
+                .then(response => {
+
+                    console.log(
+                        " RESPUESTA INQUILINOS:",
+                        response.status
+                    );
+
+                    if (!response.ok) {
+                        throw new Error("Error al obtener inquilinos");
+                    }
+
+                    return response.json();
+                })
+                .then(data => {
+
+                    console.log(" INQUILINOS:", data);
+
+                    this.inquilinos = data;
+                })
+                .catch(error => {
+                    console.error(
+                        " ERROR INQUILINOS:",
+                        error
+                    );
+                });
+        },
+
         // INDEX
         listarReservas() {
             console.log(" LISTAR RESERVAS EJECUTADO");
 
             fetch("/api/ControllerReserva")
                 .then(response => {
-                    console.log(" RESPUESTA LISTAR:", response.status);
+
+                    console.log(
+                        " RESPUESTA LISTAR:",
+                        response.status
+                    );
 
                     if (!response.ok) {
                         throw new Error("Error al obtener reservas");
@@ -56,6 +117,7 @@ const app = Vue.createApp({
                     return response.json();
                 })
                 .then(data => {
+
                     console.log(" RESERVAS:", data);
 
                     this.reservas = data;
@@ -80,7 +142,11 @@ const app = Vue.createApp({
                 body: JSON.stringify(this.reserva)
             })
                 .then(response => {
-                    console.log(" CREAR RESERVA RESPUESTA:", response.status);
+
+                    console.log(
+                        " CREAR RESERVA RESPUESTA:",
+                        response.status
+                    );
 
                     if (!response.ok) {
                         throw new Error("Error al crear reserva");
@@ -89,17 +155,21 @@ const app = Vue.createApp({
                     window.location.href = "/Reserva";
                 })
                 .catch(error => {
-                    console.error(" CREAR RESERVA ERROR:", error);
+                    console.error(
+                        " CREAR RESERVA ERROR:",
+                        error
+                    );
                 });
         },
 
-        // EDIT / DELETE / DETAILS
+        // OBTENER ID
         obtenerId() {
             const partes = window.location.pathname.split("/");
 
             return partes[partes.length - 1];
         },
 
+        // OBTENER RESERVA
         obtenerReserva() {
             const id = this.obtenerId();
 
@@ -107,7 +177,11 @@ const app = Vue.createApp({
 
             fetch("/api/ControllerReserva/ConDetalles/" + id)
                 .then(response => {
-                    console.log(" OBTENER RESERVA RESPUESTA:", response.status);
+
+                    console.log(
+                        " OBTENER RESERVA RESPUESTA:",
+                        response.status
+                    );
 
                     if (!response.ok) {
                         throw new Error("Error al obtener reserva");
@@ -116,12 +190,16 @@ const app = Vue.createApp({
                     return response.json();
                 })
                 .then(data => {
+
                     console.log(" RESERVA:", data);
 
                     this.reserva = data;
                 })
                 .catch(error => {
-                    console.error(" OBTENER RESERVA ERROR:", error);
+                    console.error(
+                        " OBTENER RESERVA ERROR:",
+                        error
+                    );
                 });
         },
 
@@ -140,7 +218,11 @@ const app = Vue.createApp({
                 body: JSON.stringify(this.reserva)
             })
                 .then(response => {
-                    console.log(" EDITAR RESERVA RESPUESTA:", response.status);
+
+                    console.log(
+                        " EDITAR RESERVA RESPUESTA:",
+                        response.status
+                    );
 
                     if (!response.ok) {
                         throw new Error("Error al editar reserva");
@@ -149,7 +231,10 @@ const app = Vue.createApp({
                     window.location.href = "/Reserva";
                 })
                 .catch(error => {
-                    console.error(" EDITAR RESERVA ERROR:", error);
+                    console.error(
+                        " EDITAR RESERVA ERROR:",
+                        error
+                    );
                 });
         },
 
@@ -163,7 +248,11 @@ const app = Vue.createApp({
                 method: "DELETE"
             })
                 .then(response => {
-                    console.log(" ELIMINAR RESERVA RESPUESTA:", response.status);
+
+                    console.log(
+                        " ELIMINAR RESERVA RESPUESTA:",
+                        response.status
+                    );
 
                     if (!response.ok) {
                         throw new Error("Error al eliminar reserva");
@@ -172,11 +261,13 @@ const app = Vue.createApp({
                     window.location.href = "/Reserva";
                 })
                 .catch(error => {
-                    console.error(" ELIMINAR RESERVA ERROR:", error);
+                    console.error(
+                        " ELIMINAR RESERVA ERROR:",
+                        error
+                    );
                 });
         }
     }
 });
 
 app.mount("#app");
-

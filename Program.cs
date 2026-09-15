@@ -1,3 +1,5 @@
+
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using InmobilariaGrupo6_.Data;
 using InmobilariaGrupo6_.Repositories;
@@ -16,6 +18,13 @@ builder.Services.AddScoped<RepositorioReserva>();
 builder.Services.AddScoped<RepositorioUsuario>();
 builder.Services.AddScoped<RepositorioImagen>();
 builder.Services.AddScoped<RepositorioPago>();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Login";
+        options.AccessDeniedPath = "/Login/AccesoDenegado";
+    });
 
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
@@ -37,6 +46,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();
@@ -46,3 +57,4 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+

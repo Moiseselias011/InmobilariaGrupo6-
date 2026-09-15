@@ -6,10 +6,24 @@
 <form @@submit.prevent="crearReserva">
 
     <div class="mb-3">
-        <label>Id Inquilino</label>
-        <input v-model="reserva.IdInquilino"
-               class="form-control"
-               type="number" />
+    <label>Inquilino</label>
+
+    <select v-model="reserva.IdInquilino"
+            class="form-control">
+
+        <option value="0">
+            Seleccione un inquilino
+        </option>
+
+        <option v-for="inquilino in inquilinos"
+                :key="inquilino.IdInquilino"
+                :value="inquilino.IdInquilino">
+
+            {{ inquilino.NombreCompleto }} 
+
+        </option>
+
+    </select>
     </div>
 
     <div class="mb-3">

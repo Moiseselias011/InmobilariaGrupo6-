@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using InmobilariaGrupo6_.Models;
 using InmobilariaGrupo6_.Repositories;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace InmobilariaGrupo6_.Controllers
 {
@@ -20,10 +22,24 @@ namespace InmobilariaGrupo6_.Controllers
             return View(reservas);
         }
 
-        public IActionResult Create()
-        {
-            return View();
-        }
+       
+    public IActionResult Create(
+    int? idInmueble,
+    DateTime? fechaInicio,
+    DateTime? fechaFin)
+    {
+    Console.WriteLine("ID INMUEBLE: " + idInmueble);
+    Console.WriteLine("FECHA INICIO: " + fechaInicio);
+    Console.WriteLine("FECHA FIN: " + fechaFin);
+
+    ViewBag.IdInmueble = idInmueble;
+    ViewBag.FechaInicio = fechaInicio;
+    ViewBag.FechaFin = fechaFin;
+
+    return View();
+    }
+
+
 
         [HttpPost]
         public IActionResult Create(Reserva reserva)
@@ -75,7 +91,7 @@ namespace InmobilariaGrupo6_.Controllers
             return View(reserva);
         }
 
-        [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public IActionResult DeleteConfirmed(int id)
         {
             _repositorio.Delete(id);

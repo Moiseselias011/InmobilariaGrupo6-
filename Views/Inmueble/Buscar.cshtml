@@ -1,0 +1,128 @@
+
+
+<div id="app">
+
+    <h2>Buscar Inmueble</h2>
+
+    <form @@submit.prevent="buscarInmuebles">
+
+
+
+       <div class="mb-3">
+        <label>Dirección</label>
+        <select v-model="filtros.Direccion"
+            class="form-control">
+
+        <option value="">Todas</option>
+
+        <option v-for="direccion in direcciones"
+                :key="direccion"
+                :value="direccion">
+
+            {{ direccion }}
+
+        </option>
+        </select>
+        </div>
+
+
+
+        <div class="mb-3">
+            <label>Tipo de Inmueble</label>
+
+            <select v-model="filtros.IdTipoInmueble"
+                    class="form-control">
+
+                <option value="">Todos</option>
+
+                @foreach (var tipo in ViewBag.Tipos)
+                {
+                    <option value="@tipo.IdTipoInmueble">
+                        @tipo.Nombre
+                    </option>
+                }
+
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label>Cupo mínimo</label>
+            <input type="number"
+                   v-model="filtros.Cupo"
+                   class="form-control"
+                   min="1" />
+        </div>
+
+        <div class="mb-3">
+            <label>Fecha de inicio</label>
+            <input type="date"
+                   v-model="filtros.FechaInicio"
+                   class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label>Fecha de fin</label>
+            <input type="date"
+                   v-model="filtros.FechaFin"
+                   class="form-control" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Buscar
+        </button>
+
+    </form>
+
+    <hr />
+
+    <h3 v-if="buscado">Resultados</h3>
+
+
+<p v-if="buscado && inmuebles.length === 0">
+    No se encontraron inmuebles disponibles.
+</p>
+
+<div v-for="inmueble in inmuebles"
+     :key="inmueble.IdInmueble"
+     class="card mb-3">
+
+    <div class="card-body">
+
+        <h5 class="card-title">
+            {{ inmueble.Direccion }}
+        </h5>
+
+        <p>
+            <strong>Cupo:</strong>
+            {{ inmueble.Cupo }}
+        </p>
+
+        <p>
+            <strong>Precio por día:</strong>
+            ${{ inmueble.PrecioPorDia }}
+        </p>
+
+        <p v-if="inmueble.Coordenadas">
+            <strong>Coordenadas:</strong>
+            {{ inmueble.Coordenadas }}
+        </p>
+
+       
+        <button type="button"
+        class="btn btn-success"
+        @@click="reservar(inmueble)">
+         Reservar
+        </button>
+ 
+
+
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="~/vue/BuscarInmueble.js"></script>
+

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using InmobilariaGrupo6_.Models;
 using InmobilariaGrupo6_.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InmobilariaGrupo6_.Controllers
 {
@@ -74,7 +75,7 @@ namespace InmobilariaGrupo6_.Controllers
             return View(tipoInmueble);
         }
 
-        [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public IActionResult DeleteConfirmed(int id)
         {
             _repositorio.Delete(id);

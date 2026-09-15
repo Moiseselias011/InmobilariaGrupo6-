@@ -1,7 +1,8 @@
+
 using Microsoft.EntityFrameworkCore;
 using InmobilariaGrupo6_.Models;
 
-namespace  InmobilariaGrupo6_.Data
+namespace InmobilariaGrupo6_.Data
 {
     public class InmobiliariaContext : DbContext
     {
@@ -9,6 +10,7 @@ namespace  InmobilariaGrupo6_.Data
             : base(options)
         {
         }
+
         public DbSet<TipoInmueble> TipoInmueble { get; set; }
         public DbSet<Propietario> Propietario { get; set; }
         public DbSet<Inquilino> Inquilinos { get; set; }
@@ -18,5 +20,22 @@ namespace  InmobilariaGrupo6_.Data
         public DbSet<Imagen> Imagen { get; set; }
         public DbSet<Pago> Pago { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Usuario>().HasData(
+                new Usuario
+                {
+                    IdUsuario = 1,
+                    Nombre = "Administrador",
+                    Apellido = "Sistema",
+                    Email = "admin@inmobiliaria.com",
+                    Password = "1234",
+                    Rol = "Administrador"
+                }
+            );
+        }
     }
 }
+

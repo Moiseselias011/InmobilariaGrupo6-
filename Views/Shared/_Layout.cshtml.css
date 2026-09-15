@@ -1,43 +1,134 @@
-﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
+﻿
+html {
+  font-size: 14px;
+}
+
+body {
+  margin-bottom: 60px;
+  background-color: #f8f9fa;
+  color: #333;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* NAVBAR */
 
 a.navbar-brand {
   white-space: normal;
   text-align: center;
-  word-break: break-all;
+  word-break: break-word;
+  font-weight: 600;
+  font-size: 1.2rem;
 }
 
 a {
-  color: #0077cc;
+  color: #2563eb;
+  text-decoration: none;
+  transition: 0.2s;
 }
+
+a:hover {
+  color: #1d4ed8;
+}
+
+/* BOTONES */
 
 .btn-primary {
   color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+  background-color: #2563eb;
+  border-color: #2563eb;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-weight: 500;
+  transition: 0.2s;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+.btn-primary:hover {
+  background-color: #1d4ed8;
+  border-color: #1d4ed8;
+  transform: translateY(-1px);
 }
+
+/* NAV PILLS */
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #2563eb;
+  border-color: #2563eb;
+  border-radius: 8px;
+}
+
+/* BORDES */
 
 .border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+  border-top: 1px solid #e5e7eb;
 }
 
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+.border-bottom {
+  border-bottom: 1px solid #e5e7eb;
 }
+
+/* SOMBRA */
+
+.box-shadow {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* FORMULARIOS */
+
+.form-control,
+.form-select {
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  padding: 9px 12px;
+  transition: 0.2s;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* TARJETAS */
+
+.card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+}
+
+/* TABLAS */
+
+.table {
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table thead {
+  background-color: #2563eb;
+  color: white;
+}
+
+.table th {
+  font-weight: 600;
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+  padding: 12px;
+}
+
+/* BOTÓN DE POLÍTICA */
 
 button.accept-policy {
   font-size: 1rem;
   line-height: inherit;
 }
+
+/* FOOTER */
 
 .footer {
   position: absolute;
@@ -45,4 +136,8 @@ button.accept-policy {
   width: 100%;
   white-space: nowrap;
   line-height: 60px;
+  background-color: #fff;
+  border-top: 1px solid #e5e7eb;
+  color: #6b7280;
 }
+

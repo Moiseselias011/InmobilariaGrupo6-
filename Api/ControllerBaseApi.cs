@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using InmobilariaGrupo6_.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InmobilariaGrupo6_.Api.Controllers;
 
@@ -39,7 +40,7 @@ public abstract class ControllerApiBase<T> : ControllerBase where T : class
         _context.Set<T>().Update(entidad);
         _context.SaveChanges();
     }
-
+    [Authorize(Roles = "Administrador")]
     [HttpDelete("{id}")]
     public void Delete(int id)
     {

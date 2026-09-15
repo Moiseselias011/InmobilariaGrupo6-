@@ -1,25 +1,27 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using InmobilariaGrupo6_.Models;
 
 namespace InmobilariaGrupo6_.Controllers;
 
+[Authorize(Roles = "Administrador")]
 public class UsuarioController : Controller
 {
-    // GET: Usuario
+    //  Usuario
     public IActionResult Index()
     {
         return View();
     }
 
-    // GET: Usuario/Create
+    //  Usuario/Create
     public IActionResult Create()
     {
         return View();
     }
 
-    // POST: Usuario/Create
+    //  Usuario/Create
     [HttpPost]
-    [ValidateAntiForgeryToken]
+    
     public IActionResult Create(Usuario usuario)
     {
         if (ModelState.IsValid)
@@ -30,15 +32,15 @@ public class UsuarioController : Controller
         return View(usuario);
     }
 
-    // GET: Usuario/Edit/5
+    // Usuario/Edit
     public IActionResult Edit(int id)
     {
         return View();
     }
 
-    // POST: Usuario/Edit/5
+    //  Usuario/Edit
     [HttpPost]
-    [ValidateAntiForgeryToken]
+    
     public IActionResult Edit(int id, Usuario usuario)
     {
         if (id != usuario.IdUsuario)
@@ -53,22 +55,21 @@ public class UsuarioController : Controller
 
         return View(usuario);
     }
-
-    // GET: Usuario/Details/5
+    //  Usuario/Details
     public IActionResult Details(int id)
     {
         return View();
     }
 
-    // GET: Usuario/Delete/5
+    //  Usuario/Delete
     public IActionResult Delete(int id)
     {
         return View();
     }
 
-    // POST: Usuario/Delete/5
+    // Usuario/Delete
     [HttpPost]
-    [ValidateAntiForgeryToken]
+    
     public IActionResult DeleteConfirmed(int id)
     {
         return RedirectToAction(nameof(Index));

@@ -5,6 +5,7 @@ namespace InmobilariaGrupo6_.Models;
     {
     [Key]
     public int idPropietario {get ; set ;}
+    public int IdUsuario { get; set; }
     [Required]
     public string nombre {get ; set ; }
     [Required]

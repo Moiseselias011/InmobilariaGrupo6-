@@ -1,6 +1,7 @@
 using InmobilariaGrupo6_.Models;
 using InmobilariaGrupo6_.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InmobilariaGrupo6_.Controllers
 {
@@ -83,7 +84,7 @@ namespace InmobilariaGrupo6_.Controllers
             return View(inmueble);
         }
 
-        [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public IActionResult DeleteConfirmed(int id)
         {
             _repositorio.Delete(id);
@@ -100,15 +101,20 @@ namespace InmobilariaGrupo6_.Controllers
             }
 
             return View(inmueble);
-        } 
+        }  
+        
+        public IActionResult Buscar()
+        {
+        var tipos = _repositorioTipo.GetAll();
 
-    }
+        ViewBag.Tipos = tipos;
+
+        return View();
+        }
 
 
 
-
-
-
+}
 
 
 }
