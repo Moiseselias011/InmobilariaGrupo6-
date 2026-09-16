@@ -22,4 +22,6 @@ public class Usuario
 
     [Required]
     public string Rol { get; set; }
+
+    public string? Avatar { get; set; }
 }
