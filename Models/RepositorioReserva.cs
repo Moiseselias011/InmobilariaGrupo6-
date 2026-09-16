@@ -11,12 +11,14 @@ namespace InmobilariaGrupo6_.Repositories
         {
         }
 
-        public Reserva? GetByIdConDetalles(int id)
-        {
-            return _context.Set<Reserva>()
-                .Include(r => r.Inquilino)
-                .Include(r => r.Inmueble)
-                .FirstOrDefault(r => r.IdReserva == id);
-        }
+       public Reserva? GetByIdConDetalles(int id)
+{
+    return _context.Set<Reserva>()
+        .Include(r => r.Inquilino)
+        .Include(r => r.Inmueble)
+        .Include(r => r.UsuarioCreacion)
+        .Include(r => r.UsuarioTerminacion)
+        .FirstOrDefault(r => r.IdReserva == id);
+      }
     }
 }

@@ -1,4 +1,3 @@
-
 using Microsoft.EntityFrameworkCore;
 using InmobilariaGrupo6_.Models;
 
@@ -35,7 +34,18 @@ namespace InmobilariaGrupo6_.Data
                     Rol = "Administrador"
                 }
             );
+
+            modelBuilder.Entity<Reserva>()
+                .HasOne(r => r.UsuarioCreacion)
+                .WithMany()
+                .HasForeignKey(r => r.IdUsuarioCreacion)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Reserva>()
+                .HasOne(r => r.UsuarioTerminacion)
+                .WithMany()
+                .HasForeignKey(r => r.IdUsuarioTerminacion)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
-

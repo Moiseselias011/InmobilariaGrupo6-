@@ -4,6 +4,7 @@ using InmobilariaGrupo6_.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InmobilariaGrupo6_.Migrations
 {
     [DbContext(typeof(InmobiliariaContext))]
-    partial class InmobiliariaContextModelSnapshot : ModelSnapshot
+    [Migration("20260916191244_AgregarAuditoriaReservaPago")]
+    partial class AgregarAuditoriaReservaPago
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -341,13 +344,12 @@ namespace InmobilariaGrupo6_.Migrations
                     b.HasOne("InmobilariaGrupo6_.Models.Usuario", "UsuarioCreacion")
                         .WithMany()
                         .HasForeignKey("IdUsuarioCreacion")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("InmobilariaGrupo6_.Models.Usuario", "UsuarioTerminacion")
                         .WithMany()
-                        .HasForeignKey("IdUsuarioTerminacion")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("IdUsuarioTerminacion");
 
                     b.Navigation("Inmueble");
 

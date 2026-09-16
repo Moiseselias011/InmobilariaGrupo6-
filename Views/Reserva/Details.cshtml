@@ -1,28 +1,57 @@
 <div id="app">
 
+
 <h1>Detalles de la Reserva</h1>
 
 <div v-if="reserva && reserva.Inquilino && reserva.Inmueble">
 
-    <p><strong> Id Reserva :</strong> {{reserva.IdReserva}} </p>
+    <p><strong>Id Reserva:</strong> {{ reserva.IdReserva }}</p>
 
-    <p><strong>Inquilino:</strong> {{reserva.Inquilino.NombreCompleto}}</p>
+    <p><strong>Inquilino:</strong> {{ reserva.Inquilino.NombreCompleto }}</p>
 
-    <p><strong>Inmueble:</strong> {{reserva.Inmueble.Direccion}}</p>
+    <p><strong>Inmueble:</strong> {{ reserva.Inmueble.Direccion }}</p>
 
-    <p><strong> Fecha de inicio :</strong>{{reserva.FechaInicio}}</p>
-     
-    <p><strong> Fecha de fin:</strong>{{reserva.FechaFin}}</p>
-        
-    <p><strong> Monto por día:</strong>{{reserva.MontoPorDia}}</p>
-       
+    <p><strong>Fecha de inicio:</strong> {{ reserva.FechaInicio }}</p>
+
+    <p><strong>Fecha de fin:</strong> {{ reserva.FechaFin }}</p>
+
+    <p><strong>Monto por día:</strong> {{ reserva.MontoPorDia }}</p>
+
+    @if (User.IsInRole("Administrador"))
+    {
+        <hr />
+
+        <h3>Auditoría</h3>
+
+        <p>
+            <strong>Creada por:</strong>
+            {{ reserva.UsuarioCreacion
+                ? reserva.UsuarioCreacion.Nombre + ' ' + reserva.UsuarioCreacion.Apellido
+                : 'No disponible' }}
+        </p>
+
+        <p>
+            <strong>Terminada por:</strong>
+            {{ reserva.UsuarioTerminacion
+                ? reserva.UsuarioTerminacion.Nombre + ' ' + reserva.UsuarioTerminacion.Apellido
+                : 'La reserva no fue terminada anticipadamente' }}
+        </p>
+
+        <p v-if="reserva.FechaTerminacion">
+            <strong>Fecha de terminación:</strong>
+            {{ reserva.FechaTerminacion }}
+        </p>
+    }
+
 </div>
 
 <a href="/Reserva" class="btn btn-secondary">
-        Volver
-    </a>
+    Volver
+</a>
+
+
 </div>
+
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-<script src="~/vue/Reserva.js"></script>  
 
-
+<script src="~/vue/Reserva.js"></script>

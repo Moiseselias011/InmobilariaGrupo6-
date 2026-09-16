@@ -27,4 +27,22 @@ public class Reserva
     [Required]
     [Column(TypeName = "decimal(18,2)")]
     public decimal MontoPorDia { get; set; }
+
+
+    // Auditoría: usuario que creó la reserva
+    [Required]
+    public int IdUsuarioCreacion { get; set; }
+
+    [ForeignKey("IdUsuarioCreacion")]
+    public Usuario? UsuarioCreacion { get; set; }
+
+
+    // Auditoria: usuario que terminó la reserva
+    public int? IdUsuarioTerminacion { get; set; }
+
+    [ForeignKey("IdUsuarioTerminacion")]
+    public Usuario? UsuarioTerminacion { get; set; }
+
+    // Fecha efectiva de terminacion anticipada
+    public DateTime? FechaTerminacion { get; set; }
 }

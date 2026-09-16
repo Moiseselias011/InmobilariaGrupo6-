@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using InmobilariaGrupo6_.Models;
 using InmobilariaGrupo6_.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 
 namespace InmobilariaGrupo6_.Controllers
@@ -41,18 +42,24 @@ namespace InmobilariaGrupo6_.Controllers
 
 
 
-        [HttpPost]
-        public IActionResult Create(Reserva reserva)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(reserva);
-            }
+      [HttpPost]
+    public IActionResult Create(Reserva reserva)
+    {
+    if (!ModelState.IsValid)
+    {
+        return View(reserva);
+    }
 
-            _repositorio.Create(reserva);
+    var idUsuario = int.Parse(
+        User.FindFirst(ClaimTypes.NameIdentifier)!.Value
+    );
 
-            return RedirectToAction(nameof(Index));
-        }
+    reserva.IdUsuarioCreacion = idUsuario;
+
+    _repositorio.Create(reserva);
+
+    return RedirectToAction(nameof(Index));
+    }
 
         public IActionResult Edit(int id)
         {

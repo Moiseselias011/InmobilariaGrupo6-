@@ -1,273 +1,276 @@
 console.log(" RESERVA.JS CARGADO");
 
 const app = Vue.createApp({
-    data() {
-        return {
-            reservas: [],
-            inquilinos: [],
+data() {
+return {
+reservas: [],
+inquilinos: [],
 
-            reserva: {
-                IdReserva: 0,
-                IdInquilino: 0,
-                IdInmueble: 0,
-                FechaInicio: "",
-                FechaFin: "",
-                MontoPorDia: 0
-            }
-        };
-    },
 
-    mounted() {
-        console.log(" VUE MONTADO");
-
-        const ruta = window.location.pathname;
-
-        console.log(" RUTA:", ruta);
-        console.log(" URL:", window.location.href);
-        console.log(" PARAMETROS:", window.location.search);
-
-        // CREATE
-        if (ruta === "/Reserva/Create") {
-
-            const parametros = new URLSearchParams(window.location.search);
-
-            console.log(" ID INMUEBLE URL:", parametros.get("idInmueble"));
-            console.log(" FECHA INICIO URL:", parametros.get("fechaInicio"));
-            console.log(" FECHA FIN URL:", parametros.get("fechaFin"));
-
-            this.reserva.IdInmueble =
-                parametros.get("idInmueble") || 0;
-
-            this.reserva.FechaInicio =
-                parametros.get("fechaInicio") || "";
-
-            this.reserva.FechaFin =
-                parametros.get("fechaFin") || "";
-
-            console.log(" RESERVA CARGADA:", this.reserva);
-
-            this.listarInquilinos();
+        reserva: {
+            IdReserva: 0,
+            IdInquilino: 0,
+            IdInmueble: 0,
+            FechaInicio: "",
+            FechaFin: "",
+            MontoPorDia: 0
         }
+    };
+},
 
-        // INDEX
-        if (ruta === "/Reserva" || ruta === "/Reserva/") {
-            this.listarReservas();
-        }
+mounted() {
+    console.log(" VUE MONTADO");
 
-        // EDIT, DELETE y DETAILS
-        if (
-            ruta.includes("/Reserva/Edit/") ||
-            ruta.includes("/Reserva/Delete/") ||
-            ruta.includes("/Reserva/Details/")
-        ) {
-            this.obtenerReserva();
-        }
-    },
+    const ruta = window.location.pathname;
 
-    methods: {
+    console.log(" RUTA:", ruta);
+    console.log(" URL:", window.location.href);
+    console.log(" PARAMETROS:", window.location.search);
 
-        // LISTAR INQUILINOS
-        listarInquilinos() {
-            console.log(" LISTAR INQUILINOS EJECUTADO");
+    // CREATE
+    if (ruta === "/Reserva/Create") {
 
-            fetch("/api/ControllerInquilino")
-                .then(response => {
+        const parametros = new URLSearchParams(window.location.search);
 
-                    console.log(
-                        " RESPUESTA INQUILINOS:",
-                        response.status
-                    );
+        console.log(" ID INMUEBLE URL:", parametros.get("idInmueble"));
+        console.log(" FECHA INICIO URL:", parametros.get("fechaInicio"));
+        console.log(" FECHA FIN URL:", parametros.get("fechaFin"));
 
-                    if (!response.ok) {
-                        throw new Error("Error al obtener inquilinos");
-                    }
+        this.reserva.IdInmueble =
+            parametros.get("idInmueble") || 0;
 
-                    return response.json();
-                })
-                .then(data => {
+        this.reserva.FechaInicio =
+            parametros.get("fechaInicio") || "";
 
-                    console.log(" INQUILINOS:", data);
+        this.reserva.FechaFin =
+            parametros.get("fechaFin") || "";
 
-                    this.inquilinos = data;
-                })
-                .catch(error => {
-                    console.error(
-                        " ERROR INQUILINOS:",
-                        error
-                    );
-                });
-        },
+        console.log(" RESERVA CARGADA:", this.reserva);
 
-        // INDEX
-        listarReservas() {
-            console.log(" LISTAR RESERVAS EJECUTADO");
-
-            fetch("/api/ControllerReserva")
-                .then(response => {
-
-                    console.log(
-                        " RESPUESTA LISTAR:",
-                        response.status
-                    );
-
-                    if (!response.ok) {
-                        throw new Error("Error al obtener reservas");
-                    }
-
-                    return response.json();
-                })
-                .then(data => {
-
-                    console.log(" RESERVAS:", data);
-
-                    this.reservas = data;
-                })
-                .catch(error => {
-                    console.error(" ERROR:", error);
-                });
-        },
-
-        // CREATE
-        crearReserva() {
-            console.log(" CREAR RESERVA EJECUTADO");
-            console.log(this.reserva);
-
-            fetch("/api/ControllerReserva", {
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify(this.reserva)
-            })
-                .then(response => {
-
-                    console.log(
-                        " CREAR RESERVA RESPUESTA:",
-                        response.status
-                    );
-
-                    if (!response.ok) {
-                        throw new Error("Error al crear reserva");
-                    }
-
-                    window.location.href = "/Reserva";
-                })
-                .catch(error => {
-                    console.error(
-                        " CREAR RESERVA ERROR:",
-                        error
-                    );
-                });
-        },
-
-        // OBTENER ID
-        obtenerId() {
-            const partes = window.location.pathname.split("/");
-
-            return partes[partes.length - 1];
-        },
-
-        // OBTENER RESERVA
-        obtenerReserva() {
-            const id = this.obtenerId();
-
-            console.log(" OBTENER RESERVA ID:", id);
-
-            fetch("/api/ControllerReserva/ConDetalles/" + id)
-                .then(response => {
-
-                    console.log(
-                        " OBTENER RESERVA RESPUESTA:",
-                        response.status
-                    );
-
-                    if (!response.ok) {
-                        throw new Error("Error al obtener reserva");
-                    }
-
-                    return response.json();
-                })
-                .then(data => {
-
-                    console.log(" RESERVA:", data);
-
-                    this.reserva = data;
-                })
-                .catch(error => {
-                    console.error(
-                        " OBTENER RESERVA ERROR:",
-                        error
-                    );
-                });
-        },
-
-        // EDIT
-        editarReserva() {
-            console.log(" EDITAR RESERVA EJECUTADO");
-            console.log(this.reserva);
-
-            fetch("/api/ControllerReserva", {
-                method: "PUT",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify(this.reserva)
-            })
-                .then(response => {
-
-                    console.log(
-                        " EDITAR RESERVA RESPUESTA:",
-                        response.status
-                    );
-
-                    if (!response.ok) {
-                        throw new Error("Error al editar reserva");
-                    }
-
-                    window.location.href = "/Reserva";
-                })
-                .catch(error => {
-                    console.error(
-                        " EDITAR RESERVA ERROR:",
-                        error
-                    );
-                });
-        },
-
-        // DELETE
-        eliminar() {
-            const id = this.reserva.IdReserva;
-
-            console.log(" ELIMINAR RESERVA ID:", id);
-
-            fetch("/api/ControllerReserva/" + id, {
-                method: "DELETE"
-            })
-                .then(response => {
-
-                    console.log(
-                        " ELIMINAR RESERVA RESPUESTA:",
-                        response.status
-                    );
-
-                    if (!response.ok) {
-                        throw new Error("Error al eliminar reserva");
-                    }
-
-                    window.location.href = "/Reserva";
-                })
-                .catch(error => {
-                    console.error(
-                        " ELIMINAR RESERVA ERROR:",
-                        error
-                    );
-                });
-        }
+        this.listarInquilinos();
     }
+
+    // INDEX
+    if (ruta === "/Reserva" || ruta === "/Reserva/") {
+        this.listarReservas();
+    }
+
+    // EDIT, DELETE y DETAILS
+    if (
+        ruta.includes("/Reserva/Edit/") ||
+        ruta.includes("/Reserva/Delete/") ||
+        ruta.includes("/Reserva/Details/")
+    ) {
+        this.obtenerReserva();
+    }
+},
+
+methods: {
+
+    // LISTAR INQUILINOS
+    listarInquilinos() {
+        console.log(" LISTAR INQUILINOS EJECUTADO");
+
+        fetch("/api/ControllerInquilino")
+            .then(response => {
+
+                console.log(
+                    " RESPUESTA INQUILINOS:",
+                    response.status
+                );
+
+                if (!response.ok) {
+                    throw new Error("Error al obtener inquilinos");
+                }
+
+                return response.json();
+            })
+            .then(data => {
+
+                console.log(" INQUILINOS:", data);
+
+                this.inquilinos = data;
+            })
+            .catch(error => {
+                console.error(
+                    " ERROR INQUILINOS:",
+                    error
+                );
+            });
+    },
+
+    // INDEX
+    listarReservas() {
+        console.log(" LISTAR RESERVAS EJECUTADO");
+
+        fetch("/api/ControllerReserva")
+            .then(response => {
+
+                console.log(
+                    " RESPUESTA LISTAR:",
+                    response.status
+                );
+
+                if (!response.ok) {
+                    throw new Error("Error al obtener reservas");
+                }
+
+                return response.json();
+            })
+            .then(data => {
+
+                console.log(" RESERVAS:", data);
+
+                this.reservas = data;
+            })
+            .catch(error => {
+                console.error(" ERROR:", error);
+            });
+    },
+
+    // CREATE
+    crearReserva() {
+        console.log(" CREAR RESERVA EJECUTADO");
+        console.log(this.reserva);
+
+        fetch("/api/ControllerReserva", {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(this.reserva)
+        })
+            .then(response => {
+
+                console.log(
+                    " CREAR RESERVA RESPUESTA:",
+                    response.status
+                );
+
+                if (!response.ok) {
+                    throw new Error("Error al crear reserva");
+                }
+
+                window.location.href = "/Reserva";
+            })
+            .catch(error => {
+                console.error(
+                    " CREAR RESERVA ERROR:",
+                    error
+                );
+            });
+    },
+
+    // OBTENER ID
+    obtenerId() {
+        const partes = window.location.pathname.split("/");
+
+        return partes[partes.length - 1];
+    },
+
+    // OBTENER RESERVA
+    obtenerReserva() {
+        const id = this.obtenerId();
+
+        console.log(" OBTENER RESERVA ID:", id);
+
+        fetch("/api/ControllerReserva/ConDetalles/" + id)
+            .then(response => {
+
+                console.log(
+                    " OBTENER RESERVA RESPUESTA:",
+                    response.status
+                );
+
+                if (!response.ok) {
+                    throw new Error("Error al obtener reserva");
+                }
+
+                return response.json();
+            })
+            .then(data => {
+
+                console.log(" RESERVA:", data);
+
+                this.reserva = data;
+            })
+            .catch(error => {
+                console.error(
+                    " OBTENER RESERVA ERROR:",
+                    error
+                );
+            });
+    },
+
+    // EDIT
+    editarReserva() {
+        console.log(" EDITAR RESERVA EJECUTADO");
+        console.log(this.reserva);
+
+        fetch("/api/ControllerReserva", {
+            method: "PUT",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(this.reserva)
+        })
+            .then(response => {
+
+                console.log(
+                    " EDITAR RESERVA RESPUESTA:",
+                    response.status
+                );
+
+                if (!response.ok) {
+                    throw new Error("Error al editar reserva");
+                }
+
+                window.location.href = "/Reserva";
+            })
+            .catch(error => {
+                console.error(
+                    " EDITAR RESERVA ERROR:",
+                    error
+                );
+            });
+    },
+
+    // DELETE
+    eliminar() {
+        const id = this.reserva.IdReserva;
+
+        console.log(" ELIMINAR RESERVA ID:", id);
+
+        fetch("/api/ControllerReserva/" + id, {
+            method: "DELETE"
+        })
+            .then(response => {
+
+                console.log(
+                    " ELIMINAR RESERVA RESPUESTA:",
+                    response.status
+                );
+
+                if (!response.ok) {
+                    throw new Error("Error al eliminar reserva");
+                }
+
+                window.location.href = "/Reserva";
+            })
+            .catch(error => {
+                console.error(
+                    " ELIMINAR RESERVA ERROR:",
+                    error
+                );
+            });
+    }
+}
+
+
 });
 
 app.mount("#app");
