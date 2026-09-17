@@ -1,4 +1,3 @@
-
 console.log("INMUEBLE.JS CARGADO");
 
 const app = Vue.createApp({
@@ -8,31 +7,32 @@ const app = Vue.createApp({
 
             inmuebles: [],
             tipos: [],
+            propietarios: [],
             imagenes: [],
 
-           inmueble: {
+            inmueble: {
 
-               IdInmueble: 0,
+                IdInmueble: 0,
 
-               IdPropietario: 0,
+                IdPropietario: 0,
 
-               IdTipoInmueble: 0,
+                IdTipoInmueble: 0,
 
-               Direccion: "",
+                Direccion: "",
 
-               Cupo: 0,
+                Cupo: 0,
 
-               Coordenadas: "",
+                Coordenadas: "",
 
-               PrecioPorDia: 0,
+                PrecioPorDia: 0,
 
-               PorcentajeSena: 0,
+                PorcentajeSena: 0,
 
-               Disponible: false,
+                Disponible: false,
 
-               ImagenPortada: ""
+                ImagenPortada: ""
 
-}
+            }
         };
     },
 
@@ -44,7 +44,6 @@ const app = Vue.createApp({
 
         console.log("RUTA:", ruta);
 
-        // Index
         if (
             ruta === "/Inmueble" ||
             ruta === "/Inmueble/"
@@ -52,15 +51,14 @@ const app = Vue.createApp({
             this.listarInmueble();
         }
 
-        // Create
         if (
             ruta === "/Inmueble/Create" ||
             ruta === "/Inmueble/Create/"
         ) {
             this.listarTipos();
+            this.listarPropietarios();
         }
 
-        // Edit, Delete y Details
         if (
             ruta.includes("/Inmueble/Edit/") ||
             ruta.includes("/Inmueble/Delete/") ||
@@ -69,18 +67,17 @@ const app = Vue.createApp({
             this.obtenerInmueble();
         }
 
-        // Edit
         if (
             ruta.includes("/Inmueble/Edit/")
         ) {
             this.listarTipos();
+            this.listarPropietarios();
         }
 
     },
 
     methods: {
 
-        // Listar inmuebles disponibles
         listarInmueble() {
 
             console.log("LISTAR INMUEBLE EJECUTADO");
@@ -111,7 +108,6 @@ const app = Vue.createApp({
                         inmuebles
                     );
 
-                    // Mostrar solo disponibles
                     inmuebles = inmuebles.filter(
                         inmueble => inmueble.Disponible === true
                     );
@@ -119,10 +115,6 @@ const app = Vue.createApp({
                     console.log(
                         "INMUEBLES DISPONIBLES:",
                         inmuebles
-                    );
-
-                    console.log(
-                        "VOY A BUSCAR IMAGENES"
                     );
 
                     return fetch(
@@ -153,7 +145,6 @@ const app = Vue.createApp({
                                 imagenes
                             );
 
-                            // Buscar portada
                             inmuebles.forEach(
                                 inmueble => {
 
@@ -215,7 +206,6 @@ const app = Vue.createApp({
 
         },
 
-        // Listar tipos
         listarTipos() {
 
             console.log(
@@ -268,7 +258,58 @@ const app = Vue.createApp({
 
         },
 
-        // Crear inmueble
+        listarPropietarios() {
+
+            console.log(
+                "LISTAR PROPIETARIOS EJECUTADO"
+            );
+
+            fetch(
+                "/api/ControllerPropietario"
+            )
+
+                .then(response => {
+
+                    console.log(
+                        "RESPUESTA PROPIETARIOS:",
+                        response.status
+                    );
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            "Error al obtener propietarios"
+                        );
+
+                    }
+
+                    return response.json();
+
+                })
+
+                .then(data => {
+
+                    console.log(
+                        "PROPIETARIOS:",
+                        data
+                    );
+
+                    this.propietarios =
+                        data;
+
+                })
+
+                .catch(error => {
+
+                    console.error(
+                        "ERROR PROPIETARIOS:",
+                        error
+                    );
+
+                });
+
+        },
+
         crearInmueble() {
 
             console.log(
@@ -331,7 +372,6 @@ const app = Vue.createApp({
 
         },
 
-        // Obtener ID
         obtenerId() {
 
             const partes =
@@ -343,7 +383,6 @@ const app = Vue.createApp({
 
         },
 
-        // Obtener inmueble
         obtenerInmueble() {
 
             const id =
@@ -391,7 +430,6 @@ const app = Vue.createApp({
                     const ruta =
                         window.location.pathname;
 
-                    // Buscar imágenes en Details
                     if (
                         ruta.includes(
                             "/Inmueble/Details/"
@@ -415,7 +453,6 @@ const app = Vue.createApp({
 
         },
 
-        // Listar imágenes
         listarImagenes() {
 
             console.log(
@@ -457,7 +494,6 @@ const app = Vue.createApp({
                             this.inmueble.IdInmueble
                         );
 
-                    // Filtrar imágenes del inmueble
                     this.imagenes =
                         data.filter(
                             imagen =>
@@ -484,7 +520,6 @@ const app = Vue.createApp({
 
         },
 
-        // Editar inmueble
         editarInmueble() {
 
             console.log(
@@ -547,7 +582,6 @@ const app = Vue.createApp({
 
         },
 
-        // Eliminar inmueble
         eliminar() {
 
             const id =
@@ -604,4 +638,3 @@ const app = Vue.createApp({
 });
 
 app.mount("#app");
-

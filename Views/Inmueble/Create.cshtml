@@ -1,56 +1,135 @@
 <div id="app">
 
-<h2>Nuevo Inmueble</h2>
+    <h2>Nuevo Inmueble</h2>
 
-<form @@submit.prevent="crearInmueble">
+    <form @@submit.prevent="crearInmueble">
 
-<label>Dirección</label>
-<input v-model="inmueble.Direccion" class="form-control" />
+        <label>Propietario</label>
 
-<label>Cupo</label>
-<input v-model="inmueble.Cupo" class="form-control" />
+        <select
+            v-model="inmueble.IdPropietario"
+            class="form-control">
 
-<label>Coordenadas</label>
-<input v-model="inmueble.Coordenadas" class="form-control" />
+            <option value="0">
+                -- Seleccione un propietario --
+            </option>
 
-<label>Precio por día</label>
-<input v-model="inmueble.PrecioPorDia" class="form-control" />
+            <option
+                v-for="propietario in propietarios"
+                :key="propietario.idPropietario"
+                :value="propietario.idPropietario">
 
-<label>Porcentaje de seña</label>
-<input v-model="inmueble.PorcentajeSena"
-       class="form-control"
-       type="number"
-       min="0"
-       max="100"
-       step="0.01" />
+                {{ propietario.nombre }} {{ propietario.apellido }}
 
-<small class="text-muted">
-    Porcentaje que el inquilino debe abonar al realizar la reserva.
-</small>
+            </option>
 
-<label>Tipo de Inmueble</label>
-<select v-model="inmueble.IdTipoInmueble" class="form-control">
-    <option value="0">-- Seleccione un tipo --</option>
+        </select>
 
-    <option v-for="tipo in tipos"
-            :key="tipo.IdTipoInmueble"
-            :value="tipo.IdTipoInmueble">
-        {{tipo.Nombre}}
-    </option>
-</select>
+        <br>
 
-<br>
+        <label>Dirección</label>
 
-<button type="submit" class="btn btn-success">
-    Guardar
-</button>
+        <input
+            v-model="inmueble.Direccion"
+            class="form-control"
+        />
 
-<a href="/Inmueble" class="btn btn-secondary">
-    Cancelar
-</a>
+        <label>Cupo</label>
 
+        <input
+            v-model="inmueble.Cupo"
+            class="form-control"
+        />
 
-</form>
+        <label>Coordenadas</label>
+
+        <input
+            v-model="inmueble.Coordenadas"
+            class="form-control"
+        />
+
+        <label>Precio por día</label>
+
+        <input
+            v-model="inmueble.PrecioPorDia"
+            class="form-control"
+        />
+
+        <label>Porcentaje de seña</label>
+
+        <input
+            v-model="inmueble.PorcentajeSena"
+            class="form-control"
+            type="number"
+            min="0"
+            max="100"
+            step="0.01"
+        />
+
+        <small class="text-muted">
+            Porcentaje que el inquilino debe abonar al realizar la reserva.
+        </small>
+
+        <br>
+
+        <label>Tipo de Inmueble</label>
+
+        <select
+            v-model="inmueble.IdTipoInmueble"
+            class="form-control">
+
+            <option value="0">
+                -- Seleccione un tipo --
+            </option>
+
+            <option
+                v-for="tipo in tipos"
+                :key="tipo.IdTipoInmueble"
+                :value="tipo.IdTipoInmueble">
+
+                {{ tipo.Nombre }}
+
+            </option>
+
+        </select>
+
+        <br>
+
+        <label>Estado</label>
+
+        <select
+            v-model="inmueble.Disponible"
+            class="form-control">
+
+            <option :value="true">
+                Disponible
+            </option>
+
+            <option :value="false">
+                Suspendido
+            </option>
+
+        </select>
+
+        <br>
+
+        <button
+            type="submit"
+            class="btn btn-success">
+
+            Guardar
+
+        </button>
+
+        <a
+            href="/Inmueble"
+            class="btn btn-secondary">
+
+            Cancelar
+
+        </a>
+
+    </form>
 
 </div>
 

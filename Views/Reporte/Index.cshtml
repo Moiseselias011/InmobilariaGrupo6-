@@ -1,0 +1,462 @@
+<div id="app">
+
+    <h1>Reportes</h1>
+
+    <div>
+
+        <label>Seleccione un reporte</label>
+
+        <select v-model="reporteSeleccionado">
+
+            <option value="inmuebles">
+                Inmuebles y propietarios
+            </option>
+
+            <option value="inmueblesPropietario">
+                Inmuebles por propietario
+            </option>
+
+            <option value="reservasPeriodo">
+                Reservas por período
+            </option>
+
+            <option value="pagosReserva">
+                Pagos de una reserva
+            </option>
+
+            <option value="inmueblesDisponibles">
+                Inmuebles disponibles entre fechas
+            </option>
+
+        </select>
+
+    </div>
+
+    <hr>
+
+    <div v-if="reporteSeleccionado === 'inmuebles'">
+
+        <h2>Inmuebles y propietarios</h2>
+
+        <select v-model="filtroDisponible">
+
+            <option value="">
+                Todos
+            </option>
+
+            <option value="true">
+                Disponibles
+            </option>
+
+            <option value="false">
+                Suspendidos
+            </option>
+
+        </select>
+
+        <button @@click="listarInmuebles">
+            Mostrar inmuebles
+        </button>
+
+        <table v-if="inmuebles.length > 0" border="1">
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Dirección</th>
+                    <th>Cupo</th>
+                    <th>Precio por día</th>
+                    <th>Estado</th>
+                    <th>Propietario</th>
+                    <th>Tipo</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr
+                    v-for="inmueble in inmuebles"
+                    :key="inmueble.IdInmueble">
+
+                    <td>
+                        {{ inmueble.IdInmueble }}
+                    </td>
+
+                    <td>
+                        {{ inmueble.Direccion }}
+                    </td>
+
+                    <td>
+                        {{ inmueble.Cupo }}
+                    </td>
+
+                    <td>
+                        {{ inmueble.PrecioPorDia }}
+                    </td>
+
+                    <td>
+
+                        {{ inmueble.Disponible
+                            ? 'Disponible'
+                            : 'Suspendido' }}
+
+                    </td>
+
+                    <td>
+                        {{ inmueble.Propietario }}
+                    </td>
+
+                    <td>
+                        {{ inmueble.Tipo }}
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <p v-else>
+            No hay inmuebles para mostrar.
+        </p>
+
+    </div>
+
+    <div v-if="reporteSeleccionado === 'inmueblesPropietario'">
+
+        <h2>Inmuebles por propietario</h2>
+
+        <select v-model="idPropietario">
+
+            <option value="">
+                -- Seleccione un propietario --
+            </option>
+
+            <option
+                v-for="propietario in propietarios"
+                :key="propietario.idPropietario"
+                :value="propietario.idPropietario">
+
+                {{ propietario.nombre }}
+                {{ propietario.apellido }}
+
+            </option>
+
+        </select>
+
+        <button @@click="listarInmueblesPorPropietario">
+            Mostrar inmuebles
+        </button>
+
+        <table v-if="inmuebles.length > 0" border="1">
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Dirección</th>
+                    <th>Cupo</th>
+                    <th>Precio por día</th>
+                    <th>Estado</th>
+                    <th>Tipo</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr
+                    v-for="inmueble in inmuebles"
+                    :key="inmueble.IdInmueble">
+
+                    <td>
+                        {{ inmueble.IdInmueble }}
+                    </td>
+
+                    <td>
+                        {{ inmueble.Direccion }}
+                    </td>
+
+                    <td>
+                        {{ inmueble.Cupo }}
+                    </td>
+
+                    <td>
+                        {{ inmueble.PrecioPorDia }}
+                    </td>
+
+                    <td>
+
+                        {{ inmueble.Disponible
+                            ? 'Disponible'
+                            : 'Suspendido' }}
+
+                    </td>
+
+                    <td>
+                        {{ inmueble.Tipo }}
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <p v-else>
+            No hay inmuebles para este propietario.
+        </p>
+
+    </div>
+
+    <div v-if="reporteSeleccionado === 'reservasPeriodo'">
+
+        <h2>Reservas por período</h2>
+
+        <label>
+            Fecha desde
+        </label>
+
+        <input
+            type="date"
+            v-model="fechaInicio">
+
+        <label>
+            Fecha hasta
+        </label>
+
+        <input
+            type="date"
+            v-model="fechaFin">
+
+        <button @@click="listarReservasPorPeriodo">
+            Buscar reservas
+        </button>
+
+        <table v-if="reservas.length > 0" border="1">
+
+            <thead>
+
+                <tr>
+
+                    <th>ID Reserva</th>
+                    <th>Inquilino</th>
+                    <th>Inmueble</th>
+                    <th>Fecha inicio</th>
+                    <th>Fecha fin</th>
+                    <th>Monto por día</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr
+                    v-for="reserva in reservas"
+                    :key="reserva.IdReserva">
+
+                    <td>
+                        {{ reserva.IdReserva }}
+                    </td>
+
+                    <td>
+                        {{ reserva.Inquilino }}
+                    </td>
+
+                    <td>
+                        {{ reserva.Inmueble }}
+                    </td>
+
+                    <td>
+                        {{ reserva.FechaInicio }}
+                    </td>
+
+                    <td>
+                        {{ reserva.FechaFin }}
+                    </td>
+
+                    <td>
+                        {{ reserva.MontoPorDia }}
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <p v-else>
+            No hay reservas para el período seleccionado.
+        </p>
+
+    </div>
+
+    <div v-if="reporteSeleccionado === 'pagosReserva'">
+
+        <h2>Pagos de una reserva</h2>
+
+        <label>
+            ID de reserva
+        </label>
+
+        <input
+            type="number"
+            v-model="idReserva"
+            min="1">
+
+        <button @@click="listarPagosReserva">
+            Mostrar pagos
+        </button>
+
+        <table v-if="pagos.length > 0" border="1">
+
+            <thead>
+
+                <tr>
+
+                    <th>ID Pago</th>
+                    <th>Fecha</th>
+                    <th>Monto</th>
+                    <th>Método de pago</th>
+                    <th>Estado</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr
+                    v-for="pago in pagos"
+                    :key="pago.IdPago">
+
+                    <td>
+                        {{ pago.IdPago }}
+                    </td>
+
+                    <td>
+                        {{ pago.FechaPago }}
+                    </td>
+
+                    <td>
+                        {{ pago.Monto }}
+                    </td>
+
+                    <td>
+                        {{ pago.MetodoPago }}
+                    </td>
+
+                    <td>
+
+                        {{ pago.Anulado
+                            ? 'Anulado'
+                            : 'Activo' }}
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <p v-else>
+            No hay pagos para esta reserva.
+        </p>
+
+    </div>
+
+    <div v-if="reporteSeleccionado === 'inmueblesDisponibles'">
+
+        <h2>Inmuebles disponibles entre fechas</h2>
+
+        <label>
+            Fecha desde
+        </label>
+
+        <input
+            type="date"
+            v-model="fechaInicio">
+
+        <label>
+            Fecha hasta
+        </label>
+
+        <input
+            type="date"
+            v-model="fechaFin">
+
+        <button @@click="listarInmueblesDisponibles">
+            Buscar inmuebles disponibles
+        </button>
+
+        <table v-if="inmuebles.length > 0" border="1">
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Dirección</th>
+                    <th>Cupo</th>
+                    <th>Precio por día</th>
+                    <th>Propietario</th>
+                    <th>Tipo</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr
+                    v-for="inmueble in inmuebles"
+                    :key="inmueble.IdInmueble">
+
+                    <td>
+                        {{ inmueble.IdInmueble }}
+                    </td>
+
+                    <td>
+                        {{ inmueble.Direccion }}
+                    </td>
+
+                    <td>
+                        {{ inmueble.Cupo }}
+                    </td>
+
+                    <td>
+                        {{ inmueble.PrecioPorDia }}
+                    </td>
+
+                    <td>
+                        {{ inmueble.Propietario }}
+                    </td>
+
+                    <td>
+                        {{ inmueble.Tipo }}
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <p v-else>
+            No hay inmuebles disponibles para esas fechas.
+        </p>
+
+    </div>
+
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="~/vue/Reporte.js"></script>
