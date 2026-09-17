@@ -18,6 +18,7 @@
                 <th>Fecha Pago</th>
                 <th>Monto</th>
                 <th>Método de Pago</th>
+                <th>Estado</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -39,14 +40,28 @@
 
                 <td>
 
-                    <a :href="'/Pago/Edit/' + pago.IdPago"
+                    <span v-if="pago.Anulado">
+                        Anulado
+                    </span>
+
+                    <span v-else>
+                        Activo
+                    </span>
+
+                </td>
+
+                <td>
+
+                    <a v-if="!pago.Anulado"
+                       :href="'/Pago/Edit/' + pago.IdPago"
                        class="btn btn-warning">
                         Editar
                     </a>
 
-                    <a :href="'/Pago/Delete/' + pago.IdPago"
+                    <a v-if="!pago.Anulado"
+                       :href="'/Pago/Delete/' + pago.IdPago"
                        class="btn btn-danger">
-                        Eliminar
+                        Anular
                     </a>
 
                     <a :href="'/Pago/Details/' + pago.IdPago"
@@ -63,6 +78,7 @@
     </table>
 
 </div>
+
 
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 

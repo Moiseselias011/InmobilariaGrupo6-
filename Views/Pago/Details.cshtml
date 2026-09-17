@@ -29,9 +29,48 @@
             {{ pago.MetodoPago }}
         </p>
 
+        <p>
+            <strong>Estado:</strong>
+
+            <span v-if="pago.Anulado">
+                Anulado
+            </span>
+
+            <span v-else>
+                Activo
+            </span>
+
+        </p>
+
+
+        @if (User.IsInRole("Administrador"))
+        {
+            <hr />
+
+            <h3>Auditoría</h3>
+
+            <p>
+                <strong>Creado por:</strong>
+
+                {{ pago.UsuarioCreacion
+                    ? pago.UsuarioCreacion.Nombre + ' ' + pago.UsuarioCreacion.Apellido
+                    : 'No disponible' }}
+            </p>
+
+            <p>
+                <strong>Anulado por:</strong>
+
+                {{ pago.UsuarioAnulacion
+                    ? pago.UsuarioAnulacion.Nombre + ' ' + pago.UsuarioAnulacion.Apellido
+                    : 'El pago no fue anulado' }}
+            </p>
+        }
+
     </div>
 
-    <a :href="'/Pago/Edit/' + pago.IdPago"
+
+    <a v-if="!pago.Anulado"
+       :href="'/Pago/Edit/' + pago.IdPago"
        class="btn btn-warning">
         Editar
     </a>
@@ -42,6 +81,7 @@
     </a>
 
 </div>
+
 
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 

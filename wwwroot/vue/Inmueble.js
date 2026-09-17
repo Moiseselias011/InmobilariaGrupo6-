@@ -10,17 +10,29 @@ const app = Vue.createApp({
             tipos: [],
             imagenes: [],
 
-            inmueble: {
-                IdInmueble: 0,
-                IdPropietario: 0,
-                IdTipoInmueble: 0,
-                Direccion: "",
-                Cupo: 0,
-                Coordenadas: "",
-                PrecioPorDia: 0,
-                Disponible: false,
-                ImagenPortada: ""
-            }
+           inmueble: {
+
+               IdInmueble: 0,
+
+               IdPropietario: 0,
+
+               IdTipoInmueble: 0,
+
+               Direccion: "",
+
+               Cupo: 0,
+
+               Coordenadas: "",
+
+               PrecioPorDia: 0,
+
+               PorcentajeSena: 0,
+
+               Disponible: false,
+
+               ImagenPortada: ""
+
+}
         };
     },
 

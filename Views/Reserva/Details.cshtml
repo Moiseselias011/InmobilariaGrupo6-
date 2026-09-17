@@ -17,6 +17,7 @@
 
     <p><strong>Monto por día:</strong> {{ reserva.MontoPorDia }}</p>
 
+
     @if (User.IsInRole("Administrador"))
     {
         <hr />
@@ -43,7 +44,156 @@
         </p>
     }
 
+
+    <hr />
+
+    <h3>Extender reserva</h3>
+
+    <p>
+        La extensión creará una nueva reserva sin modificar la reserva original.
+    </p>
+
+    <p>
+        <strong>Nueva fecha de inicio:</strong>
+    </p>
+
+    <input
+        v-model="fechaExtensionInicio"
+        type="date"
+        class="form-control" />
+
+    <p>
+        <strong>Nueva fecha de fin:</strong>
+    </p>
+
+    <input
+        v-model="fechaExtensionFin"
+        type="date"
+        class="form-control" />
+
+    <br />
+
+    <button
+        @@click="extenderReserva"
+        class="btn btn-success">
+
+        Extender reserva
+
+    </button>
+
+
+    <hr />
+
+    <h3>Terminación anticipada</h3>
+
+    <div v-if="reserva.FechaTerminacion">
+
+        <p>
+            <strong>Esta reserva ya fue terminada anticipadamente.</strong>
+        </p>
+
+        <p>
+            <strong>Fecha de terminación:</strong>
+            {{ reserva.FechaTerminacion }}
+        </p>
+
+    </div>
+
+
+    <div v-else>
+
+        <p>
+            La terminación anticipada mantiene la fecha de fin original
+            y genera una multa sobre los días restantes.
+        </p>
+
+        <p>
+            <strong>Fecha de terminación:</strong>
+        </p>
+
+        <input
+            v-model="fechaTerminacion"
+            type="date"
+            class="form-control" />
+
+        <br />
+
+
+        <div v-if="fechaTerminacion">
+
+            <p>
+                <strong>Días originales:</strong>
+                {{ diasOriginales }}
+            </p>
+
+            <p>
+                <strong>Días transcurridos:</strong>
+                {{ diasTranscurridos }}
+            </p>
+
+            <p>
+                <strong>Días restantes:</strong>
+                {{ diasRestantes }}
+            </p>
+
+            <p>
+                <strong>Porcentaje de multa:</strong>
+                {{ porcentajeMultaTexto }}
+            </p>
+
+            <p>
+                <strong>Alquiler restante:</strong>
+                ${{ montoRestante }}
+            </p>
+
+            <p>
+                <strong>Monto de la multa:</strong>
+                ${{ montoMulta }}
+            </p>
+
+        </div>
+
+
+        <p>
+            <strong>Método de pago de la multa:</strong>
+        </p>
+
+        <select
+            v-model="metodoPagoTerminacion"
+            class="form-control">
+
+            <option value="">
+                Seleccione un método
+            </option>
+
+            <option value="Efectivo">
+                Efectivo
+            </option>
+
+            <option value="Transferencia">
+                Transferencia
+            </option>
+
+            <option value="Tarjeta">
+                Tarjeta
+            </option>
+
+        </select>
+
+        <br />
+
+        <button
+            @@click="terminarReserva"
+            class="btn btn-danger">
+
+            Pagar multa y finalizar reserva
+
+        </button>
+
+    </div>
+
 </div>
+
 
 <a href="/Reserva" class="btn btn-secondary">
     Volver

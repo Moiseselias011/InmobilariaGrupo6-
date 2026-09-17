@@ -23,6 +23,10 @@ public class Inmueble
     [Column(TypeName = "decimal(10,2)")]
     public decimal PrecioPorDia { get; set; }
 
+    // Porcentaje que se debe abonar como seña al reservar
+    [Column(TypeName = "decimal(5,2)")]
+    public decimal PorcentajeSena { get; set; }
+
     [Required]
     public bool Disponible { get; set; }
 

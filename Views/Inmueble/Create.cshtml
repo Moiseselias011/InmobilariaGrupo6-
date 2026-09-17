@@ -16,6 +16,18 @@
 <label>Precio por día</label>
 <input v-model="inmueble.PrecioPorDia" class="form-control" />
 
+<label>Porcentaje de seña</label>
+<input v-model="inmueble.PorcentajeSena"
+       class="form-control"
+       type="number"
+       min="0"
+       max="100"
+       step="0.01" />
+
+<small class="text-muted">
+    Porcentaje que el inquilino debe abonar al realizar la reserva.
+</small>
+
 <label>Tipo de Inmueble</label>
 <select v-model="inmueble.IdTipoInmueble" class="form-control">
     <option value="0">-- Seleccione un tipo --</option>

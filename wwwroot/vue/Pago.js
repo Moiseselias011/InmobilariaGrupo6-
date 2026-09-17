@@ -7,12 +7,21 @@ const app = Vue.createApp({
 
             pagos: [],
 
+            reservas: [],
+
+            reservaSeleccionada: null,
+
             pago: {
                 IdPago: 0,
                 IdReserva: 0,
                 FechaPago: "",
                 Monto: 0,
-                MetodoPago: ""
+                MetodoPago: "",
+                IdUsuarioCreacion: 0,
+                UsuarioCreacion: null,
+                IdUsuarioAnulacion: null,
+                UsuarioAnulacion: null,
+                Anulado: false
             }
 
         };
@@ -28,6 +37,7 @@ const app = Vue.createApp({
 
 
         // INDEX
+
         if (ruta === "/Pago" || ruta === "/Pago/") {
 
             this.listarPagos();
@@ -35,7 +45,20 @@ const app = Vue.createApp({
         }
 
 
+        // CREATE
+
+        if (
+            ruta === "/Pago/Create" ||
+            ruta === "/Pago/Create/"
+        ) {
+
+            this.listarReservas();
+
+        }
+
+
         // EDIT, DELETE Y DETAILS
+
         if (
             ruta.includes("/Pago/Edit/") ||
             ruta.includes("/Pago/Delete/") ||
@@ -48,12 +71,42 @@ const app = Vue.createApp({
 
     },
 
+    computed: {
+
+        cantidadDias() {
+
+            if (!this.reservaSeleccionada) {
+
+                return 0;
+
+            }
+
+            const fechaInicio =
+                new Date(
+                    this.reservaSeleccionada.FechaInicio
+                );
+
+            const fechaFin =
+                new Date(
+                    this.reservaSeleccionada.FechaFin
+                );
+
+            const diferencia =
+                fechaFin - fechaInicio;
+
+            return Math.ceil(
+                diferencia /
+                (1000 * 60 * 60 * 24)
+            );
+
+        }
+
+    },
+
     methods: {
 
 
-        // ==========================================
         // INDEX
-        // ==========================================
 
         listarPagos() {
 
@@ -100,30 +153,198 @@ const app = Vue.createApp({
         },
 
 
-        // ==========================================
+        // LISTAR RESERVAS
+
+        listarReservas() {
+
+            console.log(
+                "LISTAR RESERVAS PARA PAGOS"
+            );
+
+            fetch("/api/ControllerPago/Reservas")
+
+                .then(response => {
+
+                    console.log(
+                        "RESPUESTA RESERVAS:",
+                        response.status
+                    );
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            "Error al obtener reservas"
+                        );
+
+                    }
+
+                    return response.json();
+
+                })
+
+                .then(data => {
+
+                    console.log(
+                        "RESERVAS:",
+                        data
+                    );
+
+                    this.reservas = data;
+
+                })
+
+                .catch(error => {
+
+                    console.error(
+                        "ERROR RESERVAS:",
+                        error
+                    );
+
+                });
+
+        },
+
+
+        // SELECCIONAR RESERVA
+
+        seleccionarReserva() {
+
+            console.log(
+                "RESERVA SELECCIONADA:",
+                this.pago.IdReserva
+            );
+
+            const id =
+                Number(
+                    this.pago.IdReserva
+                );
+
+            this.reservaSeleccionada =
+                this.reservas.find(
+                    reserva =>
+                        Number(
+                            reserva.IdReserva
+                        ) === id
+                );
+
+            console.log(
+                "DATOS RESERVA:",
+                this.reservaSeleccionada
+            );
+
+            if (!this.reservaSeleccionada) {
+
+                this.pago.Monto = 0;
+
+                return;
+
+            }
+
+            // Calcular monto
+
+            const fechaInicio =
+                new Date(
+                    this.reservaSeleccionada.FechaInicio
+                );
+
+            const fechaFin =
+                new Date(
+                    this.reservaSeleccionada.FechaFin
+                );
+
+            const diferencia =
+                fechaFin - fechaInicio;
+
+            const dias =
+                Math.ceil(
+                    diferencia /
+                    (1000 * 60 * 60 * 24)
+                );
+
+            this.pago.Monto =
+                dias *
+                Number(
+                    this.reservaSeleccionada.MontoPorDia
+                );
+
+            console.log(
+                "DÍAS:",
+                dias
+            );
+
+            console.log(
+                "MONTO TOTAL:",
+                this.pago.Monto
+            );
+
+        },
+
+
         // CREATE
-        // ==========================================
 
         crearPago() {
 
-            console.log("CREAR PAGO EJECUTADO");
+            console.log(
+                "CREAR PAGO EJECUTADO"
+            );
 
-            console.log(this.pago);
+            console.log(
+                this.pago
+            );
 
+            if (
+                !this.pago.IdReserva ||
+                this.pago.IdReserva == 0
+            ) {
 
-            fetch("/api/ControllerPago", {
+                alert(
+                    "Debe seleccionar una reserva."
+                );
 
-                method: "POST",
+                return;
 
-                headers: {
+            }
 
-                    "Content-Type": "application/json"
+            if (!this.pago.FechaPago) {
 
-                },
+                alert(
+                    "Debe seleccionar la fecha de pago."
+                );
 
-                body: JSON.stringify(this.pago)
+                return;
 
-            })
+            }
+
+            if (!this.pago.MetodoPago) {
+
+                alert(
+                    "Debe seleccionar un método de pago."
+                );
+
+                return;
+
+            }
+
+            fetch(
+                "/api/ControllerPago",
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify(
+                            this.pago
+                        )
+
+                }
+            )
 
                 .then(response => {
 
@@ -140,7 +361,8 @@ const app = Vue.createApp({
 
                     }
 
-                    window.location.href = "/Pago";
+                    window.location.href =
+                        "/Pago";
 
                 })
 
@@ -151,41 +373,44 @@ const app = Vue.createApp({
                         error
                     );
 
+                    alert(
+                        "No se pudo crear el pago."
+                    );
+
                 });
 
         },
 
 
-        // ==========================================
         // OBTENER ID
-        // ==========================================
 
         obtenerId() {
 
             const partes =
                 window.location.pathname.split("/");
 
-            return partes[partes.length - 1];
+            return partes[
+                partes.length - 1
+            ];
 
         },
 
 
-        // ==========================================
         // OBTENER PAGO
-        // ==========================================
 
         obtenerPago() {
 
-            const id = this.obtenerId();
+            const id =
+                this.obtenerId();
 
             console.log(
                 "OBTENER PAGO ID:",
                 id
             );
 
-
             fetch(
-                "/api/ControllerPago/" + id
+                "/api/ControllerPago/ConDetalles/" +
+                id
             )
 
                 .then(response => {
@@ -214,7 +439,8 @@ const app = Vue.createApp({
                         data
                     );
 
-                    this.pago = data;
+                    this.pago =
+                        data;
 
                 })
 
@@ -230,9 +456,7 @@ const app = Vue.createApp({
         },
 
 
-        // ==========================================
         // EDITAR
-        // ==========================================
 
         editarPago() {
 
@@ -240,25 +464,30 @@ const app = Vue.createApp({
                 "EDITAR PAGO EJECUTADO"
             );
 
-            console.log(this.pago);
+            console.log(
+                this.pago
+            );
 
+            fetch(
+                "/api/ControllerPago",
+                {
 
-            fetch("/api/ControllerPago", {
+                    method: "PUT",
 
-                method: "PUT",
+                    headers: {
 
-                headers: {
+                        "Content-Type":
+                            "application/json"
 
-                    "Content-Type":
-                        "application/json"
+                    },
 
-                },
+                    body:
+                        JSON.stringify(
+                            this.pago
+                        )
 
-                body: JSON.stringify(
-                    this.pago
-                )
-
-            })
+                }
+            )
 
                 .then(response => {
 
@@ -292,27 +521,24 @@ const app = Vue.createApp({
         },
 
 
-        // ==========================================
-        // ELIMINAR
-        // ==========================================
+        // ANULAR PAGO
 
         eliminarPago() {
 
             const id =
                 this.pago.IdPago;
 
-
             console.log(
-                "ELIMINAR PAGO ID:",
+                "ANULAR PAGO ID:",
                 id
             );
 
-
             fetch(
-                "/api/ControllerPago/" + id,
+                "/api/ControllerPago/Anular/" +
+                id,
                 {
 
-                    method: "DELETE"
+                    method: "PUT"
 
                 }
             )
@@ -320,14 +546,14 @@ const app = Vue.createApp({
                 .then(response => {
 
                     console.log(
-                        "ELIMINAR PAGO RESPUESTA:",
+                        "ANULAR PAGO RESPUESTA:",
                         response.status
                     );
 
                     if (!response.ok) {
 
                         throw new Error(
-                            "Error al eliminar pago"
+                            "Error al anular pago"
                         );
 
                     }
@@ -340,7 +566,7 @@ const app = Vue.createApp({
                 .catch(error => {
 
                     console.error(
-                        "ELIMINAR PAGO ERROR:",
+                        "ANULAR PAGO ERROR:",
                         error
                     );
 
