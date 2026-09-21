@@ -1,131 +1,88 @@
 <div id="app" v-cloak>
 
+    <h2>Nueva Imagen</h2>
 
-<h2>Nueva Imagen</h2>
+    <form @@submit.prevent="crearImagen">
 
-<form @@submit.prevent="crearImagen">
+        <label>Inmueble</label>
 
-    <label>Inmueble</label>
+        <select v-model="imagen.IdInmueble"
+                class="form-control">
 
-    <select v-model="imagen.IdInmueble" class="form-control">
+            <option value="">
+                Seleccione un inmueble
+            </option>
 
-        <option value="">
-            Seleccione un inmueble
-        </option>
+            <option v-for="inmueble in inmuebles"
+                    :key="inmueble.IdInmueble"
+                    :value="inmueble.IdInmueble">
 
-        <option v-for="inmueble in inmuebles"
-                :key="inmueble.IdInmueble"
-                :value="inmueble.IdInmueble">
+                {{ inmueble.Direccion }}
 
-            {{ inmueble.Direccion }}
+            </option>
 
-        </option>
+        </select>
 
-    </select>
+        <br>
 
-    <br>
+        <label>Seleccione las imágenes</label>
 
-    <label>Seleccione las imágenes</label>
+        <input type="file"
+               class="form-control"
+               accept="image/jpeg,image/png,image/webp"
+               multiple
+               @@change="seleccionarArchivos">
 
-    <div style="
-        display: flex;
-        gap: 15px;
-        flex-wrap: wrap;
-        margin-top: 10px;
-    ">
+        <br>
 
-        <div v-for="archivo in archivos"
-             :key="archivo"
-             @@click="seleccionarImagen(archivo)"
-             :style="{
-                 border: imagenesSeleccionadas.includes(archivo)
-                     ? '4px solid blue'
-                     : '2px solid #ddd',
+        <div v-if="imagenesSeleccionadas.length > 0">
 
-                 padding: '5px',
-                 borderRadius: '8px',
-                 cursor: 'pointer'
-             }">
+            <label>
+                Seleccione cuál será la imagen de portada:
+            </label>
 
-            <img :src="archivo"
-                 alt="Imagen"
-                 style="
-                    width: 180px;
-                    height: 120px;
-                    object-fit: cover;
-                    border-radius: 5px;
-                 ">
+            <div style="
+                display: flex;
+                gap: 15px;
+                flex-wrap: wrap;
+                margin-top: 10px;
+            ">
 
-        </div>
+                <div v-for="imagen in imagenesSeleccionadas"
+                     :key="imagen.nombre"
+                     @@click="seleccionarPortada(imagen)"
+                     :style="{
+                         border: imagenPortada === imagen.nombre
+                             ? '4px solid green'
+                             : '2px solid #ddd',
+                         padding: '5px',
+                         borderRadius: '8px',
+                         cursor: 'pointer'
+                     }">
 
-    </div>
+                    <img :src="imagen.url"
+                         :alt="imagen.nombre"
+                         style="
+                            width: 180px;
+                            height: 120px;
+                            object-fit: cover;
+                            border-radius: 5px;
+                         ">
 
-    <br>
+                    <div style="
+                        text-align: center;
+                        margin-top: 5px;
+                    ">
 
-    <div v-if="imagenesSeleccionadas.length > 0">
+                        <div>
+                            {{ imagen.nombre }}
+                        </div>
 
-        <strong>
-            Imágenes seleccionadas:
-        </strong>
+                        <strong v-if="imagenPortada === imagen.nombre">
+                            PORTADA
+                        </strong>
 
-        <ul>
-
-            <li v-for="imagen in imagenesSeleccionadas"
-                :key="imagen">
-
-                {{ imagen }}
-
-            </li>
-
-        </ul>
-
-    </div>
-
-    <br>
-
-    <div v-if="imagenesSeleccionadas.length > 0">
-
-        <label>
-            Seleccione cuál será la imagen de portada:
-        </label>
-
-        <div style="
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-top: 10px;
-        ">
-
-            <div v-for="imagen in imagenesSeleccionadas"
-                 :key="imagen"
-                 @@click="seleccionarPortada(imagen)"
-                 :style="{
-                     border: imagenPortada === imagen
-                         ? '4px solid green'
-                         : '2px solid #ddd',
-
-                     padding: '5px',
-                     borderRadius: '8px',
-                     cursor: 'pointer'
-                 }">
-
-                <img :src="imagen"
-                     alt="Portada"
-                     style="
-                        width: 180px;
-                        height: 120px;
-                        object-fit: cover;
-                        border-radius: 5px;
-                     ">
-
-                <div style="
-                    text-align: center;
-                    margin-top: 5px;
-                ">
-
-                    <strong v-if="imagenPortada === imagen">
-                        PORTADA
-                    </strong>
+                    </div>
 
                 </div>
 
@@ -133,26 +90,23 @@
 
         </div>
 
-    </div>
+        <br>
 
-    <br>
+        <button type="submit"
+                class="btn btn-success">
 
-    <button type="submit"
-            class="btn btn-success">
+            Guardar
 
-        Guardar
+        </button>
 
-    </button>
+        <a href="/Imagen"
+           class="btn btn-secondary">
 
-    <a href="/Imagen"
-       class="btn btn-secondary">
+            Cancelar
 
-        Cancelar
+        </a>
 
-    </a>
-
-</form>
-
+    </form>
 
 </div>
 

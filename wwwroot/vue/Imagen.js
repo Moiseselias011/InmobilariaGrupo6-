@@ -1,775 +1,519 @@
-console.log(" Imagen.JS CARGADO");
+console.log("Imagen.JS CARGADO");
 
 const app = Vue.createApp({
 
-
-data() {
-    return {
-
-        imagenes: [],
-        inmuebles: [],
-        archivos: [],
-
-        // Imágenes seleccionadas
-        imagenesSeleccionadas: [],
-
-        // Imagen elegida como portada
-        imagenPortada: "",
-
-        imagen: {
-            IdImagen: 0,
-            IdInmueble: 0,
-            Url: "",
-            EsPortada: false
-        }
-    };
-},
-
-mounted() {
-
-    console.log(" VUE MONTADO");
-
-    const ruta = window.location.pathname;
-
-    console.log(" RUTA:", ruta);
-
-
-    // =========================
-    // LISTA
-    // =========================
-
-    if (ruta === "/Imagen" || ruta === "/Imagen/") {
-
-        this.listarImagenes();
-
-    }
-
-
-    // =========================
-    // CREAR
-    // =========================
-
-    if (ruta === "/Imagen/Create" || ruta === "/Imagen/Create/") {
-
-        this.listarInmuebles();
-
-        this.listarArchivos();
-
-    }
-
-
-    // =========================
-    // EDITAR / ELIMINAR / DETAILS
-    // =========================
-
-    if (
-        ruta.includes("/Imagen/Edit/") ||
-        ruta.includes("/Imagen/Delete/") ||
-        ruta.includes("/Imagen/Details/")
-    ) {
-
-        this.obtenerImagen();
-
-    }
-
-
-    if (ruta.includes("/Imagen/Edit/")) {
-
-        this.listarInmuebles();
-
-    }
-
-
-    if (ruta.includes("/Imagen/Details/")) {
-
-        this.listarInmuebles();
-
-    }
-
-},
-
-
-methods: {
-
-    // =========================
-    // LISTAR IMAGENES
-    // =========================
-
-    listarImagenes() {
-
-        console.log(" LISTAR IMAGENES EJECUTADO");
-
-        fetch("/api/ControllerImagen")
-
-            .then(response => {
-
-                console.log(
-                    "RESPUESTA LISTAR:",
-                    response.status
-                );
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        "Error al obtener Imagenes"
-                    );
-
-                }
-
-                return response.json();
-
-            })
-
-            .then(data => {
-
-                console.log(
-                    "IMAGENES:",
-                    data
-                );
-
-                this.imagenes = data;
-
-            })
-
-            .catch(error => {
-
-                console.error(
-                    "ERROR:",
-                    error
-                );
-
-            });
-
-    },
-
-
-    // =========================
-    // LISTAR INMUEBLES
-    // =========================
-
-    listarInmuebles() {
-
-        console.log(
-            " LISTAR INMUEBLES EJECUTADO"
-        );
-
-        fetch("/api/ControllerInmueble")
-
-            .then(response => {
-
-                console.log(
-                    "RESPUESTA INMUEBLES:",
-                    response.status
-                );
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        "Error al obtener Inmuebles"
-                    );
-
-                }
-
-                return response.json();
-
-            })
-
-            .then(data => {
-
-                console.log(
-                    "INMUEBLES:",
-                    data
-                );
-
-                this.inmuebles = data;
-
-            })
-
-            .catch(error => {
-
-                console.error(
-                    "ERROR INMUEBLES:",
-                    error
-                );
-
-            });
-
-    },
-
-
-    // =========================
-    // LISTAR ARCHIVOS
-    // =========================
-
-    listarArchivos() {
-
-        console.log(
-            " LISTAR ARCHIVOS EJECUTADO"
-        );
-
-        fetch("/api/ControllerImagen/archivos")
-
-            .then(response => {
-
-                console.log(
-                    "RESPUESTA ARCHIVOS:",
-                    response.status
-                );
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        "Error al obtener archivos"
-                    );
-
-                }
-
-                return response.json();
-
-            })
-
-            .then(data => {
-
-                console.log(
-                    "ARCHIVOS:",
-                    data
-                );
-
-                this.archivos = data;
-
-            })
-
-            .catch(error => {
-
-                console.error(
-                    "ERROR ARCHIVOS:",
-                    error
-                );
-
-            });
-
-    },
-
-
-    // =========================
-    // SELECCIONAR VARIAS IMAGENES
-    // =========================
-
-    seleccionarImagen(archivo) {
-
-        console.log(
-            " IMAGEN CLICKEADA:",
-            archivo
-        );
-
-
-        const indice =
-            this.imagenesSeleccionadas.indexOf(
-                archivo
-            );
-
-
-        // Si ya estaba seleccionada,
-        // la quitamos
-
-        if (indice !== -1) {
-
-            this.imagenesSeleccionadas.splice(
-                indice,
-                1
-            );
-
-
-            console.log(
-                " IMAGEN QUITADA:",
-                archivo
-            );
-
-
-            // Si era la portada,
-            // también quitamos la portada
-
-            if (this.imagenPortada === archivo) {
-
-                this.imagenPortada = "";
-
+    data() {
+        return {
+
+            imagenes: [],
+            inmuebles: [],
+            archivos: [],
+
+            archivosSeleccionados: [],
+            imagenesSeleccionadas: [],
+            imagenPortada: "",
+
+            imagen: {
+                IdImagen: 0,
+                IdInmueble: 0,
+                Url: "",
+                EsPortada: false
             }
-
-        }
-
-        // Si no estaba seleccionada,
-        // la agregamos
-
-        else {
-
-            this.imagenesSeleccionadas.push(
-                archivo
-            );
-
-
-            console.log(
-                " IMAGEN AGREGADA:",
-                archivo
-            );
-
-        }
-
-
-        console.log(
-            " IMAGENES SELECCIONADAS:",
-            this.imagenesSeleccionadas
-        );
-
+        };
     },
 
+    mounted() {
 
-    // =========================
-    // SELECCIONAR PORTADA
-    // =========================
+        console.log("VUE MONTADO");
 
-    seleccionarPortada(imagen) {
+        const ruta = window.location.pathname;
 
-        console.log(
-            " PORTADA SELECCIONADA:",
-            imagen
-        );
+        console.log("RUTA:", ruta);
 
+        if (ruta === "/Imagen" || ruta === "/Imagen/") {
 
-        this.imagenPortada = imagen;
-
-
-        console.log(
-            " IMAGEN PORTADA:",
-            this.imagenPortada
-        );
-
-    },
-
-
-    // =========================
-    // CREAR VARIAS IMAGENES
-    // =========================
-
-    crearImagen() {
-
-        console.log(
-            " CREAR IMAGEN EJECUTADO"
-        );
-
-
-        // Verificar inmueble
-
-        if (!this.imagen.IdInmueble) {
-
-            alert(
-                "Seleccione un inmueble."
-            );
-
-            return;
+            this.listarImagenes();
 
         }
 
+        if (ruta === "/Imagen/Create" || ruta === "/Imagen/Create/") {
 
-        // Verificar imágenes
+            this.listarInmuebles();
+
+        }
 
         if (
-            this.imagenesSeleccionadas.length === 0
+            ruta.includes("/Imagen/Edit/") ||
+            ruta.includes("/Imagen/Delete/") ||
+            ruta.includes("/Imagen/Details/")
         ) {
 
-            alert(
-                "Seleccione al menos una imagen."
-            );
-
-            return;
+            this.obtenerImagen();
 
         }
 
+        if (ruta.includes("/Imagen/Edit/")) {
 
-        // Verificar portada
-
-        if (this.imagenPortada === "") {
-
-            alert(
-                "Seleccione una imagen de portada."
-            );
-
-            return;
+            this.listarInmuebles();
 
         }
 
+        if (ruta.includes("/Imagen/Details/")) {
 
-        console.log(
-            " INMUEBLE:",
-            this.imagen.IdInmueble
-        );
+            this.listarInmuebles();
 
-        console.log(
-            " IMAGENES SELECCIONADAS:",
-            this.imagenesSeleccionadas
-        );
+        }
 
-        console.log(
-            " PORTADA:",
-            this.imagenPortada
-        );
+    },
 
+    methods: {
 
-        // Crear un POST por cada imagen
+        listarImagenes() {
 
-        const peticiones =
-            this.imagenesSeleccionadas.map(
-                archivo => {
+            console.log("LISTAR IMAGENES EJECUTADO");
 
-                    const nuevaImagen = {
+            fetch("/api/ControllerImagen")
 
-                        IdImagen: 0,
-
-                        IdInmueble:
-                            Number(
-                                this.imagen.IdInmueble
-                            ),
-
-                        Url: archivo,
-
-                        EsPortada:
-                            archivo ===
-                            this.imagenPortada
-
-                    };
-
+                .then(response => {
 
                     console.log(
-                        " GUARDANDO IMAGEN:",
-                        nuevaImagen
+                        "RESPUESTA LISTAR:",
+                        response.status
                     );
-
-
-                    return fetch(
-                        "/api/ControllerImagen",
-                        {
-
-                            method: "POST",
-
-                            headers: {
-
-                                "Content-Type":
-                                    "application/json"
-
-                            },
-
-                            body:
-                                JSON.stringify(
-                                    nuevaImagen
-                                )
-
-                        }
-
-                    );
-
-                }
-            );
-
-
-        // Esperar a que terminen todos los POST
-
-        Promise.all(peticiones)
-
-            .then(respuestas => {
-
-                console.log(
-                    " RESPUESTAS:",
-                    respuestas
-                );
-
-
-                // Verificar que todos
-                // hayan sido exitosos
-
-                for (
-                    const response of respuestas
-                ) {
 
                     if (!response.ok) {
 
                         throw new Error(
-                            "Error al guardar una de las imágenes."
+                            "Error al obtener Imagenes"
                         );
 
                     }
 
-                }
+                    return response.json();
 
+                })
 
-                console.log(
-                    " TODAS LAS IMAGENES GUARDADAS"
-                );
+                .then(data => {
 
+                    console.log(
+                        "IMAGENES:",
+                        data
+                    );
 
-                // Volver a Lista de Imagen
+                    this.imagenes = data;
 
-                window.location.href =
-                    "/Imagen";
+                })
 
-            })
+                .catch(error => {
 
-            .catch(error => {
+                    console.error(
+                        "ERROR:",
+                        error
+                    );
 
-                console.error(
-                    " ERROR AL GUARDAR IMAGENES:",
-                    error
-                );
+                });
+
+        },
+
+        listarInmuebles() {
+
+            console.log(
+                "LISTAR INMUEBLES EJECUTADO"
+            );
+
+            fetch("/api/ControllerInmueble")
+
+                .then(response => {
+
+                    console.log(
+                        "RESPUESTA INMUEBLES:",
+                        response.status
+                    );
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            "Error al obtener Inmuebles"
+                        );
+
+                    }
+
+                    return response.json();
+
+                })
+
+                .then(data => {
+
+                    console.log(
+                        "INMUEBLES:",
+                        data
+                    );
+
+                    this.inmuebles = data;
+
+                })
+
+                .catch(error => {
+
+                    console.error(
+                        "ERROR INMUEBLES:",
+                        error
+                    );
+
+                });
+
+        },
+
+        seleccionarArchivos(event) {
+
+            const archivos = Array.from(
+                event.target.files
+            );
+
+            this.archivosSeleccionados = archivos;
+
+            this.imagenesSeleccionadas =
+                archivos.map(archivo => ({
+                    nombre: archivo.name,
+                    url: URL.createObjectURL(archivo)
+                }));
+
+            this.imagenPortada = "";
+
+            console.log(
+                "ARCHIVOS SELECCIONADOS:",
+                archivos
+            );
+
+        },
+
+        seleccionarPortada(imagen) {
+
+            this.imagenPortada =
+                imagen.nombre;
+
+            console.log(
+                "PORTADA:",
+                this.imagenPortada
+            );
+
+        },
+
+        crearImagen() {
+
+            console.log(
+                "CREAR IMAGEN EJECUTADO"
+            );
+
+            if (!this.imagen.IdInmueble) {
 
                 alert(
-                    "Ocurrió un error al guardar las imágenes."
+                    "Seleccione un inmueble."
                 );
 
-            });
+                return;
 
-    },
+            }
 
+            if (
+                this.archivosSeleccionados.length === 0
+            ) {
 
-    // =========================
-    // OBTENER ID
-    // =========================
-
-    obtenerId() {
-
-        const partes =
-            window.location.pathname.split("/");
-
-        return partes[
-            partes.length - 1
-        ];
-
-    },
-
-
-    // =========================
-    // OBTENER IMAGEN
-    // =========================
-
-    obtenerImagen() {
-
-        const id =
-            this.obtenerId();
-
-
-        console.log(
-            " OBTENER IMAGEN ID:",
-            id
-        );
-
-
-        fetch(
-            "/api/ControllerImagen/" + id
-        )
-
-            .then(response => {
-
-                console.log(
-                    " OBTENER IMAGEN RESPUESTA:",
-                    response.status
+                alert(
+                    "Seleccione al menos una imagen."
                 );
 
+                return;
 
-                if (!response.ok) {
+            }
 
-                    throw new Error(
-                        "Error al obtener Imagen"
+            if (this.imagenPortada === "") {
+
+                alert(
+                    "Seleccione una imagen de portada."
+                );
+
+                return;
+
+            }
+
+            const formData = new FormData();
+
+            formData.append(
+                "idInmueble",
+                this.imagen.IdInmueble
+            );
+
+            formData.append(
+                "portada",
+                this.imagenPortada
+            );
+
+            this.archivosSeleccionados.forEach(
+                archivo => {
+
+                    formData.append(
+                        "archivos",
+                        archivo
                     );
 
                 }
-
-
-                return response.json();
-
-            })
-
-            .then(data => {
-
-                console.log(
-                    " IMAGEN:",
-                    data
-                );
-
-
-                this.imagen = data;
-
-            })
-
-            .catch(error => {
-
-                console.error(
-                    " OBTENER IMAGEN ERROR:",
-                    error
-                );
-
-            });
-
-    },
-
-
-    // =========================
-    // OBTENER DIRECCION INMUEBLE
-    // =========================
-
-    obtenerDireccionInmueble() {
-
-        const inmueble =
-            this.inmuebles.find(
-
-                inmueble =>
-                    inmueble.IdInmueble ===
-                    this.imagen.IdInmueble
-
             );
 
+            fetch(
+                "/api/ControllerImagen/subir",
+                {
+                    method: "POST",
+                    body: formData
+                }
+            )
 
-        if (inmueble) {
+                .then(response => {
 
-            return inmueble.Direccion;
+                    console.log(
+                        "RESPUESTA SUBIDA:",
+                        response.status
+                    );
+
+                    if (!response.ok) {
+
+                        return response.text()
+                            .then(mensaje => {
+
+                                throw new Error(
+                                    mensaje
+                                );
+
+                            });
+
+                    }
+
+                    return response.json();
+
+                })
+
+                .then(data => {
+
+                    console.log(
+                        "IMAGENES GUARDADAS:",
+                        data
+                    );
+
+                    window.location.href =
+                        "/Imagen";
+
+                })
+
+                .catch(error => {
+
+                    console.error(
+                        "ERROR AL SUBIR:",
+                        error
+                    );
+
+                    alert(
+                        error.message ||
+                        "Ocurrió un error al subir las imágenes."
+                    );
+
+                });
+
+        },
+
+        obtenerId() {
+
+            const partes =
+                window.location.pathname.split("/");
+
+            return partes[
+                partes.length - 1
+            ];
+
+        },
+
+        obtenerImagen() {
+
+            const id =
+                this.obtenerId();
+
+            console.log(
+                "OBTENER IMAGEN ID:",
+                id
+            );
+
+            fetch(
+                "/api/ControllerImagen/" + id
+            )
+
+                .then(response => {
+
+                    console.log(
+                        "OBTENER IMAGEN RESPUESTA:",
+                        response.status
+                    );
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            "Error al obtener Imagen"
+                        );
+
+                    }
+
+                    return response.json();
+
+                })
+
+                .then(data => {
+
+                    console.log(
+                        "IMAGEN:",
+                        data
+                    );
+
+                    this.imagen = data;
+
+                })
+
+                .catch(error => {
+
+                    console.error(
+                        "OBTENER IMAGEN ERROR:",
+                        error
+                    );
+
+                });
+
+        },
+
+        obtenerDireccionInmueble() {
+
+            const inmueble =
+                this.inmuebles.find(
+                    inmueble =>
+                        inmueble.IdInmueble ===
+                        this.imagen.IdInmueble
+                );
+
+            if (inmueble) {
+
+                return inmueble.Direccion;
+
+            }
+
+            return "Inmueble no encontrado";
+
+        },
+
+        editarImagen() {
+
+            console.log(
+                "EDITAR IMAGEN EJECUTADO"
+            );
+
+            console.log(
+                this.imagen
+            );
+
+            fetch(
+                "/api/ControllerImagen",
+                {
+
+                    method: "PUT",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(
+                            this.imagen
+                        )
+
+                }
+            )
+
+                .then(response => {
+
+                    console.log(
+                        "EDITAR IMAGEN RESPUESTA:",
+                        response.status
+                    );
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            "Error al editar Imagen"
+                        );
+
+                    }
+
+                    window.location.href =
+                        "/Imagen";
+
+                })
+
+                .catch(error => {
+
+                    console.error(
+                        "EDITAR IMAGEN ERROR:",
+                        error
+                    );
+
+                });
+
+        },
+
+        eliminar() {
+
+            const id =
+                this.imagen.IdImagen;
+
+            console.log(
+                "ELIMINAR IMAGEN ID:",
+                id
+            );
+
+            fetch(
+                "/api/ControllerImagen/" + id,
+                {
+                    method: "DELETE"
+                }
+            )
+
+                .then(response => {
+
+                    console.log(
+                        "ELIMINAR IMAGEN RESPUESTA:",
+                        response.status
+                    );
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            "Error al eliminar Imagen"
+                        );
+
+                    }
+
+                    window.location.href =
+                        "/Imagen";
+
+                })
+
+                .catch(error => {
+
+                    console.error(
+                        "ELIMINAR IMAGEN ERROR:",
+                        error
+                    );
+
+                });
 
         }
 
-
-        return "Inmueble no encontrado";
-
-    },
-
-
-    // =========================
-    // EDITAR IMAGEN
-    // =========================
-
-    editarImagen() {
-
-        console.log(
-            " EDITAR IMAGEN EJECUTADO"
-        );
-
-
-        console.log(
-            this.imagen
-        );
-
-
-        fetch(
-            "/api/ControllerImagen",
-            {
-
-                method: "PUT",
-
-                headers: {
-
-                    "Content-Type":
-                        "application/json"
-
-                },
-
-                body:
-                    JSON.stringify(
-                        this.imagen
-                    )
-
-            }
-
-        )
-
-            .then(response => {
-
-                console.log(
-                    " EDITAR IMAGEN RESPUESTA:",
-                    response.status
-                );
-
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        "Error al editar Imagen"
-                    );
-
-                }
-
-
-                window.location.href =
-                    "/Imagen";
-
-            })
-
-            .catch(error => {
-
-                console.error(
-                    " EDITAR IMAGEN ERROR:",
-                    error
-                );
-
-            });
-
-    },
-
-
-    // =========================
-    // ELIMINAR
-    // =========================
-
-    eliminar() {
-
-        const id =
-            this.imagen.IdImagen;
-
-
-        console.log(
-            " ELIMINAR IMAGEN ID:",
-            id
-        );
-
-
-        fetch(
-            "/api/ControllerImagen/" + id,
-            {
-
-                method: "DELETE"
-
-            }
-
-        )
-
-            .then(response => {
-
-                console.log(
-                    " ELIMINAR IMAGEN RESPUESTA:",
-                    response.status
-                );
-
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        "Error al eliminar Imagen"
-                    );
-
-                }
-
-
-                window.location.href =
-                    "/Imagen";
-
-            })
-
-            .catch(error => {
-
-                console.error(
-                    " ELIMINAR IMAGEN ERROR:",
-                    error
-                );
-
-            });
-
     }
-
-}
-
 
 });
 
