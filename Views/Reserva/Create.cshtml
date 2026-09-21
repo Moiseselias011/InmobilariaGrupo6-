@@ -25,14 +25,48 @@
 
     </select>
     </div>
+<div class="mb-3">
+    <label>Inmueble</label>
 
-    <div class="mb-3">
-        <label>Id Inmueble</label>
-        <input v-model="reserva.IdInmueble"
+    <div class="position-relative">
+
+        <input v-model="busquedaInmueble"
                class="form-control"
-               type="number" />
-    </div>
+               type="text"
+               placeholder="Buscar inmueble por dirección..."
+               autocomplete="off"
+               @@focus="mostrarInmuebles = true" />
 
+        <div v-if="mostrarInmuebles && inmueblesFiltrados.length > 0"
+             class="list-group position-absolute w-100"
+             style="z-index: 1000;">
+
+            <button v-for="inmueble in inmueblesFiltrados"
+                    :key="inmueble.IdInmueble"
+                    type="button"
+                    class="list-group-item list-group-item-action"
+                    @@click="seleccionarInmueble(inmueble)">
+
+                {{ inmueble.Direccion }}
+
+            </button>
+
+        </div>
+
+        <div v-if="mostrarInmuebles &&
+                  busquedaInmueble &&
+                  inmueblesFiltrados.length === 0"
+             class="list-group position-absolute w-100"
+             style="z-index: 1000;">
+
+            <div class="list-group-item">
+                No se encontraron inmuebles.
+            </div>
+
+        </div>
+
+    </div>
+</div>
     <div class="mb-3">
         <label>Fecha de inicio</label>
         <input v-model="reserva.FechaInicio"

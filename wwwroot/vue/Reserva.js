@@ -9,6 +9,12 @@ const app = Vue.createApp({
 
             inquilinos: [],
 
+            inmuebles: [],
+
+            busquedaInmueble: "",
+
+            mostrarInmuebles: false,
+
             reserva: {
                 IdReserva: 0,
                 IdInquilino: 0,
@@ -73,6 +79,8 @@ const app = Vue.createApp({
             );
 
             this.listarInquilinos();
+
+            this.listarInmuebles();
         }
 
         if (
@@ -97,6 +105,25 @@ const app = Vue.createApp({
     },
 
     computed: {
+
+        inmueblesFiltrados() {
+
+            if (!this.busquedaInmueble.trim()) {
+                return this.inmuebles;
+            }
+
+            return this.inmuebles.filter(inmueble =>
+                inmueble.Direccion &&
+                inmueble.Direccion
+                    .toLowerCase()
+                    .includes(
+                        this.busquedaInmueble
+                            .toLowerCase()
+                            .trim()
+                    )
+            );
+
+        },
 
         diasOriginales() {
 
@@ -340,6 +367,75 @@ const app = Vue.createApp({
                     );
 
                 });
+
+        },
+
+        listarInmuebles() {
+
+            console.log(
+                " LISTAR INMUEBLES EJECUTADO"
+            );
+
+            fetch("/api/ControllerInmueble")
+
+                .then(response => {
+
+                    console.log(
+                        " RESPUESTA INMUEBLES:",
+                        response.status
+                    );
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            "Error al obtener inmuebles"
+                        );
+
+                    }
+
+                    return response.json();
+
+                })
+
+                .then(data => {
+
+                    console.log(
+                        " INMUEBLES:",
+                        data
+                    );
+
+                    this.inmuebles = data;
+
+                })
+
+                .catch(error => {
+
+                    console.error(
+                        " ERROR INMUEBLES:",
+                        error
+                    );
+
+                });
+
+        },
+
+        seleccionarInmueble(inmueble) {
+
+            this.reserva.IdInmueble =
+                inmueble.IdInmueble;
+
+            this.busquedaInmueble =
+                inmueble.Direccion;
+
+            this.mostrarInmuebles =
+                false;
+
+        },
+
+        cerrarBusqueda() {
+
+            this.mostrarInmuebles =
+                false;
 
         },
 
@@ -867,8 +963,7 @@ const app = Vue.createApp({
 
                     })
 
-                }
-            )
+                })
 
                 .then(async response => {
 
