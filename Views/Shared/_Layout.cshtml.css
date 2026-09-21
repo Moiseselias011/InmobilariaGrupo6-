@@ -141,3 +141,6 @@ button.accept-policy {
   color: #6b7280;
 }
 
+[v-cloak] {
+  display: none;
+}
