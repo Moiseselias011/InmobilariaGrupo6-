@@ -10,6 +10,15 @@ const app = Vue.createApp({
             propietarios: [],
             imagenes: [],
 
+            filtroDisponible: "",
+            idPropietario: "",
+            fechaInicio: "",
+            fechaFin: "",
+
+            reporteInmuebles: [],
+            reporteInmueblesPropietario: [],
+            reporteInmueblesDisponibles: [],
+
             inmueble: {
 
                 IdInmueble: 0,
@@ -49,6 +58,7 @@ const app = Vue.createApp({
             ruta === "/Inmueble/"
         ) {
             this.listarInmueble();
+            this.listarPropietarios();
         }
 
         if (
@@ -304,6 +314,160 @@ const app = Vue.createApp({
                     console.error(
                         "ERROR PROPIETARIOS:",
                         error
+                    );
+
+                });
+
+        },
+
+        listarReporteInmuebles() {
+
+            let url =
+                "/api/ReporteApi/Inmuebles";
+
+            if (this.filtroDisponible !== "") {
+
+                url +=
+                    "?disponible=" +
+                    this.filtroDisponible;
+
+            }
+
+            fetch(url)
+
+                .then(response => {
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            "No se pudieron obtener los inmuebles."
+                        );
+
+                    }
+
+                    return response.json();
+
+                })
+
+                .then(data => {
+
+                    this.reporteInmuebles =
+                        data;
+
+                })
+
+                .catch(error => {
+
+                    console.error(error);
+
+                    alert(
+                        "Error al cargar el reporte de inmuebles."
+                    );
+
+                });
+
+        },
+
+        listarReporteInmueblesPorPropietario() {
+
+            if (this.idPropietario === "") {
+
+                alert(
+                    "Seleccione un propietario."
+                );
+
+                return;
+
+            }
+
+            fetch(
+                "/api/ReporteApi/InmueblesPorPropietario/" +
+                this.idPropietario
+            )
+
+                .then(response => {
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            "No se pudieron obtener los inmuebles."
+                        );
+
+                    }
+
+                    return response.json();
+
+                })
+
+                .then(data => {
+
+                    this.reporteInmueblesPropietario =
+                        data;
+
+                })
+
+                .catch(error => {
+
+                    console.error(error);
+
+                    alert(
+                        "Error al cargar los inmuebles del propietario."
+                    );
+
+                });
+
+        },
+
+        listarReporteInmueblesDisponibles() {
+
+            if (
+                this.fechaInicio === "" ||
+                this.fechaFin === ""
+            ) {
+
+                alert(
+                    "Seleccione las dos fechas."
+                );
+
+                return;
+
+            }
+
+            fetch(
+                "/api/ReporteApi/InmueblesDisponibles" +
+                "?fechaInicio=" +
+                this.fechaInicio +
+                "&fechaFin=" +
+                this.fechaFin
+            )
+
+                .then(response => {
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            "No se pudieron obtener los inmuebles disponibles."
+                        );
+
+                    }
+
+                    return response.json();
+
+                })
+
+                .then(data => {
+
+                    this.reporteInmueblesDisponibles =
+                        data;
+
+                })
+
+                .catch(error => {
+
+                    console.error(error);
+
+                    alert(
+                        "Error al buscar inmuebles disponibles."
                     );
 
                 });

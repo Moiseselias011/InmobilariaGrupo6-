@@ -1,3 +1,9 @@
+<style>
+    [v-cloak] {
+        display: none;
+    }
+</style>
+
 <div id="app" v-cloak>
 
     <h2>Lista de Pagos</h2>
@@ -13,8 +19,6 @@
 
         <thead>
             <tr>
-                <th>Id Pago</th>
-                <th>Id Reserva</th>
                 <th>Fecha Pago</th>
                 <th>Monto</th>
                 <th>Método de Pago</th>
@@ -27,10 +31,6 @@
 
             <tr v-for="pago in pagos"
                 :key="pago.IdPago">
-
-                <td>{{ pago.IdPago }}</td>
-
-                <td>{{ pago.IdReserva }}</td>
 
                 <td>{{ pago.FechaPago }}</td>
 
@@ -77,8 +77,93 @@
 
     </table>
 
-</div>
+    <hr />
 
+    <h2>Reporte de Pagos por Reserva</h2>
+
+    <label>Seleccione una reserva</label>
+
+    <select v-model="reservaReporte"
+            class="form-control">
+
+        <option value="">
+            Seleccione una reserva
+        </option>
+
+        <option v-for="reserva in reservas"
+                :key="reserva.IdReserva"
+                :value="reserva.IdReserva">
+
+            Reserva {{ reserva.IdReserva }}
+            -
+            {{ reserva.FechaInicio }}
+            a
+            {{ reserva.FechaFin }}
+
+        </option>
+
+    </select>
+
+    <br />
+
+    <button class="btn btn-primary"
+            v-on:click="listarPagosPorReserva">
+
+        Buscar pagos
+
+    </button>
+
+    <br />
+    <br />
+
+    <table class="table"
+           v-if="pagosReporte.length > 0">
+
+        <thead>
+
+            <tr>
+                <th>Fecha Pago</th>
+                <th>Monto</th>
+                <th>Método de Pago</th>
+                <th>Estado</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr v-for="pago in pagosReporte"
+                :key="pago.IdPago">
+
+                <td>{{ pago.FechaPago }}</td>
+
+                <td>{{ pago.Monto }}</td>
+
+                <td>{{ pago.MetodoPago }}</td>
+
+                <td>
+
+                    <span v-if="pago.Anulado">
+                        Anulado
+                    </span>
+
+                    <span v-else>
+                        Activo
+                    </span>
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+    <p v-if="reservaReporte && pagosReporte.length === 0">
+        No hay pagos registrados para esta reserva.
+    </p>
+
+</div>
 
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 

@@ -15,6 +15,12 @@ const app = Vue.createApp({
 
             mostrarInmuebles: false,
 
+            fechaReporteInicio: "",
+
+            fechaReporteFin: "",
+
+            reservasReporte: [],
+
             reserva: {
                 IdReserva: 0,
                 IdInquilino: 0,
@@ -482,6 +488,62 @@ const app = Vue.createApp({
                     console.error(
                         " ERROR:",
                         error
+                    );
+
+                });
+
+        },
+
+        listarReservasPorPeriodo() {
+
+            if (
+                this.fechaReporteInicio === "" ||
+                this.fechaReporteFin === ""
+            ) {
+
+                alert(
+                    "Seleccione las dos fechas."
+                );
+
+                return;
+
+            }
+
+            fetch(
+                "/api/ReporteApi/ReservasPorPeriodo" +
+                "?fechaInicio=" +
+                this.fechaReporteInicio +
+                "&fechaFin=" +
+                this.fechaReporteFin
+            )
+
+                .then(response => {
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            "No se pudieron obtener las reservas."
+                        );
+
+                    }
+
+                    return response.json();
+
+                })
+
+                .then(data => {
+
+                    this.reservasReporte =
+                        data;
+
+                })
+
+                .catch(error => {
+
+                    console.error(error);
+
+                    alert(
+                        "Error al cargar las reservas."
                     );
 
                 });

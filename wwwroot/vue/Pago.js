@@ -11,6 +11,10 @@ const app = Vue.createApp({
 
             reservaSeleccionada: null,
 
+            reservaReporte: "",
+
+            pagosReporte: [],
+
             pago: {
                 IdPago: 0,
                 IdReserva: 0,
@@ -35,17 +39,12 @@ const app = Vue.createApp({
 
         console.log("RUTA:", ruta);
 
-
-        // INDEX
-
         if (ruta === "/Pago" || ruta === "/Pago/") {
 
             this.listarPagos();
+            this.listarReservas();
 
         }
-
-
-        // CREATE
 
         if (
             ruta === "/Pago/Create" ||
@@ -55,9 +54,6 @@ const app = Vue.createApp({
             this.listarReservas();
 
         }
-
-
-        // EDIT, DELETE Y DETAILS
 
         if (
             ruta.includes("/Pago/Edit/") ||
@@ -105,9 +101,6 @@ const app = Vue.createApp({
 
     methods: {
 
-
-        // INDEX
-
         listarPagos() {
 
             console.log("LISTAR PAGOS EJECUTADO");
@@ -151,9 +144,6 @@ const app = Vue.createApp({
                 });
 
         },
-
-
-        // LISTAR RESERVAS
 
         listarReservas() {
 
@@ -204,9 +194,6 @@ const app = Vue.createApp({
 
         },
 
-
-        // SELECCIONAR RESERVA
-
         seleccionarReserva() {
 
             console.log(
@@ -239,8 +226,6 @@ const app = Vue.createApp({
                 return;
 
             }
-
-            // Calcular monto
 
             const fechaInicio =
                 new Date(
@@ -279,8 +264,60 @@ const app = Vue.createApp({
 
         },
 
+        listarPagosPorReserva() {
 
-        // CREATE
+            if (
+                this.reservaReporte === "" ||
+                this.reservaReporte === null
+            ) {
+
+                alert(
+                    "Debe seleccionar una reserva."
+                );
+
+                return;
+
+            }
+
+            fetch(
+                "/api/ReporteApi/PagosReserva/" +
+                this.reservaReporte
+            )
+
+                .then(response => {
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            "No se pudieron obtener los pagos."
+                        );
+
+                    }
+
+                    return response.json();
+
+                })
+
+                .then(data => {
+
+                    this.pagosReporte = data;
+
+                })
+
+                .catch(error => {
+
+                    console.error(
+                        "ERROR REPORTE PAGOS:",
+                        error
+                    );
+
+                    alert(
+                        "Error al cargar los pagos."
+                    );
+
+                });
+
+        },
 
         crearPago() {
 
@@ -381,9 +418,6 @@ const app = Vue.createApp({
 
         },
 
-
-        // OBTENER ID
-
         obtenerId() {
 
             const partes =
@@ -394,9 +428,6 @@ const app = Vue.createApp({
             ];
 
         },
-
-
-        // OBTENER PAGO
 
         obtenerPago() {
 
@@ -454,9 +485,6 @@ const app = Vue.createApp({
                 });
 
         },
-
-
-        // EDITAR
 
         editarPago() {
 
@@ -519,9 +547,6 @@ const app = Vue.createApp({
                 });
 
         },
-
-
-        // ANULAR PAGO
 
         eliminarPago() {
 
