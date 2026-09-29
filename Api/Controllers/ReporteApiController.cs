@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using InmobilariaGrupo6_.Data;
 
 namespace InmobilariaGrupo6_.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize(Roles = "Empleado,Administrador")]
 public class ReporteApiController : ControllerBase
 {
     private readonly InmobiliariaContext _context;

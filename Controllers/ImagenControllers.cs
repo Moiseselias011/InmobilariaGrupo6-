@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace InmobilariaGrupo6_.Controllers
 {
+    [Authorize(Roles = "Empleado,Administrador")]
     public class ImagenController : Controller
     {
         private readonly RepositorioImagen _repositorio;
@@ -27,7 +28,6 @@ namespace InmobilariaGrupo6_.Controllers
         public IActionResult Create()
         {
             var inmuebles = _repositorioInmueble.GetAll();
-
             ViewBag.Inmuebles = inmuebles;
 
             return View();
@@ -79,7 +79,8 @@ namespace InmobilariaGrupo6_.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-        
+
+        [Authorize(Roles = "Administrador")]
         public IActionResult Delete(int id)
         {
             var imagen = _repositorio.GetById(id);

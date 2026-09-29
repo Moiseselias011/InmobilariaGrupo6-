@@ -1,12 +1,13 @@
-
 using InmobilariaGrupo6_.Api.Controllers;
 using InmobilariaGrupo6_.Models;
 using InmobilariaGrupo6_.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InmobilariaGrupo6_.Controllers;
 
+[Authorize(Roles = "Empleado,Administrador")]
 public class ControllerInmueble : ControllerApiBase<Inmueble>
 {
     public ControllerInmueble(InmobiliariaContext context)
@@ -20,31 +21,26 @@ public class ControllerInmueble : ControllerApiBase<Inmueble>
         var consulta = _context.Inmueble
             .AsQueryable();
 
-        // Solo muestra inmuebles disponibles
         consulta = consulta.Where(i => i.Disponible);
 
-        // Filtra por dirección
         if (!string.IsNullOrWhiteSpace(filtros.Direccion))
         {
             consulta = consulta.Where(i =>
                 i.Direccion.Contains(filtros.Direccion));
         }
 
-        // Filtra por tipo
         if (filtros.IdTipoInmueble.HasValue)
         {
             consulta = consulta.Where(i =>
                 i.IdTipoInmueble == filtros.IdTipoInmueble.Value);
         }
 
-        // Filtra por cupo mínimo
         if (filtros.Cupo.HasValue)
         {
             consulta = consulta.Where(i =>
                 i.Cupo >= filtros.Cupo.Value);
         }
 
-        // Filtra por fechas
         if (filtros.FechaInicio.HasValue &&
             filtros.FechaFin.HasValue)
         {
@@ -62,4 +58,3 @@ public class ControllerInmueble : ControllerApiBase<Inmueble>
         return Ok(consulta.ToList());
     }
 }
-

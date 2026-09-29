@@ -8,6 +8,7 @@ using System.Security.Claims;
 
 namespace InmobilariaGrupo6_.Controllers;
 
+[Authorize(Roles = "Empleado,Administrador")]
 public class ControllerPago : ControllerApiBase<Pago>
 {
     public ControllerPago(InmobiliariaContext context)
@@ -24,7 +25,6 @@ public class ControllerPago : ControllerApiBase<Pago>
             .FirstOrDefault(p => p.IdPago == id);
     }
 
-    // OBTENER RESERVAS PARA CREAR PAGOS
     [HttpGet("Reservas")]
     public IActionResult ObtenerReservas()
     {
@@ -39,7 +39,6 @@ public class ControllerPago : ControllerApiBase<Pago>
     [HttpPost]
     public override void Create(Pago pago)
     {
-        // Buscar la reserva
         var reserva = _context.Set<Reserva>()
             .FirstOrDefault(r => r.IdReserva == pago.IdReserva);
 
@@ -48,15 +47,12 @@ public class ControllerPago : ControllerApiBase<Pago>
             throw new Exception("La reserva no existe.");
         }
 
-        // Calcular cantidad de días
         var cantidadDias =
             (reserva.FechaFin - reserva.FechaInicio).Days;
 
-        // Calcular monto total
         pago.Monto =
             cantidadDias * reserva.MontoPorDia;
 
-        // Obtener usuario que crea el pago
         var idUsuario = int.Parse(
             User.FindFirst(ClaimTypes.NameIdentifier)!.Value
         );

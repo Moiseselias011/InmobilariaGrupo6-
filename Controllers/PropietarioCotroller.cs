@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace InmobilariaGrupo6_.Controllers
 {
+    [Authorize(Roles = "Empleado,Administrador")]
     public class PropietarioController : Controller
     {
         private readonly RepositorioPropietario _repositorio;
@@ -63,6 +64,7 @@ namespace InmobilariaGrupo6_.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Administrador")]
         public IActionResult Delete(int id)
         {
             var propietario = _repositorio.GetById(id);
@@ -81,10 +83,9 @@ namespace InmobilariaGrupo6_.Controllers
             _repositorio.Delete(id);
 
             return RedirectToAction(nameof(Index));
-     
         }
 
-           public IActionResult Details(int id)
+        public IActionResult Details(int id)
         {
             var propietario = _repositorio.GetById(id);
 
@@ -94,8 +95,6 @@ namespace InmobilariaGrupo6_.Controllers
             }
 
             return View(propietario);
-        } 
-
-
+        }
     }
 }

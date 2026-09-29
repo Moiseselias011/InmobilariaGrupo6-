@@ -1,12 +1,14 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using InmobilariaGrupo6_.Api.Controllers;
 using InmobilariaGrupo6_.Data;
 using InmobilariaGrupo6_.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace InmobilariaGrupo6_.Controllers;
 
+[Authorize(Roles = "Empleado,Administrador")]
 public class ControllerReserva : ControllerApiBase<Reserva>
 {
     public ControllerReserva(InmobiliariaContext context)
@@ -43,7 +45,6 @@ public class ControllerReserva : ControllerApiBase<Reserva>
         int id,
         [FromBody] ExtenderReservaRequest request)
     {
-     
         var reservaOriginal = _context.Set<Reserva>()
             .FirstOrDefault(r => r.IdReserva == id);
 
@@ -59,7 +60,6 @@ public class ControllerReserva : ControllerApiBase<Reserva>
             );
         }
 
-        
         if (request.FechaInicio < reservaOriginal.FechaFin)
         {
             return BadRequest(
@@ -67,7 +67,6 @@ public class ControllerReserva : ControllerApiBase<Reserva>
             );
         }
 
-     
         var existeSolapamiento = _context.Set<Reserva>()
             .Any(r =>
                 r.IdReserva != reservaOriginal.IdReserva &&
@@ -83,7 +82,6 @@ public class ControllerReserva : ControllerApiBase<Reserva>
             );
         }
 
-        
         var idUsuario = int.Parse(
             User.FindFirst(ClaimTypes.NameIdentifier)!.Value
         );
@@ -104,15 +102,11 @@ public class ControllerReserva : ControllerApiBase<Reserva>
         return Ok(nuevaReserva);
     }
 
-
-    
-
     [HttpPost("Terminar/{id}")]
     public IActionResult TerminarReserva(
         int id,
         [FromBody] TerminarReservaRequest request)
     {
-    
         var reserva = _context.Set<Reserva>()
             .FirstOrDefault(r => r.IdReserva == id);
 
@@ -121,7 +115,6 @@ public class ControllerReserva : ControllerApiBase<Reserva>
             return NotFound("La reserva no existe.");
         }
 
-      
         if (reserva.FechaTerminacion.HasValue)
         {
             return BadRequest(
@@ -129,8 +122,6 @@ public class ControllerReserva : ControllerApiBase<Reserva>
             );
         }
 
-       
-       
         if (request.FechaTerminacion <= reserva.FechaInicio)
         {
             return BadRequest(
@@ -148,11 +139,9 @@ public class ControllerReserva : ControllerApiBase<Reserva>
         var diasOriginales =
             (reserva.FechaFin - reserva.FechaInicio).Days;
 
-    
         var diasTranscurridos =
             (request.FechaTerminacion - reserva.FechaInicio).Days;
 
-       
         var diasRestantes =
             (reserva.FechaFin - request.FechaTerminacion).Days;
 
@@ -170,7 +159,6 @@ public class ControllerReserva : ControllerApiBase<Reserva>
             );
         }
 
-        // Determinar porcentaje de multa
         decimal porcentajeMulta;
 
         if (diasTranscurridos < diasOriginales / 2.0)
@@ -182,7 +170,6 @@ public class ControllerReserva : ControllerApiBase<Reserva>
             porcentajeMulta = 0.25m;
         }
 
-     
         var montoRestante =
             diasRestantes * reserva.MontoPorDia;
 
@@ -199,7 +186,6 @@ public class ControllerReserva : ControllerApiBase<Reserva>
 
         var idUsuario = int.Parse(claimUsuario.Value);
 
-
         if (string.IsNullOrWhiteSpace(request.MetodoPago))
         {
             return BadRequest(
@@ -207,22 +193,17 @@ public class ControllerReserva : ControllerApiBase<Reserva>
             );
         }
 
-       
-      
-      
-
         using var transaction =
             _context.Database.BeginTransaction();
 
         try
         {
-           
             reserva.FechaTerminacion =
                 request.FechaTerminacion;
 
             reserva.IdUsuarioTerminacion =
                 idUsuario;
-           
+
             var pagoMulta = new Pago
             {
                 IdReserva = reserva.IdReserva,
@@ -247,10 +228,8 @@ public class ControllerReserva : ControllerApiBase<Reserva>
 
             _context.Set<Pago>().Add(pagoMulta);
 
-           
             _context.SaveChanges();
 
-            
             transaction.Commit();
 
             return Ok(new
@@ -299,20 +278,12 @@ public class ControllerReserva : ControllerApiBase<Reserva>
     }
 }
 
-
-
-
-
-
 public class ExtenderReservaRequest
 {
     public DateTime FechaInicio { get; set; }
 
     public DateTime FechaFin { get; set; }
 }
-
-
-
 
 public class TerminarReservaRequest
 {

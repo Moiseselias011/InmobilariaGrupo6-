@@ -1,59 +1,59 @@
-
 using InmobilariaGrupo6_.Models;
 using InmobilariaGrupo6_.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InmobilariaGrupo6_.Controllers;
-
-public class PagoController : Controller
+namespace InmobilariaGrupo6_.Controllers
 {
-    private readonly RepositorioPago _repositorio;
-
-    public PagoController(RepositorioPago repositorio)
+    [Authorize(Roles = "Empleado,Administrador")]
+    public class PagoController : Controller
     {
-        _repositorio = repositorio;
-    }
+        private readonly RepositorioPago _repositorio;
 
-    public IActionResult Index()
-    {
-        return View();
-    }
-
-    public IActionResult Create()
-    {
-        return View();
-    }
-
-    public IActionResult Edit(int id)
-    {
-        return View();
-    }
-
-    public IActionResult Delete(int id)
-    {
-        var pago = _repositorio.GetById(id);
-
-        if (pago == null)
+        public PagoController(RepositorioPago repositorio)
         {
-            return NotFound();
+            _repositorio = repositorio;
         }
 
-        return View(pago);
-    }
+        public IActionResult Index()
+        {
+            return View();
+        }
 
-    [Authorize(Roles = "Administrador")]
+        public IActionResult Create()
+        {
+            return View();
+        }
 
-    public IActionResult DeleteConfirmed(int id)
-    {
-        _repositorio.Delete(id);
+        public IActionResult Edit(int id)
+        {
+            return View();
+        }
 
-        return RedirectToAction(nameof(Index));
-    }
+        [Authorize(Roles = "Administrador")]
+        public IActionResult Delete(int id)
+        {
+            var pago = _repositorio.GetById(id);
 
-    public IActionResult Details(int id)
-    {
-        return View();
+            if (pago == null)
+            {
+                return NotFound();
+            }
+
+            return View(pago);
+        }
+
+        [Authorize(Roles = "Administrador")]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            _repositorio.Delete(id);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Details(int id)
+        {
+            return View();
+        }
     }
 }
-

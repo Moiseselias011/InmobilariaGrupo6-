@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace InmobilariaGrupo6_.Controllers
 {
+    [Authorize(Roles = "Empleado,Administrador")]
     public class TipoInmuebleController : Controller
     {
         private readonly RepositorioTipoInmueble _repositorio;
@@ -16,8 +17,8 @@ namespace InmobilariaGrupo6_.Controllers
 
         public IActionResult Index()
         {
-            var TipoInmueble = _repositorio.GetAll();
-            return View(TipoInmueble);
+            var tipoInmueble = _repositorio.GetAll();
+            return View(tipoInmueble);
         }
 
         public IActionResult Create()
@@ -63,6 +64,7 @@ namespace InmobilariaGrupo6_.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Administrador")]
         public IActionResult Delete(int id)
         {
             var tipoInmueble = _repositorio.GetById(id);
@@ -83,8 +85,7 @@ namespace InmobilariaGrupo6_.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
-         public IActionResult Details(int id)
+        public IActionResult Details(int id)
         {
             var tipoInmueble = _repositorio.GetById(id);
 
@@ -94,50 +95,9 @@ namespace InmobilariaGrupo6_.Controllers
             }
 
             return View(tipoInmueble);
-        } 
-
-
-
-
-
-
+        }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

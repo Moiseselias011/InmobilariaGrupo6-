@@ -5,33 +5,33 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace InmobilariaGrupo6_.Controllers
 {
-
- public class InmuebleController : Controller
+    [Authorize(Roles = "Empleado,Administrador")]
+    public class InmuebleController : Controller
     {
         private readonly RepositorioInmueble _repositorio;
         private readonly RepositorioTipoInmueble _repositorioTipo;
 
         public InmuebleController(
-        RepositorioInmueble repositorio,
-        RepositorioTipoInmueble repositorioTipo)
+            RepositorioInmueble repositorio,
+            RepositorioTipoInmueble repositorioTipo)
         {
-         _repositorio = repositorio;
-        _repositorioTipo = repositorioTipo;
-}
+            _repositorio = repositorio;
+            _repositorioTipo = repositorioTipo;
+        }
 
         public IActionResult Index()
         {
-            var Inmueble = _repositorio.GetAll();
-            return View(Inmueble);
+            var inmueble = _repositorio.GetAll();
+            return View(inmueble);
         }
 
         public IActionResult Create()
         {
-        var tipos = _repositorioTipo.GetAll();
+            var tipos = _repositorioTipo.GetAll();
 
-         ViewBag.Tipos = tipos;
+            ViewBag.Tipos = tipos;
 
-        return View();
+            return View();
         }
 
         [HttpPost]
@@ -72,6 +72,7 @@ namespace InmobilariaGrupo6_.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Administrador")]
         public IActionResult Delete(int id)
         {
             var inmueble = _repositorio.GetById(id);
@@ -91,7 +92,8 @@ namespace InmobilariaGrupo6_.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-             public IActionResult Details(int id)
+
+        public IActionResult Details(int id)
         {
             var inmueble = _repositorio.GetById(id);
 
@@ -101,27 +103,18 @@ namespace InmobilariaGrupo6_.Controllers
             }
 
             return View(inmueble);
-        }  
-        
-        public IActionResult Buscar()
-        {
-        var tipos = _repositorioTipo.GetAll();
-
-        ViewBag.Tipos = tipos;
-
-        return View();
         }
 
+        public IActionResult Buscar()
+        {
+            var tipos = _repositorioTipo.GetAll();
 
+            ViewBag.Tipos = tipos;
 
+            return View();
+        }
+    }
 }
-
-
-}
-
-
-
-
 
 
 

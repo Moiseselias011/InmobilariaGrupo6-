@@ -1,4 +1,3 @@
-
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -16,11 +15,9 @@ public class LoginController : Controller
         _context = context;
     }
 
-
     [HttpGet]
     public IActionResult Index()
     {
-        // Si ya está logueado, lo mandamos al inicio
         if (User.Identity != null && User.Identity.IsAuthenticated)
         {
             return RedirectToAction("Index", "Home");
@@ -51,7 +48,6 @@ public class LoginController : Controller
             return View();
         }
 
-        // Creamos las identidades del usuario
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, usuario.IdUsuario.ToString()),
@@ -69,7 +65,6 @@ public class LoginController : Controller
             IsPersistent = true
         };
 
-        // Creamos la cookie de autenticación
         await HttpContext.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme,
             new ClaimsPrincipal(identidad),
@@ -78,7 +73,6 @@ public class LoginController : Controller
         return RedirectToAction("Index", "Home");
     }
 
-    
     [HttpGet]
     public async Task<IActionResult> Logout()
     {
@@ -88,11 +82,9 @@ public class LoginController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    
     [HttpGet]
     public IActionResult AccesoDenegado()
     {
         return View();
     }
 }
-

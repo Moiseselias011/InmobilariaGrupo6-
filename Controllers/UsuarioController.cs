@@ -6,7 +6,7 @@ using System.Security.Claims;
 
 namespace InmobilariaGrupo6_.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Empleado,Administrador")]
 public class UsuarioController : Controller
 {
     private readonly InmobiliariaContext _context;
@@ -16,7 +16,6 @@ public class UsuarioController : Controller
         _context = context;
     }
 
-    // PERFIL DEL USUARIO LOGUEADO
     public IActionResult Perfil()
     {
         var idUsuario = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -37,7 +36,6 @@ public class UsuarioController : Controller
         return View(usuario);
     }
 
-    // OBTENER PERFIL PARA VUE
     [HttpGet]
     public IActionResult ObtenerPerfil()
     {
@@ -59,7 +57,6 @@ public class UsuarioController : Controller
         return Json(usuario);
     }
 
-    // ACTUALIZAR PERFIL DEL USUARIO LOGUEADO
     [HttpPost]
     public IActionResult ActualizarPerfil(
         string Nombre,
@@ -82,12 +79,10 @@ public class UsuarioController : Controller
             return NotFound();
         }
 
-        // Actualizamos solamente los datos permitidos
         usuarioActual.Nombre = Nombre;
         usuarioActual.Apellido = Apellido;
         usuarioActual.Email = Email;
 
-        // Si seleccionó un avatar
         if (Avatar != null && Avatar.Length > 0)
         {
             var carpeta = Path.Combine(
@@ -103,9 +98,7 @@ public class UsuarioController : Controller
             }
 
             var extension = Path.GetExtension(Avatar.FileName);
-
             var nombreArchivo = $"{usuarioActual.IdUsuario}{extension}";
-
             var ruta = Path.Combine(carpeta, nombreArchivo);
 
             using (var stream = new FileStream(ruta, FileMode.Create))
@@ -120,9 +113,6 @@ public class UsuarioController : Controller
 
         return Json(usuarioActual);
     }
-
-
-    // ADMINISTRACIÓN DE USUARIOS
 
     [Authorize(Roles = "Administrador")]
     public IActionResult Index()

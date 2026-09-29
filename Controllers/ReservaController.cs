@@ -4,9 +4,9 @@ using InmobilariaGrupo6_.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
-
 namespace InmobilariaGrupo6_.Controllers
 {
+    [Authorize(Roles = "Empleado,Administrador")]
     public class ReservaController : Controller
     {
         private readonly RepositorioReserva _repositorio;
@@ -23,43 +23,40 @@ namespace InmobilariaGrupo6_.Controllers
             return View(reservas);
         }
 
-       
-    public IActionResult Create(
-    int? idInmueble,
-    DateTime? fechaInicio,
-    DateTime? fechaFin)
-    {
-    Console.WriteLine("ID INMUEBLE: " + idInmueble);
-    Console.WriteLine("FECHA INICIO: " + fechaInicio);
-    Console.WriteLine("FECHA FIN: " + fechaFin);
+        public IActionResult Create(
+            int? idInmueble,
+            DateTime? fechaInicio,
+            DateTime? fechaFin)
+        {
+            Console.WriteLine("ID INMUEBLE: " + idInmueble);
+            Console.WriteLine("FECHA INICIO: " + fechaInicio);
+            Console.WriteLine("FECHA FIN: " + fechaFin);
 
-    ViewBag.IdInmueble = idInmueble;
-    ViewBag.FechaInicio = fechaInicio;
-    ViewBag.FechaFin = fechaFin;
+            ViewBag.IdInmueble = idInmueble;
+            ViewBag.FechaInicio = fechaInicio;
+            ViewBag.FechaFin = fechaFin;
 
-    return View();
-    }
+            return View();
+        }
 
+        [HttpPost]
+        public IActionResult Create(Reserva reserva)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(reserva);
+            }
 
+            var idUsuario = int.Parse(
+                User.FindFirst(ClaimTypes.NameIdentifier)!.Value
+            );
 
-      [HttpPost]
-    public IActionResult Create(Reserva reserva)
-    {
-    if (!ModelState.IsValid)
-    {
-        return View(reserva);
-    }
+            reserva.IdUsuarioCreacion = idUsuario;
 
-    var idUsuario = int.Parse(
-        User.FindFirst(ClaimTypes.NameIdentifier)!.Value
-    );
+            _repositorio.Create(reserva);
 
-    reserva.IdUsuarioCreacion = idUsuario;
-
-    _repositorio.Create(reserva);
-
-    return RedirectToAction(nameof(Index));
-    }
+            return RedirectToAction(nameof(Index));
+        }
 
         public IActionResult Edit(int id)
         {
@@ -86,6 +83,7 @@ namespace InmobilariaGrupo6_.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Administrador")]
         public IActionResult Delete(int id)
         {
             var reserva = _repositorio.GetById(id);
@@ -107,15 +105,15 @@ namespace InmobilariaGrupo6_.Controllers
         }
 
         public IActionResult Details(int id)
-{
-         var reserva = _repositorio.GetByIdConDetalles(id);
+        {
+            var reserva = _repositorio.GetByIdConDetalles(id);
 
-          if (reserva == null)
-          {
-          return NotFound();
-          }
+            if (reserva == null)
+            {
+                return NotFound();
+            }
 
-           return View(reserva);
-}
+            return View(reserva);
+        }
     }
 }
