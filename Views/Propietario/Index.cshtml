@@ -1,52 +1,141 @@
+<div id="app" v-cloak>
 
-<div id="app"v-cloak>
+    <h2>Lista de Propietarios</h2>
 
-<h2>Lista de Propietarios</h2>
+    <a asp-action="Create"
+       class="btn btn-primary">
 
+        Nuevo Propietario
 
-<a asp-action="Create" class="btn btn-primary">Nuevo Propietario</a>
+    </a>
 
-<table class="table">
-   <thead>
-      <tr>
-           <th>Nombre</th>
-           <th>Apellido</th>
-           <th>Dni</th>
-           <th>Telefono</th>
-           <th>Gmail</th>
-           <th>Acciones</th>
-      </tr>      
- </thead>  
-   <tbody>
-        
-        
-            <tr v-for="propietario in propietarios" 
-            :key="propietario.idPropietario">
+    <br />
+    <br />
 
-                <td>{{propietario.nombre}}</td>
-                <td>{{propietario.apellido}}</td>
-                <td>{{propietario.dni}}</td>
-                <td>{{propietario.telefono}}</td>
-                <td>{{propietario.email}}</td>
+    <div class="row">
+
+        <div class="col-md-6">
+
+            <input type="text"
+                   v-model="buscar"
+                   v-on:keyup.enter="listarPropietarios"
+                   class="form-control"
+                   placeholder="Buscar por nombre..." />
+
+        </div>
+
+        <div class="col-md-2">
+
+            <button class="btn btn-primary"
+                    v-on:click="listarPropietarios">
+
+                Buscar
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <br />
+
+    <table class="table">
+
+        <thead>
+
+            <tr>
+
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Dni</th>
+                <th>Telefono</th>
+                <th>Gmail</th>
+                <th>Acciones</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr v-for="propietario in propietarios"
+                :key="propietario.idPropietario">
 
                 <td>
+                    {{ propietario.nombre }}
+                </td>
+
+                <td>
+                    {{ propietario.apellido }}
+                </td>
+
+                <td>
+                    {{ propietario.dni }}
+                </td>
+
+                <td>
+                    {{ propietario.telefono }}
+                </td>
+
+                <td>
+                    {{ propietario.email }}
+                </td>
+
+                <td>
+
                     <a :href="'/Propietario/Edit/' + propietario.idPropietario"
                        class="btn btn-warning">
+
                         Editar
+
                     </a>
 
                     <a :href="'/Propietario/Delete/' + propietario.idPropietario"
                        class="btn btn-danger">
+
                         Eliminar
+
                     </a>
+
                     <a :href="'/Propietario/Details/' + propietario.idPropietario"
                        class="btn btn-warning">
-                       Details
-                    </a> 
+
+                        Details
+
+                    </a>
+
                 </td>
+
             </tr>
-    </tbody>
-</table>   
+
+        </tbody>
+
+    </table>
+
+    <div class="d-flex align-items-center gap-2">
+
+        <button class="btn btn-secondary"
+                v-on:click="paginaAnterior"
+                :disabled="pagina <= 1">
+
+            Anterior
+
+        </button>
+
+        <span>
+            Página {{ pagina }} de {{ totalPaginas }}
+        </span>
+
+        <button class="btn btn-secondary"
+                v-on:click="paginaSiguiente"
+                :disabled="pagina >= totalPaginas">
+
+            Siguiente
+
+        </button>
+
+    </div>
+
 </div>
 
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>

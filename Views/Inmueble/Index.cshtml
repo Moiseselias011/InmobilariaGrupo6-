@@ -6,6 +6,36 @@
         Nuevo Inmueble
     </a>
 
+    <br />
+    <br />
+
+    <div class="row">
+
+        <div class="col-md-6">
+
+            <input type="text"
+                   v-model="buscar"
+                   v-on:keyup.enter="listarInmueble"
+                   class="form-control"
+                   placeholder="Buscar por dirección..." />
+
+        </div>
+
+        <div class="col-md-2">
+
+            <button class="btn btn-primary"
+                    v-on:click="listarInmueble">
+
+                Buscar
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <br />
+
     <table class="table">
 
         <thead>
@@ -85,6 +115,30 @@
         </tbody>
 
     </table>
+
+    <div class="d-flex align-items-center gap-2">
+
+        <button class="btn btn-secondary"
+                v-on:click="paginaAnterior"
+                :disabled="pagina <= 1">
+
+            Anterior
+
+        </button>
+
+        <span>
+            Página {{ pagina }} de {{ totalPaginas }}
+        </span>
+
+        <button class="btn btn-secondary"
+                v-on:click="paginaSiguiente"
+                :disabled="pagina >= totalPaginas">
+
+            Siguiente
+
+        </button>
+
+    </div>
 
     <hr />
 

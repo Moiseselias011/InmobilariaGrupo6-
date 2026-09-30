@@ -27,16 +27,83 @@ public class ControllerReserva : ControllerApiBase<Reserva>
             .FirstOrDefault(r => r.IdReserva == id);
     }
 
+    [HttpGet("paginado-reservas")]
+    public async Task<IActionResult> GetPaginadoReservas(
+        int pagina = 1,
+        int cantidad = 10,
+        string? buscar = null)
+    {
+        if (pagina < 1)
+        {
+            pagina = 1;
+        }
+
+        if (cantidad < 1)
+        {
+            cantidad = 10;
+        }
+
+        if (cantidad > 100)
+        {
+            cantidad = 100;
+        }
+
+        var consulta = _context.Set<Reserva>()
+            .Include(r => r.Inquilino)
+            .Include(r => r.Inmueble)
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(buscar))
+        {
+            buscar = buscar.Trim();
+
+            consulta = consulta.Where(r =>
+                r.Inquilino.NombreCompleto.Contains(buscar) ||
+                r.Inmueble.Direccion.Contains(buscar)
+            );
+        }
+
+        var total =
+            await consulta.CountAsync();
+
+        var datos =
+            await consulta
+                .OrderBy(r => r.IdReserva)
+                .Skip(
+                    (pagina - 1) *
+                    cantidad
+                )
+                .Take(cantidad)
+                .ToListAsync();
+
+        return Ok(new
+        {
+            datos,
+            pagina,
+            cantidad,
+            total,
+            totalPaginas =
+                (int)Math.Ceiling(
+                    (double)total /
+                    cantidad
+                )
+        });
+    }
+
     [HttpPost]
     public override void Create(Reserva reserva)
     {
         var idUsuario = int.Parse(
-            User.FindFirst(ClaimTypes.NameIdentifier)!.Value
+            User.FindFirst(
+                ClaimTypes.NameIdentifier
+            )!.Value
         );
 
-        reserva.IdUsuarioCreacion = idUsuario;
+        reserva.IdUsuarioCreacion =
+            idUsuario;
 
         _context.Set<Reserva>().Add(reserva);
+
         _context.SaveChanges();
     }
 
@@ -45,35 +112,54 @@ public class ControllerReserva : ControllerApiBase<Reserva>
         int id,
         [FromBody] ExtenderReservaRequest request)
     {
-        var reservaOriginal = _context.Set<Reserva>()
-            .FirstOrDefault(r => r.IdReserva == id);
+        var reservaOriginal =
+            _context.Set<Reserva>()
+                .FirstOrDefault(
+                    r => r.IdReserva == id
+                );
 
         if (reservaOriginal == null)
         {
-            return NotFound("La reserva no existe.");
+            return NotFound(
+                "La reserva no existe."
+            );
         }
 
-        if (request.FechaInicio >= request.FechaFin)
+        if (
+            request.FechaInicio >=
+            request.FechaFin
+        )
         {
             return BadRequest(
                 "La fecha de inicio debe ser anterior a la fecha de fin."
             );
         }
 
-        if (request.FechaInicio < reservaOriginal.FechaFin)
+        if (
+            request.FechaInicio <
+            reservaOriginal.FechaFin
+        )
         {
             return BadRequest(
                 "La extensión debe comenzar desde la fecha de finalización de la reserva original."
             );
         }
 
-        var existeSolapamiento = _context.Set<Reserva>()
-            .Any(r =>
-                r.IdReserva != reservaOriginal.IdReserva &&
-                r.IdInmueble == reservaOriginal.IdInmueble &&
-                request.FechaInicio < r.FechaFin &&
-                request.FechaFin > r.FechaInicio
-            );
+        var existeSolapamiento =
+            _context.Set<Reserva>()
+                .Any(r =>
+                    r.IdReserva !=
+                        reservaOriginal.IdReserva &&
+
+                    r.IdInmueble ==
+                        reservaOriginal.IdInmueble &&
+
+                    request.FechaInicio <
+                        r.FechaFin &&
+
+                    request.FechaFin >
+                        r.FechaInicio
+                );
 
         if (existeSolapamiento)
         {
@@ -83,20 +169,36 @@ public class ControllerReserva : ControllerApiBase<Reserva>
         }
 
         var idUsuario = int.Parse(
-            User.FindFirst(ClaimTypes.NameIdentifier)!.Value
+            User.FindFirst(
+                ClaimTypes.NameIdentifier
+            )!.Value
         );
 
-        var nuevaReserva = new Reserva
-        {
-            IdInquilino = reservaOriginal.IdInquilino,
-            IdInmueble = reservaOriginal.IdInmueble,
-            FechaInicio = request.FechaInicio,
-            FechaFin = request.FechaFin,
-            MontoPorDia = reservaOriginal.MontoPorDia,
-            IdUsuarioCreacion = idUsuario
-        };
+        var nuevaReserva =
+            new Reserva
+            {
+                IdInquilino =
+                    reservaOriginal.IdInquilino,
 
-        _context.Set<Reserva>().Add(nuevaReserva);
+                IdInmueble =
+                    reservaOriginal.IdInmueble,
+
+                FechaInicio =
+                    request.FechaInicio,
+
+                FechaFin =
+                    request.FechaFin,
+
+                MontoPorDia =
+                    reservaOriginal.MontoPorDia,
+
+                IdUsuarioCreacion =
+                    idUsuario
+            };
+
+        _context.Set<Reserva>()
+            .Add(nuevaReserva);
+
         _context.SaveChanges();
 
         return Ok(nuevaReserva);
@@ -107,12 +209,17 @@ public class ControllerReserva : ControllerApiBase<Reserva>
         int id,
         [FromBody] TerminarReservaRequest request)
     {
-        var reserva = _context.Set<Reserva>()
-            .FirstOrDefault(r => r.IdReserva == id);
+        var reserva =
+            _context.Set<Reserva>()
+                .FirstOrDefault(
+                    r => r.IdReserva == id
+                );
 
         if (reserva == null)
         {
-            return NotFound("La reserva no existe.");
+            return NotFound(
+                "La reserva no existe."
+            );
         }
 
         if (reserva.FechaTerminacion.HasValue)
@@ -122,14 +229,20 @@ public class ControllerReserva : ControllerApiBase<Reserva>
             );
         }
 
-        if (request.FechaTerminacion <= reserva.FechaInicio)
+        if (
+            request.FechaTerminacion <=
+            reserva.FechaInicio
+        )
         {
             return BadRequest(
                 "La fecha de terminación debe ser posterior a la fecha de inicio."
             );
         }
 
-        if (request.FechaTerminacion >= reserva.FechaFin)
+        if (
+            request.FechaTerminacion >=
+            reserva.FechaFin
+        )
         {
             return BadRequest(
                 "La fecha de terminación debe ser anterior a la fecha de fin original."
@@ -137,13 +250,22 @@ public class ControllerReserva : ControllerApiBase<Reserva>
         }
 
         var diasOriginales =
-            (reserva.FechaFin - reserva.FechaInicio).Days;
+            (
+                reserva.FechaFin -
+                reserva.FechaInicio
+            ).Days;
 
         var diasTranscurridos =
-            (request.FechaTerminacion - reserva.FechaInicio).Days;
+            (
+                request.FechaTerminacion -
+                reserva.FechaInicio
+            ).Days;
 
         var diasRestantes =
-            (reserva.FechaFin - request.FechaTerminacion).Days;
+            (
+                reserva.FechaFin -
+                request.FechaTerminacion
+            ).Days;
 
         if (diasOriginales <= 0)
         {
@@ -161,32 +283,48 @@ public class ControllerReserva : ControllerApiBase<Reserva>
 
         decimal porcentajeMulta;
 
-        if (diasTranscurridos < diasOriginales / 2.0)
+        if (
+            diasTranscurridos <
+            diasOriginales / 2.0
+        )
         {
-            porcentajeMulta = 0.50m;
+            porcentajeMulta =
+                0.50m;
         }
         else
         {
-            porcentajeMulta = 0.25m;
+            porcentajeMulta =
+                0.25m;
         }
 
         var montoRestante =
-            diasRestantes * reserva.MontoPorDia;
+            diasRestantes *
+            reserva.MontoPorDia;
 
         var montoMulta =
-            montoRestante * porcentajeMulta;
+            montoRestante *
+            porcentajeMulta;
 
         var claimUsuario =
-            User.FindFirst(ClaimTypes.NameIdentifier);
+            User.FindFirst(
+                ClaimTypes.NameIdentifier
+            );
 
         if (claimUsuario == null)
         {
             return Unauthorized();
         }
 
-        var idUsuario = int.Parse(claimUsuario.Value);
+        var idUsuario =
+            int.Parse(
+                claimUsuario.Value
+            );
 
-        if (string.IsNullOrWhiteSpace(request.MetodoPago))
+        if (
+            string.IsNullOrWhiteSpace(
+                request.MetodoPago
+            )
+        )
         {
             return BadRequest(
                 "Debe seleccionar un método de pago para registrar la multa."
@@ -204,29 +342,32 @@ public class ControllerReserva : ControllerApiBase<Reserva>
             reserva.IdUsuarioTerminacion =
                 idUsuario;
 
-            var pagoMulta = new Pago
-            {
-                IdReserva = reserva.IdReserva,
+            var pagoMulta =
+                new Pago
+                {
+                    IdReserva =
+                        reserva.IdReserva,
 
-                FechaPago =
-                    request.FechaTerminacion,
+                    FechaPago =
+                        request.FechaTerminacion,
 
-                Monto =
-                    Math.Round(
-                        montoMulta,
-                        2
-                    ),
+                    Monto =
+                        Math.Round(
+                            montoMulta,
+                            2
+                        ),
 
-                MetodoPago =
-                    request.MetodoPago,
+                    MetodoPago =
+                        request.MetodoPago,
 
-                IdUsuarioCreacion =
-                    idUsuario,
+                    IdUsuarioCreacion =
+                        idUsuario,
 
-                Anulado = false
-            };
+                    Anulado = false
+                };
 
-            _context.Set<Pago>().Add(pagoMulta);
+            _context.Set<Pago>()
+                .Add(pagoMulta);
 
             _context.SaveChanges();
 
@@ -289,5 +430,6 @@ public class TerminarReservaRequest
 {
     public DateTime FechaTerminacion { get; set; }
 
-    public string MetodoPago { get; set; } = string.Empty;
+    public string MetodoPago { get; set; } =
+        string.Empty;
 }

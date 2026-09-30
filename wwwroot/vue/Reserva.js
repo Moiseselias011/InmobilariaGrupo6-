@@ -11,9 +11,19 @@ const app = Vue.createApp({
 
             inmuebles: [],
 
+            buscar: "",
+
             busquedaInmueble: "",
 
             mostrarInmuebles: false,
+
+            pagina: 1,
+
+            cantidadPorPagina: 10,
+
+            total: 0,
+
+            totalPaginas: 1,
 
             fechaReporteInicio: "",
 
@@ -44,7 +54,8 @@ const app = Vue.createApp({
 
         console.log(" VUE MONTADO");
 
-        const ruta = window.location.pathname;
+        const ruta =
+            window.location.pathname;
 
         console.log(" RUTA:", ruta);
         console.log(" URL:", window.location.href);
@@ -53,7 +64,9 @@ const app = Vue.createApp({
         if (ruta === "/Reserva/Create") {
 
             const parametros =
-                new URLSearchParams(window.location.search);
+                new URLSearchParams(
+                    window.location.search
+                );
 
             console.log(
                 " ID INMUEBLE URL:",
@@ -95,7 +108,9 @@ const app = Vue.createApp({
         ) {
 
             this.listarReservas();
+
             this.listarInquilinos();
+
             this.listarInmuebles();
 
         }
@@ -117,18 +132,23 @@ const app = Vue.createApp({
         inmueblesFiltrados() {
 
             if (!this.busquedaInmueble.trim()) {
+
                 return this.inmuebles;
+
             }
 
-            return this.inmuebles.filter(inmueble =>
-                inmueble.Direccion &&
-                inmueble.Direccion
-                    .toLowerCase()
-                    .includes(
-                        this.busquedaInmueble
-                            .toLowerCase()
-                            .trim()
-                    )
+            return this.inmuebles.filter(
+                inmueble =>
+
+                    inmueble.Direccion &&
+
+                    inmueble.Direccion
+                        .toLowerCase()
+                        .includes(
+                            this.busquedaInmueble
+                                .toLowerCase()
+                                .trim()
+                        )
             );
 
         },
@@ -157,6 +177,7 @@ const app = Vue.createApp({
                 diferencia /
                 (1000 * 60 * 60 * 24)
             );
+
         },
 
         diasTranscurridos() {
@@ -187,6 +208,7 @@ const app = Vue.createApp({
                 diferencia /
                 (1000 * 60 * 60 * 24)
             );
+
         },
 
         diasRestantes() {
@@ -217,6 +239,7 @@ const app = Vue.createApp({
                 diferencia /
                 (1000 * 60 * 60 * 24)
             );
+
         },
 
         porcentajeMulta() {
@@ -226,7 +249,9 @@ const app = Vue.createApp({
                 this.diasTranscurridos <= 0 ||
                 this.diasRestantes <= 0
             ) {
+
                 return 0;
+
             }
 
             if (
@@ -239,6 +264,7 @@ const app = Vue.createApp({
             }
 
             return 0.25;
+
         },
 
         porcentajeMultaTexto() {
@@ -259,14 +285,19 @@ const app = Vue.createApp({
                 this.diasRestantes <= 0 ||
                 !this.reserva.MontoPorDia
             ) {
+
                 return "0.00";
+
             }
 
             const monto =
                 this.diasRestantes *
-                Number(this.reserva.MontoPorDia);
+                Number(
+                    this.reserva.MontoPorDia
+                );
 
             return monto.toFixed(2);
+
         },
 
         montoMulta() {
@@ -275,14 +306,19 @@ const app = Vue.createApp({
                 this.diasRestantes <= 0 ||
                 this.porcentajeMulta <= 0
             ) {
+
                 return "0.00";
+
             }
 
             const monto =
-                Number(this.montoRestante) *
+                Number(
+                    this.montoRestante
+                ) *
                 this.porcentajeMulta;
 
             return monto.toFixed(2);
+
         }
 
     },
@@ -319,7 +355,9 @@ const app = Vue.createApp({
                 !mes ||
                 !dia
             ) {
+
                 return null;
+
             }
 
             return new Date(
@@ -327,6 +365,7 @@ const app = Vue.createApp({
                 mes - 1,
                 dia
             );
+
         },
 
         formatearFecha(fecha) {
@@ -352,13 +391,15 @@ const app = Vue.createApp({
                 "/" +
                 partes[0]
             );
+
         },
 
         obtenerNombreInquilino(id) {
 
             const inquilino =
                 this.inquilinos.find(
-                    i => i.IdInquilino == id
+                    i =>
+                        i.IdInquilino == id
                 );
 
             if (!inquilino) {
@@ -366,13 +407,15 @@ const app = Vue.createApp({
             }
 
             return inquilino.NombreCompleto;
+
         },
 
         obtenerDireccionInmueble(id) {
 
             const inmueble =
                 this.inmuebles.find(
-                    i => i.IdInmueble == id
+                    i =>
+                        i.IdInmueble == id
                 );
 
             if (!inmueble) {
@@ -380,6 +423,7 @@ const app = Vue.createApp({
             }
 
             return inmueble.Direccion;
+
         },
 
         listarInquilinos() {
@@ -388,7 +432,9 @@ const app = Vue.createApp({
                 " LISTAR INQUILINOS EJECUTADO"
             );
 
-            fetch("/api/ControllerInquilino")
+            fetch(
+                "/api/ControllerInquilino"
+            )
 
                 .then(response => {
 
@@ -416,7 +462,8 @@ const app = Vue.createApp({
                         data
                     );
 
-                    this.inquilinos = data;
+                    this.inquilinos =
+                        data;
 
                 })
 
@@ -437,7 +484,9 @@ const app = Vue.createApp({
                 " LISTAR INMUEBLES EJECUTADO"
             );
 
-            fetch("/api/ControllerInmueble")
+            fetch(
+                "/api/ControllerInmueble"
+            )
 
                 .then(response => {
 
@@ -465,7 +514,8 @@ const app = Vue.createApp({
                         data
                     );
 
-                    this.inmuebles = data;
+                    this.inmuebles =
+                        data;
 
                 })
 
@@ -506,7 +556,24 @@ const app = Vue.createApp({
                 " LISTAR RESERVAS EJECUTADO"
             );
 
-            fetch("/api/ControllerReserva")
+            const parametros =
+                new URLSearchParams({
+
+                    pagina:
+                        this.pagina,
+
+                    cantidad:
+                        this.cantidadPorPagina,
+
+                    buscar:
+                        this.buscar
+
+                });
+
+            fetch(
+                "/api/ControllerReserva/paginado-reservas?" +
+                parametros.toString()
+            )
 
                 .then(response => {
 
@@ -534,7 +601,17 @@ const app = Vue.createApp({
                         data
                     );
 
-                    this.reservas = data;
+                    this.reservas =
+                        data.datos;
+
+                    this.pagina =
+                        data.pagina;
+
+                    this.total =
+                        data.total;
+
+                    this.totalPaginas =
+                        data.totalPaginas;
 
                 })
 
@@ -546,6 +623,42 @@ const app = Vue.createApp({
                     );
 
                 });
+
+        },
+
+        buscarReservas() {
+
+            this.pagina = 1;
+
+            this.listarReservas();
+
+        },
+
+        paginaAnterior() {
+
+            if (this.pagina <= 1) {
+                return;
+            }
+
+            this.pagina--;
+
+            this.listarReservas();
+
+        },
+
+        paginaSiguiente() {
+
+            if (
+                this.pagina >=
+                this.totalPaginas
+            ) {
+
+                return;
+            }
+
+            this.pagina++;
+
+            this.listarReservas();
 
         },
 
@@ -999,7 +1112,11 @@ const app = Vue.createApp({
                     this.reserva.FechaFin
                 );
 
-            if (!inicio || !terminacion || !fin) {
+            if (
+                !inicio ||
+                !terminacion ||
+                !fin
+            ) {
 
                 alert(
                     "No se pudieron interpretar correctamente las fechas."
@@ -1185,7 +1302,7 @@ const app = Vue.createApp({
                 .catch(error => {
 
                     console.error(
-                        " ELIMINAR RESERVA ERROR:",
+                        " ERROR:",
                         error
                     );
 

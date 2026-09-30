@@ -10,6 +10,12 @@ const app = Vue.createApp({
             propietarios: [],
             imagenes: [],
 
+            buscar: "",
+            pagina: 1,
+            cantidadPorPagina: 10,
+            total: 0,
+            totalPaginas: 1,
+
             filtroDisponible: "",
             idPropietario: "",
             fechaInicio: "",
@@ -22,23 +28,14 @@ const app = Vue.createApp({
             inmueble: {
 
                 IdInmueble: 0,
-
                 IdPropietario: 0,
-
                 IdTipoInmueble: 0,
-
                 Direccion: "",
-
                 Cupo: 0,
-
                 Coordenadas: "",
-
                 PrecioPorDia: 0,
-
                 PorcentajeSena: 0,
-
                 Disponible: false,
-
                 ImagenPortada: ""
 
             }
@@ -57,16 +54,20 @@ const app = Vue.createApp({
             ruta === "/Inmueble" ||
             ruta === "/Inmueble/"
         ) {
+
             this.listarInmueble();
             this.listarPropietarios();
+
         }
 
         if (
             ruta === "/Inmueble/Create" ||
             ruta === "/Inmueble/Create/"
         ) {
+
             this.listarTipos();
             this.listarPropietarios();
+
         }
 
         if (
@@ -74,14 +75,18 @@ const app = Vue.createApp({
             ruta.includes("/Inmueble/Delete/") ||
             ruta.includes("/Inmueble/Details/")
         ) {
+
             this.obtenerInmueble();
+
         }
 
         if (
             ruta.includes("/Inmueble/Edit/")
         ) {
+
             this.listarTipos();
             this.listarPropietarios();
+
         }
 
     },
@@ -92,7 +97,27 @@ const app = Vue.createApp({
 
             console.log("LISTAR INMUEBLE EJECUTADO");
 
-            fetch("/api/ControllerInmueble")
+            const parametros =
+                new URLSearchParams({
+
+                    pagina:
+                        this.pagina,
+
+                    cantidad:
+                        this.cantidadPorPagina,
+
+                    buscar:
+                        this.buscar,
+
+                    campo:
+                        "Direccion"
+
+                });
+
+            fetch(
+                "/api/ControllerInmueble/paginado?" +
+                parametros.toString()
+            )
 
                 .then(response => {
 
@@ -102,30 +127,41 @@ const app = Vue.createApp({
                     );
 
                     if (!response.ok) {
+
                         throw new Error(
                             "Error al obtener inmuebles"
                         );
+
                     }
 
                     return response.json();
 
                 })
 
-                .then(inmuebles => {
+                .then(resultado => {
 
                     console.log(
                         "INMUEBLES:",
-                        inmuebles
+                        resultado
                     );
 
-                    inmuebles = inmuebles.filter(
-                        inmueble => inmueble.Disponible === true
-                    );
+                    let inmuebles =
+                        resultado.datos;
 
-                    console.log(
-                        "INMUEBLES DISPONIBLES:",
-                        inmuebles
-                    );
+                    inmuebles =
+                        inmuebles.filter(
+                            inmueble =>
+                                inmueble.Disponible === true
+                        );
+
+                    this.total =
+                        resultado.total;
+
+                    this.totalPaginas =
+                        resultado.totalPaginas;
+
+                    this.pagina =
+                        resultado.pagina;
 
                     return fetch(
                         "/api/ControllerImagen"
@@ -139,9 +175,11 @@ const app = Vue.createApp({
                             );
 
                             if (!response.ok) {
+
                                 throw new Error(
                                     "Error al obtener imágenes"
                                 );
+
                             }
 
                             return response.json();
@@ -169,13 +207,6 @@ const app = Vue.createApp({
                                                 ) &&
                                                 imagen.EsPortada === true
                                         );
-
-                                    console.log(
-                                        "INMUEBLE:",
-                                        inmueble.IdInmueble,
-                                        "PORTADA:",
-                                        imagenPortada
-                                    );
 
                                     if (imagenPortada) {
 
@@ -213,6 +244,35 @@ const app = Vue.createApp({
                     );
 
                 });
+
+        },
+
+        paginaAnterior() {
+
+            if (this.pagina <= 1) {
+                return;
+            }
+
+            this.pagina--;
+
+            this.listarInmueble();
+
+        },
+
+        paginaSiguiente() {
+
+            if (
+                this.pagina >=
+                this.totalPaginas
+            ) {
+
+                return;
+
+            }
+
+            this.pagina++;
+
+            this.listarInmueble();
 
         },
 

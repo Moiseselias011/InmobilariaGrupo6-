@@ -1,25 +1,56 @@
+<style>
+    [v-cloak] {
+        display: none;
+    }
+</style>
 
 <div id="app" v-cloak>
 
     <h1>Usuarios</h1>
 
     <p>
-        <a href="/Usuario/Create" class="btn btn-primary">
+
+        <a href="/Usuario/Create"
+           class="btn btn-primary">
+
             Nuevo Usuario
+
         </a>
+
     </p>
+
+    <div class="d-flex gap-2 mb-3">
+
+        <input type="text"
+               v-model="buscar"
+               v-on:keyup.enter="buscarUsuarios"
+               class="form-control"
+               placeholder="Buscar por nombre, apellido o email..." />
+
+        <button class="btn btn-primary"
+                v-on:click="buscarUsuarios">
+
+            🔍 Buscar
+
+        </button>
+
+    </div>
 
     <table class="table table-striped">
 
         <thead>
+
             <tr>
+
                 <th>Id Usuario</th>
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Email</th>
                 <th>Rol</th>
                 <th>Acciones</th>
+
             </tr>
+
         </thead>
 
         <tbody>
@@ -27,27 +58,47 @@
             <tr v-for="usuario in usuarios"
                 :key="usuario.IdUsuario">
 
-                <td>{{usuario.IdUsuario}}</td>
-                <td>{{usuario.Nombre}}</td>
-                <td>{{usuario.Apellido}}</td>
-                <td>{{usuario.Email}}</td>
-                <td>{{usuario.Rol}}</td>
+                <td>
+                    {{ usuario.IdUsuario }}
+                </td>
+
+                <td>
+                    {{ usuario.Nombre }}
+                </td>
+
+                <td>
+                    {{ usuario.Apellido }}
+                </td>
+
+                <td>
+                    {{ usuario.Email }}
+                </td>
+
+                <td>
+                    {{ usuario.Rol }}
+                </td>
 
                 <td>
 
                     <a :href="'/Usuario/Details/' + usuario.IdUsuario"
                        class="btn btn-info btn-sm">
+
                         Detalles
+
                     </a>
 
                     <a :href="'/Usuario/Edit/' + usuario.IdUsuario"
                        class="btn btn-warning btn-sm">
+
                         Editar
+
                     </a>
 
                     <a :href="'/Usuario/Delete/' + usuario.IdUsuario"
                        class="btn btn-danger btn-sm">
+
                         Eliminar
+
                     </a>
 
                 </td>
@@ -58,8 +109,32 @@
 
     </table>
 
+    <div class="d-flex align-items-center gap-2 mb-4">
+
+        <button class="btn btn-secondary"
+                v-on:click="paginaAnterior"
+                :disabled="pagina <= 1">
+
+            Anterior
+
+        </button>
+
+        <span>
+            Página {{ pagina }} de {{ totalPaginas }}
+        </span>
+
+        <button class="btn btn-secondary"
+                v-on:click="paginaSiguiente"
+                :disabled="pagina >= totalPaginas">
+
+            Siguiente
+
+        </button>
+
+    </div>
+
 </div>
 
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-<script src="~/vue/Usuario.js"></script>
 
+<script src="~/vue/Usuario.js"></script>

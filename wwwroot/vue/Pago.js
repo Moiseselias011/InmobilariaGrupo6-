@@ -15,6 +15,18 @@ const app = Vue.createApp({
 
             pagosReporte: [],
 
+            buscar: "",
+
+            buscarReserva: "",
+
+            pagina: 1,
+
+            cantidadPorPagina: 10,
+
+            total: 0,
+
+            totalPaginas: 0,
+
             pago: {
                 IdPago: 0,
                 IdReserva: 0,
@@ -39,9 +51,13 @@ const app = Vue.createApp({
 
         console.log("RUTA:", ruta);
 
-        if (ruta === "/Pago" || ruta === "/Pago/") {
+        if (
+            ruta === "/Pago" ||
+            ruta === "/Pago/"
+        ) {
 
             this.listarPagos();
+
             this.listarReservas();
 
         }
@@ -101,11 +117,47 @@ const app = Vue.createApp({
 
     methods: {
 
+        formatearFecha(fecha) {
+
+            if (!fecha) {
+
+                return "";
+
+            }
+
+            const fechaObj =
+                new Date(fecha);
+
+            return fechaObj.toLocaleDateString(
+                "es-AR"
+            );
+
+        },
+
         listarPagos() {
 
-            console.log("LISTAR PAGOS EJECUTADO");
+            console.log(
+                "LISTAR PAGOS EJECUTADO"
+            );
 
-            fetch("/api/ControllerPago")
+            const parametros =
+                new URLSearchParams({
+
+                    pagina:
+                        this.pagina,
+
+                    cantidad:
+                        this.cantidadPorPagina,
+
+                    buscar:
+                        this.buscar
+
+                });
+
+            fetch(
+                "/api/ControllerPago/paginado-pagos?" +
+                parametros.toString()
+            )
 
                 .then(response => {
 
@@ -128,9 +180,22 @@ const app = Vue.createApp({
 
                 .then(data => {
 
-                    console.log("PAGOS:", data);
+                    console.log(
+                        "PAGOS:",
+                        data
+                    );
 
-                    this.pagos = data;
+                    this.pagos =
+                        data.datos;
+
+                    this.pagina =
+                        data.pagina;
+
+                    this.total =
+                        data.total;
+
+                    this.totalPaginas =
+                        data.totalPaginas;
 
                 })
 
@@ -145,13 +210,66 @@ const app = Vue.createApp({
 
         },
 
+        buscarPagos() {
+
+            this.pagina = 1;
+
+            this.listarPagos();
+
+        },
+
+        paginaAnterior() {
+
+            if (this.pagina > 1) {
+
+                this.pagina--;
+
+                this.listarPagos();
+
+            }
+
+        },
+
+        paginaSiguiente() {
+
+            if (
+                this.pagina <
+                this.totalPaginas
+            ) {
+
+                this.pagina++;
+
+                this.listarPagos();
+
+            }
+
+        },
+
         listarReservas() {
 
             console.log(
                 "LISTAR RESERVAS PARA PAGOS"
             );
 
-            fetch("/api/ControllerPago/Reservas")
+            const parametros =
+                new URLSearchParams();
+
+            if (
+                this.buscarReserva &&
+                this.buscarReserva.trim() !== ""
+            ) {
+
+                parametros.set(
+                    "buscar",
+                    this.buscarReserva
+                );
+
+            }
+
+            fetch(
+                "/api/ControllerPago/Reservas?" +
+                parametros.toString()
+            )
 
                 .then(response => {
 
@@ -179,7 +297,8 @@ const app = Vue.createApp({
                         data
                     );
 
-                    this.reservas = data;
+                    this.reservas =
+                        data;
 
                 })
 
@@ -191,6 +310,12 @@ const app = Vue.createApp({
                     );
 
                 });
+
+        },
+
+        buscarReservas() {
+
+            this.listarReservas();
 
         },
 
@@ -300,7 +425,8 @@ const app = Vue.createApp({
 
                 .then(data => {
 
-                    this.pagosReporte = data;
+                    this.pagosReporte =
+                        data;
 
                 })
 
@@ -566,6 +692,7 @@ const app = Vue.createApp({
                     method: "PUT"
 
                 }
+
             )
 
                 .then(response => {

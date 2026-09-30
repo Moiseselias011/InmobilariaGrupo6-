@@ -8,23 +8,45 @@
 
     <h2>Lista de Pagos</h2>
 
-    <a href="/Pago/Create" class="btn btn-primary">
+    <a href="/Pago/Create"
+       class="btn btn-primary">
         Nuevo Pago
     </a>
 
     <br />
     <br />
 
+    <div class="d-flex gap-2 mb-3">
+
+        <input type="text"
+               v-model="buscar"
+               v-on:keyup.enter="buscarPagos"
+               class="form-control"
+               placeholder="Buscar por método de pago..." />
+
+        <button class="btn btn-primary"
+                v-on:click="buscarPagos">
+
+            🔍 Buscar
+
+        </button>
+
+    </div>
+
     <table class="table">
 
         <thead>
+
             <tr>
+
                 <th>Fecha Pago</th>
                 <th>Monto</th>
                 <th>Método de Pago</th>
                 <th>Estado</th>
                 <th>Acciones</th>
+
             </tr>
+
         </thead>
 
         <tbody>
@@ -32,11 +54,17 @@
             <tr v-for="pago in pagos"
                 :key="pago.IdPago">
 
-                <td>{{ pago.FechaPago }}</td>
+                <td>
+                    {{ formatearFecha(pago.FechaPago) }}
+                </td>
 
-                <td>{{ pago.Monto }}</td>
+                <td>
+                    {{ pago.Monto }}
+                </td>
 
-                <td>{{ pago.MetodoPago }}</td>
+                <td>
+                    {{ pago.MetodoPago }}
+                </td>
 
                 <td>
 
@@ -55,18 +83,24 @@
                     <a v-if="!pago.Anulado"
                        :href="'/Pago/Edit/' + pago.IdPago"
                        class="btn btn-warning">
+
                         Editar
+
                     </a>
 
                     <a v-if="!pago.Anulado"
                        :href="'/Pago/Delete/' + pago.IdPago"
                        class="btn btn-danger">
+
                         Anular
+
                     </a>
 
                     <a :href="'/Pago/Details/' + pago.IdPago"
                        class="btn btn-info">
+
                         Details
+
                     </a>
 
                 </td>
@@ -77,11 +111,56 @@
 
     </table>
 
+    <div class="d-flex align-items-center gap-2 mb-4">
+
+        <button class="btn btn-secondary"
+                v-on:click="paginaAnterior"
+                :disabled="pagina <= 1">
+
+            Anterior
+
+        </button>
+
+        <span>
+            Página {{ pagina }} de {{ totalPaginas }}
+        </span>
+
+        <button class="btn btn-secondary"
+                v-on:click="paginaSiguiente"
+                :disabled="pagina >= totalPaginas">
+
+            Siguiente
+
+        </button>
+
+    </div>
+
     <hr />
 
     <h2>Reporte de Pagos por Reserva</h2>
 
-    <label>Seleccione una reserva</label>
+    <label>
+        Buscar reserva
+    </label>
+
+    <div class="d-flex gap-2">
+
+        <input type="text"
+               v-model="buscarReserva"
+               v-on:keyup.enter="buscarReservas"
+               class="form-control"
+               placeholder="Buscar por inquilino o dirección..." />
+
+        <button class="btn btn-primary"
+                v-on:click="buscarReservas">
+
+            🔍 Buscar
+
+        </button>
+
+    </div>
+
+    <br />
 
     <select v-model="reservaReporte"
             class="form-control">
@@ -96,9 +175,13 @@
 
             Reserva {{ reserva.IdReserva }}
             -
-            {{ reserva.FechaInicio }}
+            {{ reserva.Inquilino?.NombreCompleto }}
+            -
+            {{ reserva.Inmueble?.Direccion }}
+            -
+            {{ formatearFecha(reserva.FechaInicio) }}
             a
-            {{ reserva.FechaFin }}
+            {{ formatearFecha(reserva.FechaFin) }}
 
         </option>
 
@@ -122,10 +205,12 @@
         <thead>
 
             <tr>
+
                 <th>Fecha Pago</th>
                 <th>Monto</th>
                 <th>Método de Pago</th>
                 <th>Estado</th>
+
             </tr>
 
         </thead>
@@ -135,11 +220,17 @@
             <tr v-for="pago in pagosReporte"
                 :key="pago.IdPago">
 
-                <td>{{ pago.FechaPago }}</td>
+                <td>
+                    {{ formatearFecha(pago.FechaPago) }}
+                </td>
 
-                <td>{{ pago.Monto }}</td>
+                <td>
+                    {{ pago.Monto }}
+                </td>
 
-                <td>{{ pago.MetodoPago }}</td>
+                <td>
+                    {{ pago.MetodoPago }}
+                </td>
 
                 <td>
 
@@ -160,7 +251,9 @@
     </table>
 
     <p v-if="reservaReporte && pagosReporte.length === 0">
+
         No hay pagos registrados para esta reserva.
+
     </p>
 
 </div>

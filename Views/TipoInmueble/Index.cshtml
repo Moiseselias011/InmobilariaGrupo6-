@@ -1,50 +1,119 @@
+<style>
+    [v-cloak] {
+        display: none;
+    }
+</style>
+
 <div id="app" v-cloak>
 
-<h2>Lista de Tipo Inmueble</h2>
+    <h2>Lista de Tipo Inmueble</h2>
 
+    <a asp-action="Create"
+       class="btn btn-primary">
 
-<a asp-action="Create" class="btn btn-primary">Nuevo TipoInmueble</a>
+        Nuevo Tipo Inmueble
 
-<table class="table">
-   <thead>
-      <tr>
-           <th>Nombre</th>
-          
-      </tr>      
- </thead>  
-   <tbody>
-       
-            <tr v-for="tipoinmueble in tipoinmuebles" 
-            :key="tipoinmueble.IdTipoInmueble">
+    </a>
 
-                <td>{{tipoinmueble.Nombre}}</td>
-                
+    <br />
+    <br />
+
+    <div class="d-flex gap-2 mb-3">
+
+        <input type="text"
+               v-model="buscar"
+               v-on:keyup.enter="buscarTipos"
+               class="form-control"
+               placeholder="Buscar por nombre..." />
+
+        <button class="btn btn-primary"
+                v-on:click="buscarTipos">
+
+            🔍 Buscar
+
+        </button>
+
+    </div>
+
+    <table class="table">
+
+        <thead>
+
+            <tr>
+
+                <th>Nombre</th>
+                <th>Acciones</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr v-for="tipoinmueble in tipoinmuebles"
+                :key="tipoinmueble.IdTipoInmueble">
 
                 <td>
+                    {{ tipoinmueble.Nombre }}
+                </td>
+
+                <td>
+
                     <a :href="'/TipoInmueble/Edit/' + tipoinmueble.IdTipoInmueble"
                        class="btn btn-warning">
+
                         Editar
+
                     </a>
 
                     <a :href="'/TipoInmueble/Delete/' + tipoinmueble.IdTipoInmueble"
                        class="btn btn-danger">
+
                         Eliminar
+
                     </a>
 
                     <a :href="'/TipoInmueble/Details/' + tipoinmueble.IdTipoInmueble"
-                       class="btn btn-warning">
-                       Details
-                    </a> 
+                       class="btn btn-info">
 
+                        Details
 
-
+                    </a>
 
                 </td>
+
             </tr>
-       
-    </tbody>
-</table>   
+
+        </tbody>
+
+    </table>
+
+    <div class="d-flex align-items-center gap-2 mb-4">
+
+        <button class="btn btn-secondary"
+                v-on:click="paginaAnterior"
+                :disabled="pagina <= 1">
+
+            Anterior
+
+        </button>
+
+        <span>
+            Página {{ pagina }} de {{ totalPaginas }}
+        </span>
+
+        <button class="btn btn-secondary"
+                v-on:click="paginaSiguiente"
+                :disabled="pagina >= totalPaginas">
+
+            Siguiente
+
+        </button>
+
+    </div>
+
 </div>
 
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
 <script src="~/vue/TipoInmueble.js"></script>
