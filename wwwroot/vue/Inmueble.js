@@ -42,6 +42,22 @@ const app = Vue.createApp({
         };
     },
 
+    watch: {
+
+        buscar(nuevoValor) {
+
+            if (nuevoValor === "") {
+
+                this.pagina = 1;
+
+                this.listarInmueble();
+
+            }
+
+        }
+
+    },
+
     mounted() {
 
         console.log("VUE MONTADO");

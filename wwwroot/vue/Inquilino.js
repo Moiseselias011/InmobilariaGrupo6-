@@ -32,6 +32,22 @@ const app = Vue.createApp({
 
     },
 
+    watch: {
+
+        buscar(nuevoValor) {
+
+            if (nuevoValor === "") {
+
+                this.pagina = 1;
+
+                this.listarInquilinos();
+
+            }
+
+        }
+
+    },
+
     mounted() {
 
         console.log(" VUE MONTADO");

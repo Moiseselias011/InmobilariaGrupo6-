@@ -43,6 +43,32 @@ const app = Vue.createApp({
         };
     },
 
+    watch: {
+
+        buscar(nuevoValor) {
+
+            if (nuevoValor === "") {
+
+                this.pagina = 1;
+
+                this.listarPagos();
+
+            }
+
+        },
+
+        buscarReserva(nuevoValor) {
+
+            if (nuevoValor === "") {
+
+                this.listarReservas();
+
+            }
+
+        }
+
+    },
+
     mounted() {
 
         console.log("VUE PAGO MONTADO");

@@ -1,21 +1,23 @@
-console.log(" RESERVA.JS CARGADO");
+console.log("PAGO.JS CARGADO");
 
 const app = Vue.createApp({
 
     data() {
         return {
 
+            pagos: [],
+
             reservas: [],
 
-            inquilinos: [],
+            reservaSeleccionada: null,
 
-            inmuebles: [],
+            reservaReporte: "",
+
+            pagosReporte: [],
 
             buscar: "",
 
-            busquedaInmueble: "",
-
-            mostrarInmuebles: false,
+            buscarReserva: "",
 
             pagina: 1,
 
@@ -23,105 +25,85 @@ const app = Vue.createApp({
 
             total: 0,
 
-            totalPaginas: 1,
+            totalPaginas: 0,
 
-            fechaReporteInicio: "",
-
-            fechaReporteFin: "",
-
-            reservasReporte: [],
-
-            reserva: {
+            pago: {
+                IdPago: 0,
                 IdReserva: 0,
-                IdInquilino: 0,
-                IdInmueble: 0,
-                FechaInicio: "",
-                FechaFin: "",
-                MontoPorDia: 0
-            },
-
-            fechaExtensionInicio: "",
-            fechaExtensionFin: "",
-
-            fechaTerminacion: "",
-
-            metodoPagoTerminacion: ""
+                FechaPago: "",
+                Monto: 0,
+                MetodoPago: "",
+                IdUsuarioCreacion: 0,
+                UsuarioCreacion: null,
+                IdUsuarioAnulacion: null,
+                UsuarioAnulacion: null,
+                Anulado: false
+            }
 
         };
     },
 
+    watch: {
+
+        buscar(nuevoValor) {
+
+            if (nuevoValor === "") {
+
+                this.pagina = 1;
+
+                this.listarPagos();
+
+            }
+
+        },
+
+        buscarReserva(nuevoValor) {
+
+            if (nuevoValor === "") {
+
+                this.listarReservas();
+
+            }
+
+        }
+
+    },
+
     mounted() {
 
-        console.log(" VUE MONTADO");
+        console.log("VUE PAGO MONTADO");
 
-        const ruta =
-            window.location.pathname;
+        const ruta = window.location.pathname;
 
-        console.log(" RUTA:", ruta);
-        console.log(" URL:", window.location.href);
-        console.log(" PARAMETROS:", window.location.search);
+        console.log("RUTA:", ruta);
 
-        if (ruta === "/Reserva/Create") {
+        if (
+            ruta === "/Pago" ||
+            ruta === "/Pago/"
+        ) {
 
-            const parametros =
-                new URLSearchParams(
-                    window.location.search
-                );
+            this.listarPagos();
 
-            console.log(
-                " ID INMUEBLE URL:",
-                parametros.get("idInmueble")
-            );
+            this.listarReservas();
 
-            console.log(
-                " FECHA INICIO URL:",
-                parametros.get("fechaInicio")
-            );
-
-            console.log(
-                " FECHA FIN URL:",
-                parametros.get("fechaFin")
-            );
-
-            this.reserva.IdInmueble =
-                parametros.get("idInmueble") || 0;
-
-            this.reserva.FechaInicio =
-                parametros.get("fechaInicio") || "";
-
-            this.reserva.FechaFin =
-                parametros.get("fechaFin") || "";
-
-            console.log(
-                " RESERVA CARGADA:",
-                this.reserva
-            );
-
-            this.listarInquilinos();
-
-            this.listarInmuebles();
         }
 
         if (
-            ruta === "/Reserva" ||
-            ruta === "/Reserva/"
+            ruta === "/Pago/Create" ||
+            ruta === "/Pago/Create/"
         ) {
 
             this.listarReservas();
 
-            this.listarInquilinos();
-
-            this.listarInmuebles();
-
         }
 
         if (
-            ruta.includes("/Reserva/Edit/") ||
-            ruta.includes("/Reserva/Delete/") ||
-            ruta.includes("/Reserva/Details/")
+            ruta.includes("/Pago/Edit/") ||
+            ruta.includes("/Pago/Delete/") ||
+            ruta.includes("/Pago/Details/")
         ) {
 
-            this.obtenerReserva();
+            this.obtenerPago();
 
         }
 
@@ -129,195 +111,31 @@ const app = Vue.createApp({
 
     computed: {
 
-        inmueblesFiltrados() {
+        cantidadDias() {
 
-            if (!this.busquedaInmueble.trim()) {
+            if (!this.reservaSeleccionada) {
 
-                return this.inmuebles;
-
-            }
-
-            return this.inmuebles.filter(
-                inmueble =>
-
-                    inmueble.Direccion &&
-
-                    inmueble.Direccion
-                        .toLowerCase()
-                        .includes(
-                            this.busquedaInmueble
-                                .toLowerCase()
-                                .trim()
-                        )
-            );
-
-        },
-
-        diasOriginales() {
-
-            const inicio =
-                this.convertirFecha(
-                    this.reserva.FechaInicio
-                );
-
-            const fin =
-                this.convertirFecha(
-                    this.reserva.FechaFin
-                );
-
-            if (!inicio || !fin) {
                 return 0;
+
             }
+
+            const fechaInicio =
+                new Date(
+                    this.reservaSeleccionada.FechaInicio
+                );
+
+            const fechaFin =
+                new Date(
+                    this.reservaSeleccionada.FechaFin
+                );
 
             const diferencia =
-                fin.getTime() -
-                inicio.getTime();
+                fechaFin - fechaInicio;
 
-            return Math.round(
+            return Math.ceil(
                 diferencia /
                 (1000 * 60 * 60 * 24)
             );
-
-        },
-
-        diasTranscurridos() {
-
-            if (!this.fechaTerminacion) {
-                return 0;
-            }
-
-            const inicio =
-                this.convertirFecha(
-                    this.reserva.FechaInicio
-                );
-
-            const terminacion =
-                this.convertirFecha(
-                    this.fechaTerminacion
-                );
-
-            if (!inicio || !terminacion) {
-                return 0;
-            }
-
-            const diferencia =
-                terminacion.getTime() -
-                inicio.getTime();
-
-            return Math.round(
-                diferencia /
-                (1000 * 60 * 60 * 24)
-            );
-
-        },
-
-        diasRestantes() {
-
-            if (!this.fechaTerminacion) {
-                return 0;
-            }
-
-            const terminacion =
-                this.convertirFecha(
-                    this.fechaTerminacion
-                );
-
-            const fin =
-                this.convertirFecha(
-                    this.reserva.FechaFin
-                );
-
-            if (!terminacion || !fin) {
-                return 0;
-            }
-
-            const diferencia =
-                fin.getTime() -
-                terminacion.getTime();
-
-            return Math.round(
-                diferencia /
-                (1000 * 60 * 60 * 24)
-            );
-
-        },
-
-        porcentajeMulta() {
-
-            if (
-                this.diasOriginales <= 0 ||
-                this.diasTranscurridos <= 0 ||
-                this.diasRestantes <= 0
-            ) {
-
-                return 0;
-
-            }
-
-            if (
-                this.diasTranscurridos <
-                this.diasOriginales / 2
-            ) {
-
-                return 0.50;
-
-            }
-
-            return 0.25;
-
-        },
-
-        porcentajeMultaTexto() {
-
-            if (this.porcentajeMulta === 0) {
-                return "0%";
-            }
-
-            return (
-                this.porcentajeMulta * 100
-            ) + "%";
-
-        },
-
-        montoRestante() {
-
-            if (
-                this.diasRestantes <= 0 ||
-                !this.reserva.MontoPorDia
-            ) {
-
-                return "0.00";
-
-            }
-
-            const monto =
-                this.diasRestantes *
-                Number(
-                    this.reserva.MontoPorDia
-                );
-
-            return monto.toFixed(2);
-
-        },
-
-        montoMulta() {
-
-            if (
-                this.diasRestantes <= 0 ||
-                this.porcentajeMulta <= 0
-            ) {
-
-                return "0.00";
-
-            }
-
-            const monto =
-                Number(
-                    this.montoRestante
-                ) *
-                this.porcentajeMulta;
-
-            return monto.toFixed(2);
 
         }
 
@@ -325,235 +143,27 @@ const app = Vue.createApp({
 
     methods: {
 
-        convertirFecha(fecha) {
-
-            if (!fecha) {
-                return null;
-            }
-
-            const texto =
-                String(fecha).substring(0, 10);
-
-            const partes =
-                texto.split("-");
-
-            if (partes.length !== 3) {
-                return null;
-            }
-
-            const anio =
-                Number(partes[0]);
-
-            const mes =
-                Number(partes[1]);
-
-            const dia =
-                Number(partes[2]);
-
-            if (
-                !anio ||
-                !mes ||
-                !dia
-            ) {
-
-                return null;
-
-            }
-
-            return new Date(
-                anio,
-                mes - 1,
-                dia
-            );
-
-        },
-
         formatearFecha(fecha) {
 
             if (!fecha) {
+
                 return "";
+
             }
 
-            const texto =
-                String(fecha).substring(0, 10);
+            const fechaObj =
+                new Date(fecha);
 
-            const partes =
-                texto.split("-");
-
-            if (partes.length !== 3) {
-                return fecha;
-            }
-
-            return (
-                partes[2] +
-                "/" +
-                partes[1] +
-                "/" +
-                partes[0]
+            return fechaObj.toLocaleDateString(
+                "es-AR"
             );
 
         },
 
-        obtenerNombreInquilino(id) {
-
-            const inquilino =
-                this.inquilinos.find(
-                    i =>
-                        i.IdInquilino == id
-                );
-
-            if (!inquilino) {
-                return id;
-            }
-
-            return inquilino.NombreCompleto;
-
-        },
-
-        obtenerDireccionInmueble(id) {
-
-            const inmueble =
-                this.inmuebles.find(
-                    i =>
-                        i.IdInmueble == id
-                );
-
-            if (!inmueble) {
-                return id;
-            }
-
-            return inmueble.Direccion;
-
-        },
-
-        listarInquilinos() {
+        listarPagos() {
 
             console.log(
-                " LISTAR INQUILINOS EJECUTADO"
-            );
-
-            fetch(
-                "/api/ControllerInquilino"
-            )
-
-                .then(response => {
-
-                    console.log(
-                        " RESPUESTA INQUILINOS:",
-                        response.status
-                    );
-
-                    if (!response.ok) {
-
-                        throw new Error(
-                            "Error al obtener inquilinos"
-                        );
-
-                    }
-
-                    return response.json();
-
-                })
-
-                .then(data => {
-
-                    console.log(
-                        " INQUILINOS:",
-                        data
-                    );
-
-                    this.inquilinos =
-                        data;
-
-                })
-
-                .catch(error => {
-
-                    console.error(
-                        " ERROR INQUILINOS:",
-                        error
-                    );
-
-                });
-
-        },
-
-        listarInmuebles() {
-
-            console.log(
-                " LISTAR INMUEBLES EJECUTADO"
-            );
-
-            fetch(
-                "/api/ControllerInmueble"
-            )
-
-                .then(response => {
-
-                    console.log(
-                        " RESPUESTA INMUEBLES:",
-                        response.status
-                    );
-
-                    if (!response.ok) {
-
-                        throw new Error(
-                            "Error al obtener inmuebles"
-                        );
-
-                    }
-
-                    return response.json();
-
-                })
-
-                .then(data => {
-
-                    console.log(
-                        " INMUEBLES:",
-                        data
-                    );
-
-                    this.inmuebles =
-                        data;
-
-                })
-
-                .catch(error => {
-
-                    console.error(
-                        " ERROR INMUEBLES:",
-                        error
-                    );
-
-                });
-
-        },
-
-        seleccionarInmueble(inmueble) {
-
-            this.reserva.IdInmueble =
-                inmueble.IdInmueble;
-
-            this.busquedaInmueble =
-                inmueble.Direccion;
-
-            this.mostrarInmuebles =
-                false;
-
-        },
-
-        cerrarBusqueda() {
-
-            this.mostrarInmuebles =
-                false;
-
-        },
-
-        listarReservas() {
-
-            console.log(
-                " LISTAR RESERVAS EJECUTADO"
+                "LISTAR PAGOS EJECUTADO"
             );
 
             const parametros =
@@ -571,14 +181,126 @@ const app = Vue.createApp({
                 });
 
             fetch(
-                "/api/ControllerReserva/paginado-reservas?" +
+                "/api/ControllerPago/paginado-pagos?" +
                 parametros.toString()
             )
 
                 .then(response => {
 
                     console.log(
-                        " RESPUESTA LISTAR:",
+                        "RESPUESTA LISTAR PAGOS:",
+                        response.status
+                    );
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            "Error al obtener pagos"
+                        );
+
+                    }
+
+                    return response.json();
+
+                })
+
+                .then(data => {
+
+                    console.log(
+                        "PAGOS:",
+                        data
+                    );
+
+                    this.pagos =
+                        data.datos;
+
+                    this.pagina =
+                        data.pagina;
+
+                    this.total =
+                        data.total;
+
+                    this.totalPaginas =
+                        data.totalPaginas;
+
+                })
+
+                .catch(error => {
+
+                    console.error(
+                        "ERROR:",
+                        error
+                    );
+
+                });
+
+        },
+
+        buscarPagos() {
+
+            this.pagina = 1;
+
+            this.listarPagos();
+
+        },
+
+        paginaAnterior() {
+
+            if (this.pagina > 1) {
+
+                this.pagina--;
+
+                this.listarPagos();
+
+            }
+
+        },
+
+        paginaSiguiente() {
+
+            if (
+                this.pagina <
+                this.totalPaginas
+            ) {
+
+                this.pagina++;
+
+                this.listarPagos();
+
+            }
+
+        },
+
+        listarReservas() {
+
+            console.log(
+                "LISTAR RESERVAS PARA PAGOS"
+            );
+
+            const parametros =
+                new URLSearchParams();
+
+            if (
+                this.buscarReserva &&
+                this.buscarReserva.trim() !== ""
+            ) {
+
+                parametros.set(
+                    "buscar",
+                    this.buscarReserva
+                );
+
+            }
+
+            fetch(
+                "/api/ControllerPago/Reservas?" +
+                parametros.toString()
+            )
+
+                .then(response => {
+
+                    console.log(
+                        "RESPUESTA RESERVAS:",
                         response.status
                     );
 
@@ -597,28 +319,19 @@ const app = Vue.createApp({
                 .then(data => {
 
                     console.log(
-                        " RESERVAS:",
+                        "RESERVAS:",
                         data
                     );
 
                     this.reservas =
-                        data.datos;
-
-                    this.pagina =
-                        data.pagina;
-
-                    this.total =
-                        data.total;
-
-                    this.totalPaginas =
-                        data.totalPaginas;
+                        data;
 
                 })
 
                 .catch(error => {
 
                     console.error(
-                        " ERROR:",
+                        "ERROR RESERVAS:",
                         error
                     );
 
@@ -628,49 +341,89 @@ const app = Vue.createApp({
 
         buscarReservas() {
 
-            this.pagina = 1;
-
             this.listarReservas();
 
         },
 
-        paginaAnterior() {
+        seleccionarReserva() {
 
-            if (this.pagina <= 1) {
+            console.log(
+                "RESERVA SELECCIONADA:",
+                this.pago.IdReserva
+            );
+
+            const id =
+                Number(
+                    this.pago.IdReserva
+                );
+
+            this.reservaSeleccionada =
+                this.reservas.find(
+                    reserva =>
+                        Number(
+                            reserva.IdReserva
+                        ) === id
+                );
+
+            console.log(
+                "DATOS RESERVA:",
+                this.reservaSeleccionada
+            );
+
+            if (!this.reservaSeleccionada) {
+
+                this.pago.Monto = 0;
+
                 return;
+
             }
 
-            this.pagina--;
+            const fechaInicio =
+                new Date(
+                    this.reservaSeleccionada.FechaInicio
+                );
 
-            this.listarReservas();
+            const fechaFin =
+                new Date(
+                    this.reservaSeleccionada.FechaFin
+                );
+
+            const diferencia =
+                fechaFin - fechaInicio;
+
+            const dias =
+                Math.ceil(
+                    diferencia /
+                    (1000 * 60 * 60 * 24)
+                );
+
+            this.pago.Monto =
+                dias *
+                Number(
+                    this.reservaSeleccionada.MontoPorDia
+                );
+
+            console.log(
+                "DÍAS:",
+                dias
+            );
+
+            console.log(
+                "MONTO TOTAL:",
+                this.pago.Monto
+            );
 
         },
 
-        paginaSiguiente() {
+        listarPagosPorReserva() {
 
             if (
-                this.pagina >=
-                this.totalPaginas
-            ) {
-
-                return;
-            }
-
-            this.pagina++;
-
-            this.listarReservas();
-
-        },
-
-        listarReservasPorPeriodo() {
-
-            if (
-                this.fechaReporteInicio === "" ||
-                this.fechaReporteFin === ""
+                this.reservaReporte === "" ||
+                this.reservaReporte === null
             ) {
 
                 alert(
-                    "Seleccione las dos fechas."
+                    "Debe seleccionar una reserva."
                 );
 
                 return;
@@ -678,11 +431,8 @@ const app = Vue.createApp({
             }
 
             fetch(
-                "/api/ReporteApi/ReservasPorPeriodo" +
-                "?fechaInicio=" +
-                this.fechaReporteInicio +
-                "&fechaFin=" +
-                this.fechaReporteFin
+                "/api/ReporteApi/PagosReserva/" +
+                this.reservaReporte
             )
 
                 .then(response => {
@@ -690,7 +440,7 @@ const app = Vue.createApp({
                     if (!response.ok) {
 
                         throw new Error(
-                            "No se pudieron obtener las reservas."
+                            "No se pudieron obtener los pagos."
                         );
 
                     }
@@ -701,35 +451,71 @@ const app = Vue.createApp({
 
                 .then(data => {
 
-                    this.reservasReporte =
+                    this.pagosReporte =
                         data;
 
                 })
 
                 .catch(error => {
 
-                    console.error(error);
+                    console.error(
+                        "ERROR REPORTE PAGOS:",
+                        error
+                    );
 
                     alert(
-                        "Error al cargar las reservas."
+                        "Error al cargar los pagos."
                     );
 
                 });
 
         },
 
-        crearReserva() {
+        crearPago() {
 
             console.log(
-                " CREAR RESERVA EJECUTADO"
+                "CREAR PAGO EJECUTADO"
             );
 
             console.log(
-                this.reserva
+                this.pago
             );
+
+            if (
+                !this.pago.IdReserva ||
+                this.pago.IdReserva == 0
+            ) {
+
+                alert(
+                    "Debe seleccionar una reserva."
+                );
+
+                return;
+
+            }
+
+            if (!this.pago.FechaPago) {
+
+                alert(
+                    "Debe seleccionar la fecha de pago."
+                );
+
+                return;
+
+            }
+
+            if (!this.pago.MetodoPago) {
+
+                alert(
+                    "Debe seleccionar un método de pago."
+                );
+
+                return;
+
+            }
 
             fetch(
-                "/api/ControllerReserva",
+                "/api/ControllerPago",
                 {
 
                     method: "POST",
@@ -743,7 +529,7 @@ const app = Vue.createApp({
 
                     body:
                         JSON.stringify(
-                            this.reserva
+                            this.pago
                         )
 
                 }
@@ -752,28 +538,32 @@ const app = Vue.createApp({
                 .then(response => {
 
                     console.log(
-                        " CREAR RESERVA RESPUESTA:",
+                        "CREAR PAGO RESPUESTA:",
                         response.status
                     );
 
                     if (!response.ok) {
 
                         throw new Error(
-                            "Error al crear reserva"
+                            "Error al crear pago"
                         );
 
                     }
 
                     window.location.href =
-                        "/Reserva";
+                        "/Pago";
 
                 })
 
                 .catch(error => {
 
                     console.error(
-                        " CREAR RESERVA ERROR:",
+                        "CREAR PAGO ERROR:",
                         error
+                    );
+
+                    alert(
+                        "No se pudo crear el pago."
                     );
 
                 });
@@ -791,32 +581,32 @@ const app = Vue.createApp({
 
         },
 
-        obtenerReserva() {
+        obtenerPago() {
 
             const id =
                 this.obtenerId();
 
             console.log(
-                " OBTENER RESERVA ID:",
+                "OBTENER PAGO ID:",
                 id
             );
 
             fetch(
-                "/api/ControllerReserva/ConDetalles/" +
+                "/api/ControllerPago/ConDetalles/" +
                 id
             )
 
                 .then(response => {
 
                     console.log(
-                        " OBTENER RESERVA RESPUESTA:",
+                        "OBTENER PAGO RESPUESTA:",
                         response.status
                     );
 
                     if (!response.ok) {
 
                         throw new Error(
-                            "Error al obtener reserva"
+                            "Error al obtener pago"
                         );
 
                     }
@@ -828,11 +618,11 @@ const app = Vue.createApp({
                 .then(data => {
 
                     console.log(
-                        " RESERVA:",
+                        "PAGO:",
                         data
                     );
 
-                    this.reserva =
+                    this.pago =
                         data;
 
                 })
@@ -840,7 +630,7 @@ const app = Vue.createApp({
                 .catch(error => {
 
                     console.error(
-                        " OBTENER RESERVA ERROR:",
+                        "OBTENER PAGO ERROR:",
                         error
                     );
 
@@ -848,18 +638,18 @@ const app = Vue.createApp({
 
         },
 
-        editarReserva() {
+        editarPago() {
 
             console.log(
-                " EDITAR RESERVA EJECUTADO"
+                "EDITAR PAGO EJECUTADO"
             );
 
             console.log(
-                this.reserva
+                this.pago
             );
 
             fetch(
-                "/api/ControllerReserva",
+                "/api/ControllerPago",
                 {
 
                     method: "PUT",
@@ -873,7 +663,7 @@ const app = Vue.createApp({
 
                     body:
                         JSON.stringify(
-                            this.reserva
+                            this.pago
                         )
 
                 }
@@ -882,27 +672,27 @@ const app = Vue.createApp({
                 .then(response => {
 
                     console.log(
-                        " EDITAR RESERVA RESPUESTA:",
+                        "EDITAR PAGO RESPUESTA:",
                         response.status
                     );
 
                     if (!response.ok) {
 
                         throw new Error(
-                            "Error al editar reserva"
+                            "Error al editar pago"
                         );
 
                     }
 
                     window.location.href =
-                        "/Reserva";
+                        "/Pago";
 
                 })
 
                 .catch(error => {
 
                     console.error(
-                        " EDITAR RESERVA ERROR:",
+                        "EDITAR PAGO ERROR:",
                         error
                     );
 
@@ -910,399 +700,51 @@ const app = Vue.createApp({
 
         },
 
-        extenderReserva() {
+        eliminarPago() {
 
             const id =
-                this.reserva.IdReserva;
+                this.pago.IdPago;
 
             console.log(
-                " EXTENDER RESERVA ID:",
+                "ANULAR PAGO ID:",
                 id
             );
 
-            console.log(
-                " NUEVA FECHA INICIO:",
-                this.fechaExtensionInicio
-            );
-
-            console.log(
-                " NUEVA FECHA FIN:",
-                this.fechaExtensionFin
-            );
-
-            if (
-                !this.fechaExtensionInicio ||
-                !this.fechaExtensionFin
-            ) {
-
-                alert(
-                    "Debe seleccionar las nuevas fechas."
-                );
-
-                return;
-
-            }
-
-            if (
-                this.fechaExtensionInicio >=
-                this.fechaExtensionFin
-            ) {
-
-                alert(
-                    "La fecha de inicio debe ser anterior a la fecha de fin."
-                );
-
-                return;
-
-            }
-
             fetch(
-                "/api/ControllerReserva/Extender/" +
+                "/api/ControllerPago/Anular/" +
                 id,
                 {
 
-                    method: "POST",
-
-                    headers: {
-
-                        "Content-Type":
-                            "application/json"
-
-                    },
-
-                    body: JSON.stringify({
-
-                        FechaInicio:
-                            this.fechaExtensionInicio,
-
-                        FechaFin:
-                            this.fechaExtensionFin
-
-                    })
+                    method: "PUT"
 
                 }
+
             )
-
-                .then(async response => {
-
-                    console.log(
-                        " EXTENSION RESPUESTA:",
-                        response.status
-                    );
-
-                    if (!response.ok) {
-
-                        const mensaje =
-                            await response.text();
-
-                        throw new Error(
-                            mensaje ||
-                            "No se pudo extender la reserva."
-                        );
-
-                    }
-
-                    return response.json();
-
-                })
-
-                .then(data => {
-
-                    console.log(
-                        " NUEVA RESERVA:",
-                        data
-                    );
-
-                    alert(
-                        "La extensión fue creada correctamente."
-                    );
-
-                    window.location.href =
-                        "/Reserva";
-
-                })
-
-                .catch(error => {
-
-                    console.error(
-                        " ERROR EXTENSION:",
-                        error
-                    );
-
-                    alert(
-                        error.message
-                    );
-
-                });
-
-        },
-
-        terminarReserva() {
-
-            const id =
-                this.reserva.IdReserva;
-
-            console.log(
-                " TERMINAR RESERVA ID:",
-                id
-            );
-
-            console.log(
-                " FECHA TERMINACION:",
-                this.fechaTerminacion
-            );
-
-            console.log(
-                " FECHA INICIO:",
-                this.reserva.FechaInicio
-            );
-
-            console.log(
-                " FECHA FIN:",
-                this.reserva.FechaFin
-            );
-
-            console.log(
-                " DÍAS ORIGINALES:",
-                this.diasOriginales
-            );
-
-            console.log(
-                " DÍAS TRANSCURRIDOS:",
-                this.diasTranscurridos
-            );
-
-            console.log(
-                " DÍAS RESTANTES:",
-                this.diasRestantes
-            );
-
-            console.log(
-                " PORCENTAJE:",
-                this.porcentajeMultaTexto
-            );
-
-            console.log(
-                " MULTA:",
-                this.montoMulta
-            );
-
-            if (!this.fechaTerminacion) {
-
-                alert(
-                    "Debe seleccionar la fecha de terminación."
-                );
-
-                return;
-
-            }
-
-            const inicio =
-                this.convertirFecha(
-                    this.reserva.FechaInicio
-                );
-
-            const terminacion =
-                this.convertirFecha(
-                    this.fechaTerminacion
-                );
-
-            const fin =
-                this.convertirFecha(
-                    this.reserva.FechaFin
-                );
-
-            if (
-                !inicio ||
-                !terminacion ||
-                !fin
-            ) {
-
-                alert(
-                    "No se pudieron interpretar correctamente las fechas."
-                );
-
-                return;
-
-            }
-
-            if (
-                terminacion.getTime() <=
-                inicio.getTime()
-            ) {
-
-                alert(
-                    "La fecha de terminación debe ser posterior a la fecha de inicio."
-                );
-
-                return;
-
-            }
-
-            if (
-                terminacion.getTime() >=
-                fin.getTime()
-            ) {
-
-                alert(
-                    "La fecha de terminación debe ser anterior a la fecha de fin original."
-                );
-
-                return;
-
-            }
-
-            if (!this.metodoPagoTerminacion) {
-
-                alert(
-                    "Debe seleccionar un método de pago."
-                );
-
-                return;
-
-            }
-
-            const confirmar =
-                confirm(
-                    "La multa será de $" +
-                    this.montoMulta +
-                    ". ¿Desea pagar la multa y finalizar la reserva?"
-                );
-
-            if (!confirmar) {
-                return;
-            }
-
-            fetch(
-                "/api/ControllerReserva/Terminar/" +
-                id,
-                {
-
-                    method: "POST",
-
-                    headers: {
-
-                        "Content-Type":
-                            "application/json"
-
-                    },
-
-                    body: JSON.stringify({
-
-                        FechaTerminacion:
-                            this.fechaTerminacion,
-
-                        MetodoPago:
-                            this.metodoPagoTerminacion
-
-                    })
-
-                })
-
-                .then(async response => {
-
-                    console.log(
-                        " TERMINAR RESPUESTA:",
-                        response.status
-                    );
-
-                    if (!response.ok) {
-
-                        const mensaje =
-                            await response.text();
-
-                        throw new Error(
-                            mensaje ||
-                            "No se pudo terminar la reserva."
-                        );
-
-                    }
-
-                    return response.json();
-
-                })
-
-                .then(data => {
-
-                    console.log(
-                        " TERMINACIÓN COMPLETADA:",
-                        data
-                    );
-
-                    alert(
-                        "La reserva fue terminada correctamente.\n" +
-                        "Multa registrada: $" +
-                        data.montoMulta
-                    );
-
-                    this.obtenerReserva();
-
-                    this.fechaTerminacion =
-                        "";
-
-                    this.metodoPagoTerminacion =
-                        "";
-
-                })
-
-                .catch(error => {
-
-                    console.error(
-                        " ERROR TERMINACIÓN:",
-                        error
-                    );
-
-                    alert(
-                        error.message
-                    );
-
-                });
-
-        },
-
-        eliminar() {
-
-            const id =
-                this.reserva.IdReserva;
-
-            console.log(
-                " ELIMINAR RESERVA ID:",
-                id
-            );
-
-            fetch(
-                "/api/ControllerReserva/" +
-                id,
-                {
-
-                    method: "DELETE"
-
-                })
 
                 .then(response => {
 
                     console.log(
-                        " ELIMINAR RESERVA RESPUESTA:",
+                        "ANULAR PAGO RESPUESTA:",
                         response.status
                     );
 
                     if (!response.ok) {
 
                         throw new Error(
-                            "Error al eliminar reserva"
+                            "Error al anular pago"
                         );
 
                     }
 
                     window.location.href =
-                        "/Reserva";
+                        "/Pago";
 
                 })
 
                 .catch(error => {
 
                     console.error(
-                        " ERROR:",
+                        "ANULAR PAGO ERROR:",
                         error
                     );
 

@@ -30,6 +30,22 @@ const app = Vue.createApp({
 
     },
 
+    watch: {
+
+        buscar(nuevoValor) {
+
+            if (nuevoValor === "") {
+
+                this.pagina = 1;
+
+                this.listarTipoInmuebles();
+
+            }
+
+        }
+
+    },
+
     mounted() {
 
         console.log(" VUE MONTADO");
