@@ -95,6 +95,8 @@ const app = Vue.createApp({
         ) {
 
             this.listarReservas();
+            this.listarInquilinos();
+            this.listarInmuebles();
 
         }
 
@@ -325,6 +327,59 @@ const app = Vue.createApp({
                 mes - 1,
                 dia
             );
+        },
+
+        formatearFecha(fecha) {
+
+            if (!fecha) {
+                return "";
+            }
+
+            const texto =
+                String(fecha).substring(0, 10);
+
+            const partes =
+                texto.split("-");
+
+            if (partes.length !== 3) {
+                return fecha;
+            }
+
+            return (
+                partes[2] +
+                "/" +
+                partes[1] +
+                "/" +
+                partes[0]
+            );
+        },
+
+        obtenerNombreInquilino(id) {
+
+            const inquilino =
+                this.inquilinos.find(
+                    i => i.IdInquilino == id
+                );
+
+            if (!inquilino) {
+                return id;
+            }
+
+            return inquilino.NombreCompleto;
+        },
+
+        obtenerDireccionInmueble(id) {
+
+            const inmueble =
+                this.inmuebles.find(
+                    i => i.IdInmueble == id
+                );
+
+            if (!inmueble) {
+                return id;
+            }
+
+            return inmueble.Direccion;
         },
 
         listarInquilinos() {
