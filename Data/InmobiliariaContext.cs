@@ -30,7 +30,7 @@ namespace InmobilariaGrupo6_.Data
                     Nombre = "Administrador",
                     Apellido = "Sistema",
                     Email = "admin@inmobiliaria.com",
-                    Password = "1234",
+                    Password = "$2a$11$PYn7nifyARnalD1Cf.Bo.OAM8QSKjtryumw6MEY.BZ4IpDbU68ZZ2",
                     Rol = "Administrador"
                 }
             );

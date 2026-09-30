@@ -38,11 +38,10 @@ public class LoginController : Controller
         }
 
         var usuario = _context.Usuarios
-            .FirstOrDefault(u =>
-                u.Email == email &&
-                u.Password == password);
+            .FirstOrDefault(u => u.Email == email);
 
-        if (usuario == null)
+        if (usuario == null ||
+            !BCrypt.Net.BCrypt.Verify(password, usuario.Password))
         {
             ViewBag.Error = "Email o contraseña incorrectos.";
             return View();

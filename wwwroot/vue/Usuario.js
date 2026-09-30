@@ -1,4 +1,3 @@
-
 console.log(" USUARIO.JS CARGADO");
 
 const app = Vue.createApp({
@@ -118,6 +117,8 @@ const app = Vue.createApp({
                 .then(data => {
                     console.log(" USUARIO:", data);
 
+                    data.Password = "";
+
                     this.usuario = data;
                 })
                 .catch(error => {
@@ -179,4 +180,3 @@ const app = Vue.createApp({
 });
 
 app.mount("#app");
-

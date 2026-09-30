@@ -132,6 +132,11 @@ public class UsuarioController : Controller
     {
         if (ModelState.IsValid)
         {
+            usuario.Password = BCrypt.Net.BCrypt.HashPassword(usuario.Password);
+
+            _context.Usuarios.Add(usuario);
+            _context.SaveChanges();
+
             return RedirectToAction(nameof(Index));
         }
 

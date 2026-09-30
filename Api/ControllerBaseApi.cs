@@ -36,7 +36,7 @@ public abstract class ControllerApiBase<T> : ControllerBase where T : class
     }
 
     [HttpPut]
-    public void Update(T entidad)
+    public virtual void Update(T entidad)
     {
         _context.Set<T>().Update(entidad);
         _context.SaveChanges();

@@ -6,6 +6,7 @@ using InmobilariaGrupo6_.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 builder.Services.AddDbContext<InmobiliariaContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")));
